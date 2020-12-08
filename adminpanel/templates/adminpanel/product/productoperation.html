@@ -1,0 +1,147 @@
+{% extends 'adminpanel/product/product.html' %}
+{% load static %}
+{% block product_content %}
+<form method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br>
+    <input type="hidden" name="IsProduct" value="1" maxlength="2000">
+        <div class="row">
+            <div class="col-md-5">
+                <div id="div_name" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Name<span class="asteriskField">*</span>
+                    </label>
+                <div class="">
+                    <input type="text" name="Name" value="{{ form.1 }}" maxlength="200" class="textinput textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="div_code" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Code<span class="asteriskField">*</span>
+                    </label>
+                <div class="">
+                    <input type="text" name="Code" value="{{ form.2 }}" maxlength="200" class="textinput textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div id="div_price" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Price<span class="asteriskField">*</span>
+                    </label>
+                <div class="">
+                    <input type="number" step="0.01" name="Price" value="{{ form.4|floatformat:2 }}" class="textinput textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div id="div_percentage" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Percentage (%)<span class="asteriskField">*</span>
+                    </label>
+                   <div class="">
+                        <input type="number" name="DiscountPercentage" value="{{ form.10 }}" maxlength="50" class="textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+               <div id="div_stock" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Stock Level<span class="asteriskField">*</span>
+                    </label>
+                   <div class="">
+                        <input type="number" name="StockLevel" value="{{ form.15 }}" maxlength="50" class="textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+               <div id="div_threshold" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Threshold<span class="asteriskField">*</span>
+                    </label>
+                   <div class="">
+                        <input type="number" name="Threshold" value="{{ form.16 }}" maxlength="50" class="textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+             <div class="col-md-2">
+               <div id="div_catehgoory" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Category<span class="asteriskField">*</span>
+                    </label>
+                   <div class="">
+                        <select id="category" name="club" class="form-control">
+                          <option value="0">Select Category</option>
+                          {% for cat in categories %}
+                          <option value="{{ cat.Category_Id }}" selected="selected">{{ cat.Name }}</option>
+                          {% endfor %}
+                        </select>
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div id="div_IsDiscountable" class="form-group">
+                    <label class="col-form-label ">
+                       Discountable
+                    </label>&nbsp;
+                    <div class="">
+                    <input type="checkbox" name="IsDiscountable" value="{{ form.9 }}" {% if form.9 %}checked{% endif %} class="textInput">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="div_image" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Image<span class="asteriskField">*</span>
+                    </label>
+                        <div class="">
+                             <input type="file" name="Image" value="Browse" />
+                        </div>
+                            {{form.5}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                 <div id="div_description" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Description<span class="asteriskField">*</span>
+                    </label>
+                    <div class="">
+                        <textarea name="Description" maxlength="2000" class="textinput textInput form-control" required="">{{ form.3 }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" hidden>
+            <div class="col-md-12">
+                <label class="col-form-label  requiredField">
+                        AdditionL Description<span class="asteriskField">*</span>
+                </label>
+                <div class="">
+                    <textarea name="DetailDescription"></textarea>
+                    <input type="text" id="DetailDescription" name="DetailDescription" value="{{ form.13 }}" class="textinput textInput form-control" required="" >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success btn-lg btn-border"> <i class="fas fa-save"></i> Save </button>
+                <a href="{% url 'Product' %}" class="btn btn-secondary btn-lg btn-border">
+                    <i class="fas fa-stream"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+<!-- Accordion wrapper -->
+</form>
+<script>
+    CKEDITOR.replace(DetailDescription)
+</script>
+{% endblock product_content %}

@@ -1,0 +1,200 @@
+{% extends 'webecommerce/base.html' %}
+{% load static %}
+    {% block content %}
+<main>
+    <div class="site-section" style="background-color:white;">
+        <div class="bg-light" style="padding-top:2rem;padding-bottom:2rem;">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12"><a style="color:purple;" href="{% url 'index' %}">Home</a> <span class="mx-2 mb-0">/</span>
+                  <a style="color:purple;" href="{% url 'shop' %}">Shop</a>
+                  <span class="mx-2 mb-0">/</span>
+                  <strong class="text-black">{{object.Name}}</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="site-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-5 mr-auto">
+                <div class="border text-center">
+                  <img src="{% static 'productimages/' %}{{object.Image}}" alt="Image" class="img-fluid p-5">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h2 class="text-black">{{object.Name}}</h2>
+                <p>{{object.Description}}</p>
+                <p class="price" style="color:purple;"> <strong class="h4">£
+                    {% if object.IsProduct and object.IsDiscountable %}
+                      <h3 style="color:purple;">{{object.getDiscountedPrice|floatformat:2}}</h3>
+                      <s><i><b><h5 style="color:red">{{object.Price|floatformat:2}}</h5></b></i></s>
+                    {% else %}
+                      <div id="TotalAmount{{object.Product_Id}}">
+                      <h3 style="color:purple;">{{object.getPriceForInitialSetupAndFullPaymentForOnePerson|floatformat:2}}</h3>
+                      </div>
+                      <div id="TotalAmountForMultiplePerson{{object.Product_Id}}" style="display:none">
+                      <h3 style="color:purple;">{{object.getPriceForInitialSetupAndFullPaymentForMultiplePerson|floatformat:2}}</h3>
+                      </div>
+                    {% endif %}
+                </strong>
+                </p>
+
+                 {% if not object.IsProduct %}
+                      <div class="product" style="width: 100%;">
+                          <br>
+                            <div class="row" style="padding-left:1rem;">
+                                 <label style="padding-top:5px;">No of Clients: &nbsp; </label>
+                                <select style="width:50%;" data-product="{{object.Product_Id}}" class="form-control numbers" name="noofusers{{object.Product_Id}}" id="noofusers{{object.Product_Id}}" >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                            </div>
+                            <div class="card-body" style="padding:1rem;">
+                                <div id="accordion">
+                                    <div class="card card-primary">
+                                        <div class="card-header" style="height:40px;padding-top:5px;">
+                                            <center>
+                                            <h5 class="card-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{object.Product_Id}}">
+                                                <h6 style="color:blue"> Price breakdown </h6>
+                                                </a>
+                                            </h5> </center>
+                                        </div>
+                                        <div id="collapseOne{{object.Product_Id}}" class="panel-collapse collapse in">
+                                            <br>
+                                            <div class="row">
+                                                <label id="lblNoOfUser{{object.Product_Id}}" style="padding-left:2rem;">(For one person)</label>
+                                            </div>
+                                            <div class="card-body" id="noOfUserOne{{object.Product_Id}}">
+                                                 <div class="row">
+                                                    <span class="col-7"><small>Setup charge:</small></span>
+                                                     <span class="col-5"><small><b>£{{object.InitialSetupCharge|floatformat:2}}</b></small></span>
+                                                 </div>
+                                                 <div class="row">
+                                                     <span class="col-7"><small>Monthly Instalment:</small></span>
+                                                     <span class="col-5"><small><b>{{object.NoOfInstallmentMonths}} * £{{object.Price|floatformat:2}}</b></small></span>
+                                                 </div>
+                                            </div>
+                                            <div class="card-body" id="noOfUserTwo{{object.Product_Id}}" style="display:none;">
+                                                 <div class="row">
+                                                    <span class="col-7"><small>Setup charge:</small></span>
+        <!--                                                 <span class="col-5"><small><b>£{{object.getInitialSetupChargeForMultiplePerson|floatformat:2}}</b> (each)</small></span>-->
+                                                     <span class="col-5"><small><b>£{{object.InitialSetupCharge|floatformat:2}}</b> (each)</small></span>
+                                                 </div>
+                                                 <div class="row">
+                                                     <span class="col-7"><small>Monthly charge:</small></span>
+                                                     <span class="col-5"> <small><b>{{object.NoOfInstallmentMonths}} * £{{object.getPriceForMultiplePerson|floatformat:2}} </b></small></span>
+                                                 </div>
+                                                <i>
+                                                <div class="row">
+                                                    <span class="col-7" style="font-size:small">*(For 1st Client:</span>
+                                                    <span class="col-5" style="font-size:small">£{{object.Price|floatformat:2}})</span>
+                                                 </div>
+                                                <div class="row">
+                                                    <span class="col-7" style="font-size:small">*(For 2nd Client:</span>
+                                                    <span class="col-5" style="font-size:small">£{{object.AdditionalMemberPrice|floatformat:2}})</span>
+                                                 </div></i>
+                                            </div>
+                                        </div>
+                                  </div>
+                                </div>
+                            </div>
+                      </div>
+                {% endif %}
+
+
+                <div class="mb-5">
+                  <div class="input-group mb-3" style="max-width: 220px;">
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-primary js-btn-minus qtybtn" type="button">&minus;</button>
+                    </div>
+                    <input type="text" class="form-control text-center qtytext" value="1" placeholder=""
+                      aria-label="Example text with button addon" aria-describedby="button-addon1">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-primary js-btn-plus qtybtn" type="button">&plus;</button>
+                    </div>
+                  </div>
+
+                </div>
+                <p><button data-product="{{object.Product_Id}}" data-action="add"
+                      class="buy-now btn btn-sm height-auto px-4 py-3 add-button update-cart"
+                    style="background-color:purple;">
+                  <h3 style="color:white;">Add To Cart</h3></button></p>
+
+                <div class="mt-5">
+                  <ul class="nav nav-pills mb-3 custom-pill" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                        aria-controls="pills-home" aria-selected="true">Ordering Information</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                        aria-controls="pills-profile" aria-selected="false">Specifications</a>
+                    </li>
+
+                  </ul>
+                  <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                      <table class="table custom-table">
+                        <thead>
+                          <th>Material</th>
+                          <th>Description</th>
+                          <th>Packaging</th>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">OTC022401</th>
+                            <td>Pain Management: Acetaminophen PM Extra-Strength Caplets, 500 mg, 100/Bottle</td>
+                            <td>1 BT</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">OTC022401</th>
+                            <td>Pain Management: Acetaminophen PM Extra-Strength Caplets, 500 mg, 100/Bottle</td>
+                            <td>144/CS</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">OTC022401</th>
+                            <td>Pain Management: Acetaminophen PM Extra-Strength Caplets, 500 mg, 100/Bottle</td>
+                            <td>1 EA</td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                      <table class="table custom-table">
+
+                        <tbody>
+                          <tr>
+                            <td>HPIS CODE</td>
+                            <td class="bg-light">999_200_40_0</td>
+                          </tr>
+                          <tr>
+                            <td>HEALTHCARE PROVIDERS ONLY</td>
+                            <td class="bg-light">No</td>
+                          </tr>
+                          <tr>
+                            <td>LATEX FREE</td>
+                            <td class="bg-light">Yes, No</td>
+                          </tr>
+                          <tr>
+                            <td>MEDICATION ROUTE</td>
+                            <td class="bg-light">Topical</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</main>
+    {% endblock content %}

@@ -1,0 +1,20 @@
+{% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+
+{% block main_content %}
+    <br>
+    <div class="container">
+        <div class="row row-class">
+            <div>
+                <h3 class="display-5">User Type</h3>
+            </div>
+
+            <div class="main-content">
+
+                {% block usertype_content %}
+
+                {% endblock usertype_content %}
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}

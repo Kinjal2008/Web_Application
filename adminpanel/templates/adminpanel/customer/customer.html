@@ -1,0 +1,20 @@
+{% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+
+{% block main_content %}
+    <br>
+    <div class="container">
+        <div class="row row-class">
+            <div>
+                <h3 class="display-5">Clients</h3>
+            </div>
+
+            <div class="main-content">
+
+                {% block customer_content %}
+
+                {% endblock customer_content %}
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}

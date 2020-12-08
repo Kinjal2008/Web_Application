@@ -1,0 +1,13 @@
+{% load static %}
+
+<div class="row" style="width: 100%;">
+{% for products in allProducts %}
+    {% for product in products %}
+        <div class="col-sm-4 col-lg-4 text-center item mb-4">
+            <a href="{% url 'detail' product.slug %}"> <img style="height:50%!important;" class="thumbnail" src="{% static 'productimages/' %}{{product.Image}}" alt="Image"></a>
+            <h4 class="text-dark" style="padding-top:1rem;"><a style="color:purple;" href="shop-single.html">{{product.Name}}</a></h4>
+            <p class="price" style="color:purple;"> <strong class="h4">£{{product.Price|floatformat:2}}</strong></p>
+        </div>
+    {% endfor %}
+{% endfor %}
+</div>

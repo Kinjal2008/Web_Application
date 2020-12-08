@@ -1,0 +1,50 @@
+{% extends 'adminpanel/post/post.html' %}
+
+{% block post_content %}
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+              <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                          <thead>
+                                <tr>
+                                      <th>Title 1</th>
+                                      <th>Title 1</th>
+                                      <th>Description</th>
+                                      <th>
+                                        <a href="{% url 'Discount_Add' %}" class="btn btn-outline-success">
+                                            <i class="far fa-plus"></i> Add New
+                                        </a>
+                                      </th>
+                                </tr>
+                          </thead>
+                          <tbody>
+                           {% for post in post_list %}
+                            <tr>
+                                  <td>{{ post.1 }}</td>
+                                  <td>{{ post.2 }}</td>
+                                  <td>{{ post.3 }}</td>
+                                  <td>
+                                        <a href="{% url 'Discount_Update' post.0 %}" class="btn text-secondary px-0">
+                                        <i class="far fa-edit fa-lg"></i>
+                                        </a>
+                                        <form action="{% url 'Discount_Delete' post.0 %}" method="post" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn">
+                                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                                            </button>
+                                        </form>
+                                  </td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                    </table>
+              </div>
+              <!-- /.card-body -->
+        </div>
+    <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+{% endblock post_content %}

@@ -1,0 +1,129 @@
+{% load static %}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-light" style="margin-top:-12px;">
+
+     <a href="/" class="navbar-brand Header-branding" href="{% url 'manor' %}">
+        <img src="//static1.squarespace.com/static/5c6581b990f9041e32f89202/t/5e88c460138b9761ef873d95/1594374827805/?format=1500w" alt="Prediabetes | Type 2 Diabetes | Hypertension | Hertfordshire" class="Header-branding-logo">
+      </a>
+
+{#      <a class="navbar-brand" href="{% url 'manor' %}" ><b>Dashboard</b></a>#}
+      <button class="navbar-toggler" type="button" style="border-color:black;" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:black;"></i></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+              {% if request.user.id > 0 %}
+              <div class="col-md-3">
+                <h4>Welcome, {{ request.user }}</h4>
+              </div>
+              {% endif %}
+              <div class="col-md-3">
+                <!-- CATEGORY FORM -->
+
+               <form class="form-inline">
+                  <div class="input-group input-group-sm">
+                     <label>Category: &nbsp; </label>
+                    <select class="form-control" name="category" id="category">
+                        <option value="0">All</option>
+                        <option value="1">Products</option>
+                        <option value="2">Services</option>
+                    </select>
+                  </div>
+                </form>
+                <!-- END CATEGORY FORM -->
+              </div>
+              <div class="col-md-3" style="margin-top:22px;">
+                  <!-- SEARCH FORM -->
+                    <form method="post" action="search/" class="form-inline">
+                         {% csrf_token %}
+                          <div class="input-group input-group-sm">
+                                <input class="form-control" style="background-color: #f2f4f6;" type="search"
+                                   placeholder="Search" aria-label="Search" name="search" id="search">
+                                <div class="input-group-append">
+                                  <button class="btn btn-navbar" style="background-color: #f2f4f6;border: 1px solid #ced4da;" type="submit">
+                                    <i class="fas fa-search"></i>
+                                  </button>
+                                </div>
+                          </div>
+                    </form>
+          &nbsp;     <!-- END SEARCH FORM -->
+              </div>
+              <div class="col-md-3">
+                   <div class="form-inline">
+                        <a href="{% url 'Login' %}"class="btn btn-warning" style="width:23%;"><center>Login</center></a>
+                        <a href="{% url 'cart' %}">
+                            <img  id="cart-icon" src="{% static 'images/cart.png' %}">
+                        </a>
+                        <p id="cart-total">{{cartItems}}</p>
+                         {% if request.user.id > 0 %}
+
+                            <a data-toggle="dropdown" href="#">
+                              <i class="far fa-bell tooltip">
+                                <span class="tooltiptext">User options</span>
+                              </i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                              <span class="dropdown-item dropdown-header">{{ request.user }}</span>
+                              <div class="dropdown-divider"></div>
+                              <a href="#" class="dropdown-item">
+                                <i class="fas fa-menu mr-2"></i> Customer Details
+                              </a>
+                              <div class="dropdown-divider"></div>
+                              <a href="#" class="dropdown-item" data-toggle="modal" data-target="#referModal">
+                                <i class="fas fa-users mr-2"></i> Refer a Friend
+                              </a>
+                            </div>
+                               &nbsp;&nbsp;
+                            <a data-toggle="dropdown" href="#">
+                              <i class="far fa-comments tooltip">
+                                <span class="tooltiptext">New message</span>
+                              </i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                              <a href="#" class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                  <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                      Discount for regular customer...!
+                                      <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                    </h3>
+                                    <p class="text-sm">You are eligible for additional customer discount.</p>
+                                  </div>
+                                </div>
+                                <!-- Message End -->
+                              </a>
+                            </div>
+                        {% endif %}
+                        &nbsp;
+                        <a href="{% url 'Logout' %}" class="btn btn-warning" style="width:30%;"><center>Logout</center></a>
+                  </div>
+              </div>
+      </div>
+    </nav>
+
+  <div class="modal fade" role="dialog" id="referModal">
+        <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Customer referral</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" name="referralName" id="referralName" class="form-control" placeholder="Enter Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="referralEmail" id="referralEmail" class="form-control" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <h5>* Get an amazing discount offer, after a successful registration from your reference.</h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" id="btnSendReferralEmail">Send Referral Email</button>
+                    </div>
+                </div>
+            </div>
+  </div>

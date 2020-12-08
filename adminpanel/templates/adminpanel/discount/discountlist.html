@@ -1,0 +1,103 @@
+{% extends 'adminpanel/discount/discount.html' %}
+
+{% block discount_content %}
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+              <!--<div class="card-header">
+                    <div class="card-tools">
+                          <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                                <div class="input-group-append">
+                                  <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                          </div>
+                    </div>
+              </div>-->
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                          <thead>
+                                <tr>
+                                      <th>Discount Type</th>
+                                      <th>Percentage</th>
+                                      <th>Duration From</th>
+                                      <th>Duration To</th>
+                                      <th>Referral Discount</th>
+                                      <th>
+                                        <a href="{% url 'Discount_Add' %}" class="btn btn-outline-success">
+                                            <i class="far fa-plus"></i> Add New
+                                        </a>
+                                      </th>
+                                </tr>
+                          </thead>
+                          <tbody>
+                           {% for disc in discount_list %}
+                            <tr>
+                                  <td>{{ disc.1 }}</td>
+                                  <td>{{ disc.2 }}</td>
+                                  <td>{{ disc.3 }}</td>
+                                  <td>{{ disc.4 }}</td>
+                                  <td>
+                                    <input type="checkbox" style="cursor:none !important;" disabled name="IsReferralDiscount" value="{{ disc.6 }}" {% if disc.6 %}checked{% endif %} class="textInput">
+                                  </td>
+                                  <td>
+                                        <a href="{% url 'Discount_Update' disc.0 %}" class="btn text-secondary px-0">
+                                        <i class="far fa-edit fa-lg"></i>
+                                        </a>
+                                        <form action="{% url 'Discount_Delete' disc.0 %}" method="post" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn">
+                                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                                            </button>
+                                        </form>
+                                  </td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                    </table>
+              </div>
+              <!-- /.card-body -->
+        </div>
+    <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+    <table class="table table-borderless" hidden>
+        <thead class="border-bottom font-weight-bold">
+            <tr>
+                <td>Discount Type</td>
+                <td>Percentage</td>
+                <td>Duration From</td>
+                <td>Duration To</td>
+                <td>
+                        <a href="{% url 'Discount_Add' %}" class="btn btn-outline-success">
+                            <i class="far fa-plus"></i> Add New
+                        </a>
+                    </td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for disc in discount_list %}
+                <tr>
+                    <td>{{ disc.1 }}</td>
+                    <td>{{ disc.2 }}</td>
+                    <td>{{ disc.3 }}</td>
+                    <td>{{ disc.4 }}</td>
+                    <td>
+                        <a href="{% url 'Discount_Update' disc.0 %}" class="btn text-secondary px-0">
+                            <i class="far fa-edit fa-lg"></i>
+                        </a>
+                        <form action="{% url 'Discount_Delete' disc.0 %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">
+                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock discount_content %}

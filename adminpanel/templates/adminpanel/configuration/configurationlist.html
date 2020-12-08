@@ -1,0 +1,48 @@
+{% extends 'adminpanel/configuration/configuration.html' %}
+
+{% block config_content %}
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+              <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                          <thead>
+                                <tr>
+                                      <th>Name</th>
+                                      <th>Value</th>
+                                      <th>
+                                        <a href="{% url 'Configuration_Add' %}" class="btn btn-outline-success">
+                                            <i class="far fa-plus"></i> Add New
+                                        </a>
+                                      </th>
+                                </tr>
+                          </thead>
+                          <tbody>
+                           {% for config in config_list %}
+                            <tr>
+                                  <td>{{ config.1 }}</td>
+                                  <td>{{ config.2 }}</td>
+                                  <td>
+                                        <a href="{% url 'Configuration_Update' config.0 %}" class="btn text-secondary px-0">
+                                        <i class="far fa-edit fa-lg"></i>
+                                        </a>
+                                       <!-- <form action="{% url 'Discount_Delete' config.0 %}" method="post" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn">
+                                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                                            </button>
+                                        </form>-->
+                                  </td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                    </table>
+              </div>
+              <!-- /.card-body -->
+        </div>
+    <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+{% endblock config_content %}

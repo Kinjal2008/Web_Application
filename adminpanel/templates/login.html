@@ -1,0 +1,109 @@
+{% load static %}
+
+<html><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <link rel="shortcut icon" type
+           ="image/x-icon" href="https://images.squarespace-cdn.com/content/v1/5c6581b990f9041e32f89202/1550175593198-6A9V5982JO26L3JBR7MR/ke17ZwdGBToddI8pDm48kLrQnd3tdlQHoi35tdatgzRZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpz8CxRD_lte4BsPmEGGAS09NTjnJO9fCHIuJZFekHsS8VbwhKRHeD_fsBnlJq72u68/favicon.ico?format=100w">
+    <title>Welcome to ProLongevity</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{%  static "plugins/fontawesome-free/css/all.min.css" %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{%  static "plugins/icheck-bootstrap/icheck-bootstrap.min.css" %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{%  static "dist/css/adminlte.min.css" %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <!-- CSS reference from Static folder -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body class="login-page" style="min-height: 512.391px;">
+<div class="login-box">
+  <div class="login-logo">
+     <a href="/" class="navbar-brand Header-branding" href="{% static 'images/Logo.png' %}">
+        <img src="//static1.squarespace.com/static/5c6581b990f9041e32f89202/t/5e88c460138b9761ef873d95/1594374827805/?format=1500w" alt="Prediabetes | Type 2 Diabetes | Hypertension | Hertfordshire" class="Header-branding-logo">
+      </a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to Prolongevity Application</p>
+
+      <form action="/dologin" method="post">
+          {% csrf_token %}
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Email" name="email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password" name="password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+              <label for="remember">
+                Remember Me
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          </div>
+            {% if messages %}
+                <div class="col-12">
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" style="margin-top:10px">{{  message }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+          <!-- /.col -->
+        </div>
+
+      {% for message in messages %}
+          <p id="messages">{{ message }}</p>
+      {% endfor %}
+
+      <div class="row">
+          <div class="col-12">
+            <div> Don't have an account?
+                <a href="{% url 'Registration' %}" class="ml-2">Sign Up</a>
+            </div>
+          </div>
+      </div>
+      </form>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{%  static "plugins/jquery/jquery.min.js" %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{%  static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+<!-- AdminLTE App -->
+<script src="{%  static "dist/js/adminlte.min.js" %}"></script>
+
+
+
+</body></html>

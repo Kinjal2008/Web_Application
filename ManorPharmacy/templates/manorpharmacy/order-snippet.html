@@ -1,0 +1,145 @@
+<div class="col-md-12 mb-4">
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+    <span class="text-muted">Your cart</span>
+    <span class="badge badge-secondary badge-pill">{{ order.get_TotalCartItems }}</span>
+    </h4>
+    <ul class="list-group mb-3 z-depth-1">
+    {% for order_item in orderitems %}
+    <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <div>
+        <h6 class="my-0">{{ order_item.Quantity }} x {{ order_item.Product.Name}}</h6>
+        </div>
+        <span class="text-muted">${{ order_item.get_TotalForAllProduct_ByQuantity|floatformat:2 }}</span>
+    </li>
+    {% endfor %}
+
+        <br>
+
+        <li class="list-group-item d-flex justify-content-between">
+            <table class="table" >
+                     <tbody>
+                        <tr>
+                            <td>
+                                <label id="initialSetup"> Initial setup charge: </label>
+                            </td>
+                            <td style="float:right;">
+                                <span class="col-4">£{{order.get_InitialSetupChargeForAllProducts|floatformat:2}}</span>
+                            </td>
+                        </tr>
+                         {% if discountAmountForFullPayment > 0 %}
+                        <tr id="amountFullService">
+                            <td>
+                                Amount (Service):
+                            </td>
+                            <td style="float:right;">
+                                £<span class="col-4" id="lblTotalService">{{order.get_CartTotalPriceFor_ServiceWithFullPayment|floatformat:2}}</span>
+                            </td>
+                        </tr>
+                        {% if IsMorethanOnePerson %}
+                        <tr id="amountFullServiceDistributionForFirstPerson">
+                            <td>
+                               <small><i> *(For 1st Client: </i></small>
+                            </td>
+                            <td style="float:right;">
+                                <small><i><span class="col-4" id="lblTotalServiceForFirstPerson">£{{order.get_CartTotalQuantityFor_OnePerson_ServiceWithFullPayment}} x {{order.get_CartTotalPriceFor_OnePerson_ServiceWithFullPayment|floatformat:2}})</span>
+                                </i></small>
+                            </td>
+                        </tr>
+                        <tr id="amountFullServiceDistributionTwoFirstPerson">
+                            <td>
+                               <small> <i>*(For 2nd Client:</i> </small>
+                            </td>
+                            <td style="float:right;">
+                                <small><i><span class="col-4" id="lblTotalServiceForSecondPerson">£{{order.get_CartTotalQuantityFor_TwoPerson_ServiceWithFullPayment}} x {{order.get_CartTotalPriceFor_TwoPerson_ServiceWithFullPayment|floatformat:2}})</span>
+                                </i></small>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+
+
+                        {% if order.get_CartTotalPriceFor_ProductWithFullPayment > 0 %}
+                        <tr id="amountFullProduct">
+                            <td>
+                                Amount (Product):
+                            </td>
+                            <td style="float:right;">
+                                £<span class="col-4" id="lblTotalProduct">{{order.get_CartTotalPriceFor_ProductWithFullPayment|floatformat:2}}</span>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr id="amountInstall" style="display:none;">
+                            <td>
+                                Amount (instalment):
+                            </td>
+                            <td style="float:right;">
+                                <span class="col-4" id="lblTotalInstallment">£{{order.get_CartTotalPriceForAllProduct_WithInstallmentPayment|floatformat:2}}</span>
+                            </td>
+                        </tr>
+                        <tr id="subtotal">
+                            <td>
+                                <h4>Subtotal:</h4>
+                            </td>
+                            <td style="float:right;">
+                                <h4><span class="col-4" id="lblSubTotal">£{{order.get_CartTotalPriceForInitialSetupAndProduct|floatformat:2}}</span></h4>
+                            </td>
+                        </tr>
+
+                        {% if otherReferralDiscount > 0 %}
+                        <tr>
+                            <td>
+                                Referral Discount (Other):
+                            </td>
+                            <td style="float:right;">
+                                <h5> £<label id="lblOtherDiscount">{{otherReferralDiscount|floatformat:2}}</label></h5>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr id="fullAmountDiscount">
+
+                            <td style="color:green">
+                                <a href="#" ><i class="fa fa-info-circle tooltip">
+                                    <span class="tooltiptext">This discount applies for paying amount in full.</span>
+                                </i></a>
+                                <b style="font-size:x-small;">Advanced payment discount:</b>
+                            </td>
+                            <td style="float:right;">
+                                -<span class="col-4" style="color:green" id="lblFullPaymentDiscount"><b>£{{discountAmountForFullPayment|floatformat:2}}</b></span>
+                            </td>
+                        </tr>
+
+                        <tr id="totalAmountFull">
+                            <td>
+                               <h3> Total:</h3>
+                            </td>
+                            <td style="float:right;">
+                                <h3>£<span class="col-4" id="lblTotalAmountFull">{{totalAmountWithDiscount|floatformat:2}}</span></h3>
+                            </td>
+                        </tr>
+                        <tr id="totalAmountInstall" style="display:none">
+                            <td>
+                                <h3>Total:</h3>
+                            </td>
+                            <td style="float:right;">
+                                <h3><span class="col-4">£<label id="lblTotalAmountInstall">{{order.get_TotalPrice_WithInstallmentPayment|floatformat:2}}</label></span></h3>
+                            </td>
+                        </tr>
+                        <tr id="DueAmountInstall" style="display:none">
+                            <td colspan="2">
+                                <label>* Next instalment of £{{item.get_TotalForAllService_WithInstallmentPayment|floatformat:2}} will be due after 30 days from now, followed by
+                                    {{item.Product.NoOfInstallmentMonths}} consecutive payments. </label>
+                            </td>
+                        </tr>
+                        <tr id="InstallOption" style="display:none">
+                            <td colspan="2">
+                                <label>* Instalment can be paid via bank transfer or Credit/Debit card.</label>
+                            </td>
+                        </tr>
+
+                     </tbody>
+                </table>
+        </li>
+    </ul>
+
+
+</div>

@@ -1,0 +1,49 @@
+
+{% load static %}
+
+        <div class="site-section bg-light">
+              <div class="container">
+                <div class="row">
+                  <div class="title-section text-center col-12">
+                    <h2 class="text-uppercase">Services</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 block-3 products-wrap">
+                    <div class="nonloop-block-3 owl-carousel">
+                      {% for service in services %}
+                      <div class="text-center item mb-4">
+                        <a href="{% url 'detail' service.slug %}"> <img class="thumbnail" src="{% static 'productimages/' %}{{service.Image}}" alt="Image"></a>
+                        <br>
+                        <h5 class="text-dark"><a style="color:purple" href="{% url 'detail' service.slug %}">{{service.Name}}</a></h5>
+                        <p style="color:purple" class="price">£{{service.Price|floatformat:2}}</p>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <div class="site-section bg-light">
+              <div class="container">
+                <div class="row">
+                  <div class="title-section text-center col-12">
+                    <h2 class="text-uppercase">Products</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 block-3 products-wrap">
+                    <div class="nonloop-block-3 owl-carousel">
+                      {% for product in products %}
+                      <div class="text-center item mb-4">
+                        <a href="{% url 'detail' product.slug %}"> <img class="thumbnail" src="{% static 'productimages/' %}{{product.Image}}" alt="Image"></a>
+                        <br>
+                        <h5 class="text-dark"><a style="color:purple" href="{% url 'detail' product.slug %}">{{product.Name}}</a></h5>
+                        <p style="color:purple" class="price">£{{product.Price|floatformat:2}}</p>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>

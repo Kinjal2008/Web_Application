@@ -1,0 +1,104 @@
+{% extends 'adminpanel/service/service.html' %}
+{% load static %}
+{% block service_content %}
+<form method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br>
+    <input type="hidden" name="IsProduct" value="{{ form.7 }}">
+        <div class="row">
+            <div class="col-md-5">
+                <div id="div_name" class="form-group">
+                    <label for="Name" class="col-form-label  requiredField">
+                        Name<span class="asteriskField">*</span>
+                    </label>
+                <div class="">
+                    <input type="text" name="Name" value="{{ form.1 }}" maxlength="200" class="textinput textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="div_code" class="form-group">
+                    <label for="Code" class="col-form-label  requiredField">
+                        Code<span class="asteriskField">*</span>
+                    </label>
+                <div class="">
+                    <input type="text" name="Code" value="{{ form.2 }}" maxlength="200" class="textinput textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="div_price" class="form-group">
+                    <label for="Price" class="col-form-label  requiredField">
+                        Price<span class="asteriskField">*</span>
+                    </label>
+                <div class="">
+                    <input type="number" name="Price" value="{{ form.4|floatformat:2 }}" class="textinput textInput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div id="div_category" class="form-group">
+                    <label for="Category" class="col-form-label  requiredField">
+                        Category<span class="asteriskField">*</span>
+                    </label>
+                    <div class="">
+                        <select id="category" name="club" class="form-control">
+                          <option value="0">Select Category</option>
+                          {% for cat in categories %}
+                          <option value="{{ cat.Category_Id }}" selected="selected">{{ cat.Name }}</option>
+                          {% endfor %}
+                        </select>
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="div_no_of_mnths" class="form-group">
+                    <label for="NoOfInstallmentMonths" class="col-form-label  requiredField">
+                        Monthly Installment# <span class="asteriskField">*</span>
+                    </label>
+                    <div class="">
+                        <input type="number" name="NoOfInstallmentMonths" value="{{ form.8 }}" class="textinput textInput form-control" required="" >
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="div_image" class="form-group">
+                    <label for="Image" class="col-form-label  requiredField">
+                        Image<span class="asteriskField">*</span>
+                    </label>
+                        <div class="">
+                             <input type="file" name="Image" value="Browse" />
+                        </div>
+                            {{form.5}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="div_description" class="form-group">
+                    <label for="Description" class="col-form-label  requiredField">
+                        Description<span class="asteriskField">*</span>
+                    </label>
+                    <div class="">
+                        <input type="text" name="Description" value="{{ form.3 }}" maxlength="2000" class="textinput textInput form-control" required="" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success btn-lg btn-border"> <i class="fas fa-save"></i> Save </button>
+                <a href="{% url 'Service' %}" class="btn btn-secondary btn-lg btn-border">
+                    <i class="fas fa-stream"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+<!-- Accordion wrapper -->
+</form>
+{% endblock service_content %}

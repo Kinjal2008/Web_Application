@@ -1,0 +1,41 @@
+{% extends 'adminpanel/installment/installment.html' %}
+{% block installment_content %}
+    <form method="post" autocomplete="off">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div id="div_installmentType" class="form-group">
+                <label for="Installment_Type" class="col-form-label  requiredField">
+                    Installment Type<span class="asteriskField">*</span>
+                </label>
+            <div class="">
+                <input type="text" name="Installment_Type" value=" {{ form.1 }}" maxlength="50" class="textinput textInput form-control" required="" >
+               </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="div_percentage" class="form-group">
+                <label for="Description" class="col-form-label  requiredField">
+                    Description<span class="asteriskField">*</span>
+                </label>
+            <div class="">
+                <input type="text" name="Description" value=" {{ form.2 }}" maxlength="200" class="textinput textInput form-control" required="" >
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success btn-lg btn-border"> <i class="fas fa-save"></i> Save </button>
+            <a href="{% url 'Installment' %}" class="btn btn-secondary btn-lg btn-border">
+                <i class="fas fa-stream"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    </form>
+{% endblock installment_content %}

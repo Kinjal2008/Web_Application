@@ -1,0 +1,431 @@
+{% extends 'webecommerce/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+ {% block content %}
+ <main>
+  <div class="site-wrap" style="background-color:white;">
+    <div class="bg-light" style="padding-top:1rem;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0" style="margin-bottom:1rem;">
+            <a style="color:purple;" href="{% url 'index' %}">Home</a> <span class="mx-2 mb-0">/</span>
+            <strong class="text-black">Checkout</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mb-5 mb-md-0">
+            <h2 class="h3 mb-3 text-black">Billing Details</h2>
+            <div class="p-3 p-lg-5 border">
+              <div class="form-group">
+                <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
+                {{ form.shipping_country }}
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="c_fname" value="{{customerdetail.1}}" name="c_fname">
+                </div>
+                <div class="col-md-6">
+                  <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="c_lname" value="{{customerdetail.2}}" name="c_lname">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" value="{{customerdetail.3}}" id="c_email_address" name="c_email_address">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="c_address" value="{{customerdetail.6}}" name="c_address" placeholder="Street address">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input type="text" class="form-control"  placeholder="Apartment, suite, unit etc. (optional)">
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="c_state_county" class="text-black">State / County <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="c_state_county" value="{{customerdetail.7}}" name="c_state_county">
+                </div>
+                <div class="col-md-6">
+                  <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="c_postal_zip" value="{{customerdetail.9}}" name="c_postal_zip">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="c_phone" value="{{customerdetail.4}}" name="c_phone" placeholder="Phone Number">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="c_ship_different_address" class="text-black" data-toggle="collapse"
+                  href="#ship_different_address" role="button" aria-expanded="false"
+                  aria-controls="ship_different_address"><input type="checkbox" value="1" id="c_ship_different_address">
+                  Ship To A Different Address?</label>
+                <div class="collapse" id="ship_different_address">
+                  <div class="py-2">
+
+                    <div class="form-group">
+                      <label for="c_diff_country" class="text-black">Country <span class="text-danger">*</span></label>
+
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label for="c_diff_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="c_diff_fname" name="c_diff_fname">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="c_diff_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="c_diff_lname" name="c_diff_lname">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <label for="c_diff_companyname" class="text-black">Company Name </label>
+                        <input type="text" class="form-control" id="c_diff_companyname" name="c_diff_companyname">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <label for="c_diff_address" class="text-black">Address <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="c_diff_address" name="c_diff_address"
+                          placeholder="Street address">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label for="c_diff_state_county" class="text-black">State / County <span
+                            class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="c_diff_state_county" name="c_diff_state_county">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="c_diff_postal_zip" class="text-black">Postal / Zip <span
+                            class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="c_diff_postal_zip" name="c_diff_postal_zip">
+                      </div>
+                    </div>
+
+                    <div class="form-group row mb-5">
+                      <div class="col-md-6">
+                        <label for="c_diff_email_address" class="text-black">Email Address <span
+                            class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="c_diff_email_address" name="c_diff_email_address">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="c_diff_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="c_diff_phone" name="c_diff_phone"
+                          placeholder="Phone Number">
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="c_order_notes" class="text-black">Order Notes</label>
+                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"
+                  placeholder="Write your notes here..."></textarea>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+
+          <div class="row mb-5">
+              <div class="col-md-12">
+                <h2 class="h3 mb-3 text-black">Coupon Code</h2>
+                <div class="p-3 p-lg-5 border">
+                    {% if IsServiceExists %}
+                    <div id="ServiceDiscount">
+                          <label for="c_code" class="text-black mb-3">Enter your service discount code if you have one</label>
+                          <div class="input-group w-76">
+                            <input type="text" class="form-control" id="discountCodeForService" placeholder="Enter service discount code" aria-label="Coupon Code"
+                              aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                              <button class="btn btn-primary btn-sm px-4" type="button" id="btnApplyServiceDiscount">Apply</button>
+                            </div>
+                          </div>
+                        <div class="row">
+                             <div class="col-md-12">
+                                <span id="spnDiscountSuccessForService" style="color:green;display:none;"> Your discount code has been applied successfully.</span>
+                                <span id="spnDiscountFailForService" style="color:red;display:none;"> Incorrect discount code...!</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <br>
+                    {% if IsProductExists %}
+                     <div id="ProductDiscount">
+                          <label for="c_code" class="text-black mb-3">Enter your product discount code if you have one</label>
+                          <div class="input-group w-76">
+                            <input type="text" class="form-control" id="discountCodeForProduct" placeholder="Enter product discount code" aria-label="Coupon Code"
+                              aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                              <button class="btn btn-primary btn-sm px-4" type="button" id="btnApplyProductDiscount">Apply</button>
+                            </div>
+                          </div>
+                          <div class="row">
+                         <div class="col-md-12">
+                            <span id="spnDiscountSuccessForProduct" style="color:green;display:none"> Your discount code has been applied successfully.</span>
+                            <span id="spnDiscountFailForProduct" style="color:red;display:none"> Incorrect discount code...!</span>
+                        </div>
+                    </div>
+                    </div>
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <div class="col-md-12">
+                <h2 class="h3 mb-3 text-black">Your Order</h2>
+                <div class="p-3 p-lg-5 border">
+                <div class="border mb-3">
+                    <table class="table site-block-order-table mb-5">
+                    <thead>
+                      <th>Item</th>
+                      <th>Total</th>
+                    </thead>
+                    <tbody>
+                      {% for order_item in items %}
+                        <tr>
+                            <td>{{ order_item.Quantity }} <strong class="mx-2">x</strong> {{ order_item.Product.Name}} </td>
+                            <td class="text-black text-right">£{{ order_item.get_TotalForAllProduct_ByQuantity|floatformat:2 }}</td>
+                        </tr>
+                     {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="border mb-3">
+                    <table class="table site-block-order-table">
+                    <thead>
+                      <th>Description</th>
+                      <th class="text-right">Amount</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-black"><strong>Initial setup charge:</strong></td>
+                        <td class="text-black text-right">£{{order.get_InitialSetupChargeForAllProducts|floatformat:2}}</td>
+                      </tr>
+                    {% if discountAmountForFullPayment > 0 %}
+                      <tr id="amountFullService">
+                        <td class="text-black"><strong>Amount (Service):</strong></td>
+                        <td class="text-black text-right">
+                            <span id="lblTotalService">£{{order.get_CartTotalPriceFor_ServiceWithFullPayment|floatformat:2}}</span>
+                        </td>
+                      </tr>
+                    {% endif %}
+                    {% if order.get_CartTotalPriceFor_ProductWithFullPayment > 0 %}
+                        <tr id="amountFullProduct">
+                            <td class="text-black">Amount (Product):</td>
+                            <td class="text-black text-right">
+                                <span>£<label id="lblTotalProduct">{{order.get_CartTotalPriceFor_ProductWithFullPayment|floatformat:2}}</label></span>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if discountAmountForFullPayment > 0 %}
+                      <tr id="subtotal">
+                        <td class="text-black font-weight-bold"><h4><strong>Card Subtotal:</strong></h4></td>
+                        <td class="text-black text-right">
+                            <h4><strong>{{order.get_CartTotalPriceForInitialSetupAndProduct|floatformat:2}}</strong></h4></td>
+                      </tr>
+                    {% endif %}
+                    {% if discountAmountForFullPayment > 0 %}
+                      <tr id="fullAmountDiscount">
+                        <td class="text-black">
+                            <a href="#" style="padding: 0px!important;" ><i class="fa fa-info-circle tooltip">
+                            <span class="tooltiptext">This discount applies for paying amount in full.</span>
+                            </i></a>
+                            <strong style="font-size:small;">Full payment discount:</strong>
+                        </td>
+                        <td class="text-black text-right">- £<span id="lblFullPaymentDiscount">
+                            {{discountAmountForFullPayment|floatformat:2}}</span>
+                        </td>
+                      </tr>
+                    {% endif %}
+                      <tr id="dvServiceDiscount" style="display:none">
+                        <td class="text-black">
+                            <a href="#" style="padding: 0px!important;" ><i class="fa fa-info-circle tooltip">
+                            <span class="tooltiptext">This is an extra discount of applying discount code.</span>
+                            </i></a>
+                            <b style="font-size:x-small;">Discount (service(s)):</b>
+                        </td>
+                        <td class="text-black text-right">- £<span id="lblServiceDiscount">
+                            {{0|floatformat:2}}</span>
+                            <label id="lblServiceDiscountPercentage" hidden></label>
+                            <label id="lblServiceDiscountId" hidden></label>
+                        </td>
+                      </tr>
+                      <tr id="dvProductDiscount" style="display:none">
+                        <td class="text-black">
+                            <a href="#" style="padding: 0px!important;" ><i class="fa fa-info-circle tooltip">
+                            <span class="tooltiptext">This is an extra discount of applying discount code.</span>
+                            </i></a>
+                            <b style="font-size:x-small;">Discount (product(s)):</b>
+                        </td>
+                        <td class="text-black text-right">- £<span id="lblProductDiscount">
+                            {{0|floatformat:2}}</span>
+                            <label id="lblProductDiscountPercentage" hidden></label>
+                        </td>
+                      </tr>
+
+                      <tr id="totalAmountFull">
+                          <td class="text-black font-weight-bold"><h3><strong>Order Total</strong></h3></td>
+                        <td class="text-black text-right font-weight-bold"><h3><strong>
+                            <span class="col-4">£<label id="lblTotalAmountFull">{{totalwithDiscount|floatformat:2}}</label></span>
+                        </strong></h3>
+                        <label id="lblActualAmount" hidden>{{order.get_CartTotalPriceForInitialSetupAndProduct|floatformat:2}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                {% if discountAmountForFullPayment <= 0 %}
+                    <div id="DueAmountInstall">
+                        <div colspan="2">
+                         <label>* Next instalment of £{{order.get_PendingServiceCharge_WithInstallmentPayment|floatformat:2}} will be due after 30 days from now, followed by
+                            {{order.getNumberofInstalment}} consecutive payments. </label>
+                        </div>
+                    </div>
+                    <div id="InstallOption">
+                        <div colspan="2">
+                            <label>* Instalment can be paid via bank transfer or Credit/Debit card.</label>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="border mb-3">
+                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button"
+                        aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
+
+                    <div class="collapse" id="collapsebank">
+                      <div class="py-2 px-4">
+                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
+                          payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="border mb-5">
+                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecard" role="button"
+                        aria-expanded="false" aria-controls="collapsecard">Debit/Credit Card</a></h3>
+                    <div class="collapse" id="collapsecard">
+                         <!-- Display a payment form -->
+                        <div id="cardPaymentDetails" class="box-element">
+                             <form action="." method="post" class="stripe-form" id="stripe-form">
+                                {% csrf_token %}
+
+                                <div class="stripe-form-row" id="creditCard">
+                                    <label for="card-element" id="stripeBtnLabel">
+                                    Credit or debit card
+                                    </label>
+                                    <div id="card-element" class="StripeElement StripeElement--empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe frameborder="0" allowtransparency="true" scrolling="no" name="__privateStripeFrame5" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-card-19066928f2ed1ba3ffada645e45f5b50.html#style[base][color]=%2332325d&amp;style[base][fontFamily]=%22Helvetica+Neue%22%2C+Helvetica%2C+sans-serif&amp;style[base][fontSmoothing]=antialiased&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23aab7c4&amp;style[invalid][color]=%23fa755a&amp;style[invalid][iconColor]=%23fa755a&amp;componentName=card&amp;wait=false&amp;rtl=false&amp;keyMode=test&amp;origin=https%3A%2F%2Fstripe.com&amp;referrer=https%3A%2F%2Fstripe.com%2Fdocs%2Fstripe-js&amp;controllerId=__privateStripeController1" title="Secure payment input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; height: 19.2px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>
+                                    <input type="hidden" id="hdnTokenVal">
+                                </div>
+                                <div class="stripe-form-row">
+                                    <button id="stripeBtn" style="cursor: pointer;">Submit Payment</button>
+                                </div>
+                                <div class="stripe-form-row">
+                                <!--<div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="save" id="save_card_info">
+                                    <label class="custom-control-label" for="save_card_info">Save for future purchases</label>
+                                </div>-->
+                                </div>
+                                <div id="card-errors" style="color:red;" role="alert"></div>
+                                </form>
+                        </div>
+                        <!--<div class="py-2 px-4" style="padding-left: 0.5rem!important;padding-right: 0.5rem!important;">
+                            <div id="cardPaymentDetails" class="box-element">
+                                <p>Card Details:</p>
+                                <hr>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <input class="textInput form-control" id="cardName" type="text" value="" name="cardName"@ placeholder="Name On Card">
+                                        </div> <br>
+                                        <div class="col-lg-6">
+                                            <input class="textInput form-control" minlength="14" maxlength="14" id="cardNumber" type="number" value="" name="name"@ placeholder="Card Number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <select class="form-control" name="month" id="month" >
+                                                <option value="0">- Expiry Month -</option>
+                                                <option value="1">01</option>
+                                                <option value="2">02</option>
+                                                <option value="3">03</option>
+                                                <option value="4">04</option>
+                                                <option value="5">05</option>
+                                                <option value="6">06</option>
+                                                <option value="7">07</option>
+                                                <option value="8">08</option>
+                                                <option value="9">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <select class="form-control" name="year" id="year" >
+                                                    <option value="0"> - Expiry Year -</option>
+                                                {% for year in yearLimit %}
+                                                    <option value="{{forloop.counter}}">{{year}}</option>
+                                                {%  endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <input class="textInput form-control" minlength="3" maxlength="3" id="cvv" type="number" value="" name="cardcvv"@ placeholder="Enter cvv">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+
+                    </div>
+
+                </div>
+
+               <!-- <div class="form-group">
+                    <button class="btn btn-primary btn-lg btn-block" id="btnProceedToPayment">Place
+                      Order</button>
+                </div>-->
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- </form> -->
+      </div>
+    </div>
+  </div>
+ </main>
+    {% endblock content %}

@@ -1,0 +1,52 @@
+{% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+
+
+{% block main_content %}
+    <br>
+    <div class="container">
+        <div class="row row-class">
+            <div>
+                <h3 class="display-5">Order Summary Report</h3>
+            </div>
+
+            <div class="main-content">
+
+               <div class="row">
+                    <div class="col-12">
+                    <div class="card">
+                         <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                                  <thead>
+                                        <tr>
+                                            <th>Client</th>
+                                            <th>Purchase Date</th>
+                                            <th>Item</th>
+                                            <th>Actual amount</th>
+                                            <th>Amount paid</th>
+                                            <th>Full payment discount amount</th>
+                                            <th>Payment Method</th>
+                                        </tr>
+                                  </thead>
+                                  <tbody>
+                                   {% for order in paymentorder %}
+                                    <tr>
+                                        <td>{{ order.0 }}</td>
+                                        <td>{{ order.1 }}</td>
+                                        <td>{{ order.2 }}</td>
+                                        <td>{{ order.3 }}</td>
+                                        <td>{{ order.4 }}</td>
+                                        <td>{{ order.5 }}</td>
+                                        <td>{{ order.6 }}</td>
+                                    </tr>
+                                  {% endfor %}
+                                  </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+               </div>
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}

@@ -1,0 +1,170 @@
+{% extends 'adminpanel/customer/customer.html' %}
+{% block customer_content %}
+<form method="post" autocomplete="off">
+    {% csrf_token %}
+    <br>
+        <!--Accordion wrapper-->
+    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+      <!-- Accordion card -->
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header" role="tab" id="headingOne1">
+          <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+            aria-controls="collapseOne1">
+            <h5 class="mb-0">
+              Personal Details <i class="fas fa-angle-down rotate-icon"></i>
+            </h5>
+          </a>
+        </div>
+        <!-- Card body -->
+        <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+          data-parent="#accordionEx">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div id="div_firstname" class="form-group">
+                            <label for="firstName" class="col-form-label  requiredField">
+                                First Name<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="First_Name" value=" {{ form.1 }}" maxlength="50" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="div_lastname" class="form-group">
+                            <label for="lastName" class="col-form-label  requiredField">
+                                Last Name<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="Last_Name" value=" {{ form.2 }}" maxlength="50" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="div_gender" class="form-group">
+                            <label for="getder" class="col-form-label  requiredField">
+                                Gender<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="Gender" value=" {{ form.5 }}" maxlength="50" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="div_email" class="form-group">
+                            <label for="email" class="col-form-label  requiredField">
+                                Email<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="Email" value=" {{ form.3 }}" maxlength="50" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="div_phone" class="form-group">
+                            <label for="phone" class="col-form-label  requiredField">
+                                Phone No<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="Phone_No" value=" {{ form.4 }}" maxlength="50" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- Accordion card -->
+      <!-- Accordion card -->
+      <div class="card">
+        <!-- Card header -->
+         <div class="card-header" role="tab" id="headingTwo2">
+          <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
+            aria-expanded="false" aria-controls="collapseTwo2">
+            <h5 class="mb-0">
+              Address <i class="fas fa-angle-down rotate-icon"></i>
+            </h5>
+          </a>
+        </div>
+
+        <!-- Card body -->
+         <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
+          data-parent="#accordionEx">
+          <div class="card-body">
+               <div class="row">
+                    <div class="col-md-6">
+                        <div id="div_addressline1" class="form-group">
+                            <label for="addressline1" class="col-form-label  requiredField">
+                                Address 1<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="Addressline1" value=" {{ form.6 }}" maxlength="255" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="div_addressline2" class="form-group">
+                            <label for="addressline2" class="col-form-label  requiredField">
+                                Address 2<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="Addressline2" value=" {{ form.7 }}" maxlength="50" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="row">
+                    <div class="col-md-5">
+                        <div id="div_city" class="form-group">
+                            <label for="city" class="col-form-label  requiredField">
+                                City<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="City" value=" {{ form.8 }}" maxlength="255" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="div_postalcode" class="form-group">
+                            <label for="postalcode" class="col-form-label  requiredField">
+                                Postal Code<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="Postal_Code" value=" {{ form.9 }}" maxlength="50" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="div_country" class="form-group">
+                            <label for="country" class="col-form-label  requiredField">
+                                Country<span class="asteriskField">*</span>
+                            </label>
+                        <div class="">
+                            <input type="text" name="Country" value=" {{ form.10 }}" maxlength="50" class="textinput textInput form-control" required="" >
+                           </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+        </div>
+      </div>
+      <!-- Accordion card -->
+
+      <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success btn-lg btn-border"> <i class="fas fa-save"></i> Save </button>
+                <a href="{% url 'Customer' %}" class="btn btn-secondary btn-lg btn-border">
+                    <i class="fas fa-stream"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+<!-- Accordion wrapper -->
+</form>
+{% endblock customer_content %}

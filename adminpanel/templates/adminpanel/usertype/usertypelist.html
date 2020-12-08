@@ -1,0 +1,43 @@
+{% extends 'adminpanel/usertype/usertype.html' %}
+
+{% block usertype_content %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                      <thead>
+                            <tr>
+                                  <th>User Type</th>
+                                  <th>
+                                    <a href="{% url 'Usertype_Add' %}" class="btn btn-outline-success">
+                                        <i class="far fa-plus"></i> Add New
+                                    </a>
+                                  </th>
+                            </tr>
+                      </thead>
+                      <tbody>
+                       {% for usertype in usertype_list %}
+                        <tr>
+                            <td>{{ usertype.1 }}</td>
+                             <td>
+                                 <a href="{% url 'Usertype_Update' usertype.0 %}" class="btn text-secondary px-0">
+                                    <i class="far fa-edit fa-lg"></i>
+                                </a>
+                                <form action="{% url 'Usertype_Delete' usertype.0 %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn">
+                                        <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock usertype_content %}

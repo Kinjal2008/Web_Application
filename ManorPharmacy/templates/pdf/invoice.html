@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="row row-class">
+        <div>
+            <h3 class="display-5">Invoice</h3>
+        </div>
+     <br>
+         <div class="main-content">
+         <br>
+          <div class="row">
+             <div class="col-md-8">
+<!--                 <img src="{% static 'images/Logo.png' %}" alt="ProLongevity Logo" class="navbar-brand Header-branding-logo">-->
+             </div>
+             <div class="col-md-4">
+                Invoice #: 123<br>
+                Created: January 1, 2019<br>
+             </div>
+          </div>
+         <br>
+          <div class="row">
+             <div class="col-md-6">
+                 3 The Metro Centre<br>
+                 Ronsons Way<br>
+                 St Albans<br>
+                 Herts, AL9 4QT<br>
+                 01727 834365
+             </div>
+              <br>
+             <div class="col-md-6" style="float:right">
+                 {{username}}<br>
+                 {{address.address}} <br>
+                 {{address.city}} <br>
+                 {{address.state}} <br>
+                 {{address.zipcode}} <br>
+                 {{address.country}} <br>
+                 {{email}}
+             </div>
+          </div>
+         <br>
+
+         <div class="row">
+             <div class="col-md-12" style="border-style:solid;border-width:1pt;border-color: black">
+                <table class="table" >
+                    <thead class="border-bottom font-weight-bold">
+                        <tr>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Tr No.</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Description</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Quantity</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Price / Pack</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Amount</td>
+                        </tr>
+                    </thead>
+                    <tbody class="border-bottom font-weight-bold">
+                        {% for item in items %}
+                            <tr>
+                                <td style="border-right:solid;border-bottom: solid;border-width:1pt;border-color: black"> &nbsp; {{ forloop.counter }}</td>
+                                <td style="border-right:solid;border-bottom: solid;border-width:1pt;border-color: black"> &nbsp; {{ item.Product.Name }}</td>
+                                <td style="border-right:solid;border-width:1pt;border-color: black"> &nbsp; {{ item.Quantity }}</td>
+                                <td style="border-right:none;border-width:1pt;border-color: black"> &nbsp; £{{ item.Product.Price }}</td>
+                                <td style="border-right:none;border-width:1pt;border-color: black"> &nbsp; £
+                                    {{item.get_total|floatformat:2}}</td>
+                            </tr>
+                        {% endfor %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
+                            <b>&nbsp; SUBTOTAL</b>
+                        </td>
+                        <td colspan="3" style="border-right:none;border-width:1pt;border-color: black">
+                            &nbsp; £{{order.get_CartTotalPriceForAllProduct_WithFullPayment|floatformat:2}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
+                            <b>&nbsp; Initial Setup Charge</b>
+                        </td>
+                        <td colspan="3" style="border-right:none;border-width:1pt;border-color: black">
+                            &nbsp; £{{order.get_InitialSetupChargeForAllProducts|floatformat:2}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
+                         &nbsp; VAT 5%
+                        </td>
+                        <td colspan="3" style="border-right:none;border-width:1pt;border-color: black">
+                           &nbsp; £{{order.get_vat}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" style="border-right:solid;border-bottom: solid;border-left:solid;border-width:1pt;border-color: black">
+                            <b>&nbsp; INVOICE TOTAL</b>
+                        </td>
+                        <td colspan="3" style="border-right:none;border-bottom: solid;border-width:1pt;border-color: black">
+                            &nbsp; £{{order.get_final_total}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+             </div>
+         </div>
+         <br>
+
+        </div>
+     </div>
+</body>
+</html>

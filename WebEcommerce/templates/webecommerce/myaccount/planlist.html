@@ -1,0 +1,45 @@
+{% extends 'webecommerce/myaccount/plan.html' %}
+
+{% block plan_content %}
+
+  <div class="container">
+      <h2 class="my-5 h2 text-center">My Plan</h2>
+      <div class="row">
+          <div class="col-12">
+                <div class="card">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                              <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Plan</th>
+                                        <th>Total Amount</th>
+                                        <th>Instalment Due Amount</th>
+                                        <th>Instalment Due Date</th>
+                                        <th></th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                               {% for plan in plans %}
+                                <tr>
+                                    <td width="10%">{{ forloop.counter }}</td>
+                                    <td width="20%">{{ plan.1 }}</td>
+                                    <td width="20%">{{ plan.2 |floatformat:2 }}</td>
+                                    <td width="20%">{{ plan.3 |floatformat:2 }}</td>
+                                    <td width="20%">{{ plan.5 }}</td>
+                                    <td>
+                                        <a href="" class="btn text-secondary px-0">
+                                            <i class="far fa-edit fa-lg"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                              {% endfor %}
+                              </tbody>
+                        </table>
+                    </div>
+                </div>
+          </div>
+      </div>
+  </div>
+
+{% endblock plan_content %}

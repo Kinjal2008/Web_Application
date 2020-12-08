@@ -1,0 +1,81 @@
+{% extends 'adminpanel/discount/discount.html' %}
+{% block discount_content %}
+    <form method="post" autocomplete="off">
+    {% csrf_token %}
+     <div class="row">
+        <div class="col-md-6">
+            <div id="div_discount" class="form-group">
+                <label for="DiscountCode" class="col-form-label  requiredField">
+                    Discount Code<span class="asteriskField">*</span>
+                </label>
+            <div class="">
+                <input type="text" name="DiscountCode" value="{{ form.1 }}" maxlength="200" class="textInput form-control" required="" >
+               </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div id="div_duration_from" class="form-group">
+                <label for="DiscountFrom" class="col-form-label  requiredField">
+                    Duration From<span class="asteriskField">*</span>
+                </label>
+            <div class="">
+                <input type="date" name="DiscountFrom" placeholder="dd/mm/yyyy" value="{{form.3|date:'d/m/Y'}}" class="textInput form-control" required>
+               </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div id="div_duration_to" class="form-group">
+                <label for="DiscountTo" class="col-form-label">
+                    Duration To
+                </label>
+            <div class="">
+                <input type="date" name="DiscountTo" placeholder="dd/mm/yyyy" value="{{ form.4|date:'d/m/Y' }}" class="textInput form-control">
+               </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div id="div_percentage" class="form-group">
+                <label for="Percentage" class="col-form-label  requiredField">
+                    Percentage (%)<span class="asteriskField">*</span>
+                </label>
+               <div class="">
+                    <input type="number" name="Percentage" value="{{ form.2 }}" maxlength="50" class="textInput form-control" required="" >
+               </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div id="div_discountdesc" class="form-group">
+                <label for="DiscountDescription" class="col-form-label ">
+                    Discount Description
+                </label>
+            <div class="">
+                <input type="text" name="DiscountDescription" value="{{ form.5 }}" maxlength="200" class="textInput form-control">
+               </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div id="div_isReferraldiscount" class="form-group">
+                <label for="IsReferralDiscount" class="col-form-label ">
+                   Referral Discount
+                </label>
+            <div class="">
+                <input type="checkbox" name="IsReferralDiscount" value="{{ form.6 }}" {% if form.6 %}checked{% endif %} class="textInput form-control">
+               </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success btn-lg btn-border"> <i class="fas fa-save"></i> Save </button>
+            <a href="{% url 'Discount' %}" class="btn btn-secondary btn-lg btn-border">
+                <i class="fas fa-stream"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    </form>
+{% endblock discount_content %}

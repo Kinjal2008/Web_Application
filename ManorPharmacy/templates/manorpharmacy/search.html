@@ -1,0 +1,127 @@
+
+{% load static %}
+{% for products,range,nslides in allProds %}
+{% for prod in products %}
+ <div class="col-xs-3 col-sm-3 col-md-3">
+    <div class="card" style="width:18rem;">
+        {% if prod.Image != '' %}
+        <img class="thumbnail" src="{% static 'productimages/' %}{{prod.Image}}">
+        {% else %}
+        <img class="thumbnail" src="{% static 'images/No_Image.png' %}">
+        {% endif %}
+        <div class="card-body" class="row" style="padding-left:1rem;padding-right:1px;">
+            <h5 class="card-title"> {{prod.Name}}</h5>
+            <button data-product="{{prod.Product_Id}}" data-action="add" class="btn btn-outline-secondary add-button update-cart">Add to Cart</button>
+        &nbsp;&nbsp;   <a href="" target="_self" class="btn btn-outline-success">View</a>
+            <h6>&nbsp;&nbsp;£ </h6>
+            {% if prod.IsProduct and prod.IsDiscountable %}
+            <h3>{{prod.getDiscountedPrice|floatformat:2}}</h3>
+            <s><i><b><h5 style="color:red">{{prod.Price|floatformat:2}}</h5></b></i></s>
+            {% else %}
+            <div id="TotalAmount1{{prod.Product_Id}}">
+            <h3>{{prod.getPriceForInitialSetupAndFullPaymentForOnePerson|floatformat:2}}</h3>
+            </div>
+            <div id="TotalAmountForMultiplePerson1{{prod.Product_Id}}" style="display:none">
+            <h3>{{prod.getPriceForInitialSetupAndFullPaymentForMultiplePerson|floatformat:2}}</h3>
+            </div>
+            {% endif %}
+
+            <br>
+                {% if not prod.IsProduct %}
+                <div class="row" style="padding-left:1rem;">
+                     <label style="padding-top:5px;">No of Clients: &nbsp; </label>
+                    <select style="width:50%;" data-product="{{prod.Product_Id}}" class="form-control numbers" name="noofusers{{prod.Product_Id}}" id="noofusers{{prod.Product_Id}}" >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+            <div style="padding-top:1rem;">
+                <div id="accordion">
+                    <div class="card card-primary">
+                        <div class="card-header" style="height:40px;padding-top:5px;">
+                            <center>
+                            <h5 class="card-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{prod.Product_Id}}">
+                                <h6 style="color:blue"> Price breakdown </h6>
+                                </a>
+                            </h5> </center>
+                        </div>
+                        <div id="collapseOne{{prod.Product_Id}}" class="panel-collapse collapse in">
+                            <br>
+                            <div class="row">
+                                <label id="lblNoOfUser{{prod.Product_Id}}" style="padding-left:2rem;">(For one person)</label>
+                            </div>
+                            <div class="card-body" id="noOfUserOne{{prod.Product_Id}}">
+                                 <div class="row">
+                                    <span class="col-6"><small>Setup charge:</small></span>
+                                     <span class="col-6" style="text-align:right;"><small><b>£{{prod.InitialSetupCharge|floatformat:2}}</b></small></span>
+                                 </div>
+                                 <div class="row">
+                                     <span class="col-6"><small>Monthly Instalment:</small></span>
+                                     <span class="col-6" style="text-align:right;"><small><b>{{prod.NoOfInstallmentMonths}} * £{{prod.Price|floatformat:2}}</b></small></span>
+                                 </div>
+                                <!-- <div class="row">
+                                    <span class="col-8">{{prod.getIdenticalMonthsOfInstallation}} identical charge of:</span>
+                                     <span class="col-4"><b>£{{prod.Price|floatformat:2}}</b></span>
+                                 </div>-->
+                            </div>
+                            <div class="card-body" id="noOfUserTwo{{prod.Product_Id}}" style="display:none;">
+                                 <div class="row">
+                                    <span class="col-6"><small>Setup charge:</small></span>
+    <!--                                                 <span class="col-5"><small><b>£{{prod.getInitialSetupChargeForMultiplePerson|floatformat:2}}</b> (each)</small></span>-->
+                                     <span class="col-6" style="text-align:right;"><small><b>£{{prod.InitialSetupCharge|floatformat:2}}</b> (each)</small></span>
+                                 </div>
+                                 <div class="row">
+                                     <span class="col-6"><small>Monthly charge:</small></span>
+                                     <span class="col-6" style="text-align:right;"> <small><b>{{prod.NoOfInstallmentMonths}} * £{{prod.getPriceForMultiplePerson|floatformat:2}} </b></small></span>
+                                 </div>
+                                <i>
+                                <div class="row">
+                                    <span class="col-6" style="font-size:small">*(For 1st Client:</span>
+                                    <span class="col-6" style="font-size:small;text-align:right;">£{{prod.Price|floatformat:2}})</span>
+                                 </div>
+                                <div class="row">
+                                    <span class="col-6" style="font-size:small">*(For 2nd Client:</span>
+                                    <span class="col-6" style="font-size:small;text-align:right;">£{{prod.AdditionalMemberPrice|floatformat:2}})</span>
+                                 </div></i>
+                                <!-- <div class="row">
+                                    <span class="col-8">{{product.getIdenticalMonthsOfInstallation}} identical charge of:</span>
+                                     <span class="col-4"><b>£{{product.getPriceForMultiplePerson|floatformat:2}}</b></span>
+                                 </div>-->
+                            </div>
+                        </div>
+                  </div>
+                </div>
+            </div>
+
+                {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endfor %}
+
+<script>
+    $(".numbers").change(function()
+    {
+        var productId = this.dataset.product
+        selectedValue = $('#noofusers'+productId).val()
+        if(selectedValue == "1")
+        {
+            $("#noOfUserOne"+productId).show();
+            $("#noOfUserTwo"+productId).hide();
+            $("#TotalAmount"+productId).show();
+            $("#TotalAmountForMultiplePerson"+productId).hide();
+
+            document.getElementById('lblNoOfUser'+productId).innerHTML = '(For one client)'
+        }
+        else
+        {
+            $("#noOfUserOne"+productId).hide();
+            $("#noOfUserTwo"+productId).show();
+            $("#TotalAmount"+productId).hide();
+            $("#TotalAmountForMultiplePerson"+productId).show();
+            document.getElementById('lblNoOfUser'+productId).innerHTML = '(For two clients)'
+        }
+    });
+</script>

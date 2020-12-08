@@ -1,0 +1,100 @@
+{% load cart_template_tags %}
+{% load static %}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-light"
+     style="margin-top:-12px;padding-left:0rem!important;padding-right:0rem!important;">
+<div class="site-wrap" style="width:100%;">
+    <div class="site-navbar py-2">
+
+      <div class="search-wrap">
+        <div class="container">
+          <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+          <form action="#" method="post">
+            <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
+          </form>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="logo">
+            <div class="site-logo">
+              <a class="js-logo-clone" href="{% url 'index' %}">
+              <img src="//static1.squarespace.com/static/5c6581b990f9041e32f89202/t/5e88c460138b9761ef873d95/1594374827805/?format=1500w" alt="Prediabetes | Type 2 Diabetes | Hypertension | Hertfordshire" class="Header-branding-logo">
+              </a>
+            </div>
+          </div>
+          <div class="main-nav d-none d-lg-block" id="menu">
+            <nav class="site-navigation text-right text-md-center" role="navigation">
+              <ul class="site-menu js-clone-nav d-none d-lg-block">
+                <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'shop' %}">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li class="has-children">
+                  <a href="#">My Account</a>
+                  <ul class="dropdown">
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Purchase History</a></li>
+                    <li class="has-children">
+                      <a href="#">My ProLongevity</a>
+                      <ul class="dropdown">
+                        <li><a href="{% url 'plan' %}">Plan</a></li>
+                        <li><a href="#">Progress</a></li>
+                        <li><a href="#">Payment</a></li>
+                        <li><a href="#">Appointments</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+
+              </ul>
+            </nav>
+          </div>
+          <div class="icons">
+            {% if request.user.is_authenticated %}
+            <strong><span>{{request.user}}</span></strong>
+            <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+            <a href="{% url 'cart' %}" class="icons-btn d-inline-block bag" id="cartlistdropdown">
+              <span class="icon-shopping-bag"></span>
+              <span class="number">{{ request.user | cart_item_count}}</span>
+            </a>
+
+             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <span class="dropdown-item dropdown-header">{{ request.user }}</span>
+                <div>
+                 {% for item in orderitems %}
+                 <div class="cart_box" style="padding: 1em;">
+                     <div class="message">
+                      <div class="alert-close{{item.Product.Product_Id}}" style="background:#fb5e33 url('{% static 'images/close.png' %}') no-repeat 6px 6px;"> </div>
+                      <div class="list_img"><img src="{% static 'productimages/' %}{{item.Product.Image}}" class="img-responsive" alt=""></div>
+                      <div class="list_desc" style="font-size:small;"><h6><a href="#">{{item.Product.Name}}</a></h6>{{item.Quantity}} x<span class="actual">
+                       £{{item.getCartItemsPrice|floatformat:2}}</span></div>
+                      <div class="clearfix"></div>
+                    </div>
+                 </div>
+                {% empty %}
+                     <div class="cart_box">
+                         Your cart is empty
+                     </div>
+                {% endfor %}
+
+              </div>
+             </div>
+
+            <a class="waves-effect" href="/Logout">
+              <span class="clearfix d-none d-sm-inline-block" style="color:purple !important;text-decoration: underline;"> Logout </span>
+            </a>
+            <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
+                class="icon-menu"></span></a>
+            {% else %}
+             <a class="waves-effect" href="/login/">
+              <span class="clearfix d-none d-sm-inline-block" style="color:black !important"> Login </span>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

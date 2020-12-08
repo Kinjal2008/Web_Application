@@ -1,0 +1,147 @@
+{% load static %}
+
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="" class="">
+              <img src="{% static 'images/Logo.png'%}" alt="ProLongevity Logo" class="navbar-brand Header-branding-logo">
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+              <!-- Sidebar user panel (optional) -->
+              <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+{#                <div class="image">#}
+{#                  <img src="{% static 'dist/img/user2-160x160.jpg'%}" class="img-circle elevation-2" alt="User Image">#}
+{#                </div>#}
+                <div class="info">
+                  Hello, {{ request.user }}
+                </div>
+              </div>
+
+              <!-- Sidebar Menu -->
+              <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                   {% if request.user.is_staff %}
+                  <li class="nav-item">
+                        <a href="{% url 'DashboardHome' %}" class="nav-link">
+                            <img src="{% static 'open-iconic-master/svg/dashboard.svg' %}" class="icon-custom-size">
+                          <p>
+                            Dashboard
+                          </p>
+                        </a>
+                    </li>
+                  <li class="nav-item">
+                        <a href="{% url 'admin' %}" class="nav-link">
+                            <img src="{% static 'open-iconic-master/svg/dashboard.svg' %}" class="icon-custom-size">
+                          <p>
+                            Admin
+                          </p>
+                        </a>
+                    </li>
+                   {% endif %}
+                  <li class="nav-item">
+                    <a href="{% url 'Customer' %}" class="nav-link">
+                        <img src="{% static 'open-iconic-master/svg/person.svg' %}" class="icon-custom-size">
+                      <p>
+                        Clients
+                      </p>
+                    </a>
+                  </li>
+                  {% if request.user.is_staff %}
+                  <li class="nav-item">
+                    <a href="{% url 'Usertype' %}" class="nav-link">
+                        <img src="{% static 'open-iconic-master/svg/person.svg' %}" class="icon-custom-size">
+                      <p>
+                        User Type
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'Product' %}" class="nav-link">
+                         <i class="fa fa-pallet"></i>
+                      <p>
+                        Products
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'Service' %}" class="nav-link">
+                         <i class="fa fa-pallet"></i>
+                      <p>
+                        Services
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'Discount' %}" class="nav-link">
+                        <i class="money-check-alt"></i>
+                      <p>
+                        Discount
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'Post' %}" class="nav-link">
+                      <i class=""></i>
+                      <p>
+                        Announcements
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'Configuration' %}" class="nav-link">
+                      <i class=""></i>
+                      <p>
+                        Configuration
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-table"></i>
+                      <p>
+                        Manage Orders
+                        <i class="fas fa-angle-left right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{% url 'OrderDetails' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Client Orders</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-table"></i>
+                      <p>
+                        Reports
+                        <i class="fas fa-angle-left right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{% url 'OrderSummary' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Order Summary</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'Invoice' %}" class="nav-link">
+                      <i class=""></i>
+                      <p>
+                        Invoice
+                      </p>
+                    </a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </nav>
+              <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+          </aside>

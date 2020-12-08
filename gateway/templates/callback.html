@@ -1,0 +1,32 @@
+{% extends 'manorpharmacy/main.html' %}
+{% block content %}
+{% csrf_token %}
+
+<body>
+  <div class="callback">
+    <br>
+
+    <p>
+    <h1>Order Confirmation</h1>
+
+    {% if ThreeDSecureAuthenticationCheckResult == "PASSED"%}
+    <h2>Payment successful..! </h2>
+    <h3> <span style="color:green" >Your order has been placed successfully. </span></h3>
+    {% endif %}
+    <p>{{ text_Message }}</p>
+    <p>{{ Message }}</p>
+
+    <br>{{ text_OrderID }}<strong>{{ OrderID }}</strong></br>
+    <br>{{ text_AddressNumericCheckResult }}<strong>{{ AddressNumericCheckResult }}</strong></br>
+    <br>{{ text_PostCodeCheckResult }}<strong>{{ PostCodeCheckResult }}</strong></br>
+    <br>{{ text_CV2CheckResult }}<strong>{{ CV2CheckResult }}</strong></br>
+    <br>{{ text_ThreeDSecureAuthenticationCheckResult }}<strong>{{ ThreeDSecureAuthenticationCheckResult }}</strong></br>
+
+  </div>
+  <br>
+<div>
+  <a class="btn btn-outline-dark" href="{% url 'manor' %}">&#x2190; Continue shopping</a>
+</div>
+</body>
+
+{% endblock %}

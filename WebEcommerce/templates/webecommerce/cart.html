@@ -1,0 +1,229 @@
+{% extends 'webecommerce/base.html' %}
+{% load static %}
+    {% block content %}
+<main>
+    <div class="site-section" style="background-color:white;">
+        <div class="bg-light" style="padding-top:2rem;padding-bottom:2rem;">
+          <div class="container">
+            <div class="row">
+               <div class="col-md-12" style="margin-bottom:1rem;"><a style="color:purple;" href="{% url 'index' %}">Home</a>
+                    <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong>
+               </div>
+            </div>
+          </div>
+        </div>
+        <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+          <form class="col-md-12" method="post">
+            <div class="site-blocks-table">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">Image</th>
+                    <th class="product-name">Product</th>
+                    <th class="product-price">Price</th>
+                    <th class="product-name">Initial Setup Charge</th>
+                    <th class="product-price">No of user</th>
+                    <th class="product-quantity">Quantity</th>
+                    <th class="product-total">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                  <tr>
+                    <td style="width:20%;" class="product-thumbnail">
+                      <img src="{% static 'productimages/' %}{{item.Product.Image}}" alt="Image" class="img-fluid">
+                    </td>
+                    <td style="width:20%;" class="product-name">
+                      <h2 class="h5 text-black">{{item.Product.Name}}</h2>
+                    </td>
+                    <td style="width:10%;" class="product-price">£{{item.getCartItemsPrice|floatformat:2}}</td>
+                    <td style="width:10%;" class="product-name">£{{item.getCartItemsInitialSetupCharge|floatformat:2}}</td>
+                    <td style="width:10%;">{{item.TotalNoOfPerson}}</td>
+                    <td style="width:20%;">
+                      <div class="input-group mb-3" style="max-width: 120px;">
+                        <div class="input-group-prepend">
+                          <button data-product="{{item.Product.Product_Id}}" data-action="remove" class="btn btn-outline-primary js-btn-minus update-cart" type="button">&minus;</button>
+                        </div>
+                        <input type="text" readonly class="form-control text-center" value="{{item.Quantity}}" placeholder=""
+                          aria-label="Quantity" aria-describedby="button-addon1">
+                        <div class="input-group-append">
+                          <button data-product="{{item.Product.Product_Id}}" data-action="add" class="btn btn-outline-primary js-btn-plus update-cart" type="button">&plus;</button>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="width:10%;">£{{item.get_TotalForAllProduct_ByQuantity|floatformat:2}}</td>
+                  </tr>
+                 {% empty %}
+                 <tr>
+                      <td colspan='7'>Your cart is empty</td>
+                  </tr>
+                {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-5">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <a href="{% url 'shop' %}" class="btn btn-outline-primary btn-md btn-block">Continue Shopping</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label class="text-black h4" for="discount"><h4>Discount</h4></label>
+                <br>
+              </div>
+              <div class="col-md-12">
+                <p>Would you like to pay in full now, and save
+                  <b><h4> £{{discountAmountForFullPayment|floatformat:2}} </h4></b>
+                  Or you prefer to pay by instalments?.</p>
+              </div>
+              <div class="col-md-8 mb-3 mb-md-0">
+                <label>How do you want to pay?</label> <br>
+                <input type="radio" id="rbtnNoDiscount" checked="checked" value="no" name="installmentoption"> Pay in full now (save £{{discountAmountForFullPayment|floatformat:2}})
+                <br>
+                <input type="radio" id="rbtnYesDiscount" value="yes" name="installmentoption"> Prefer to pay by instalments
+                <label id="lblWithInstallment"></label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 pl-5">
+            <div class="row justify-content-end">
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-12 text-right border-bottom mb-5">
+                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-8">
+                    <span class="text-black">Initial setup charge:</span>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <strong class="text-black">£{{order.get_InitialSetupChargeForAllProducts|floatformat:2}}</strong>
+                  </div>
+                </div>
+                {% if discountAmountForFullPayment > 0 %}
+                <div class="row mb-3" id="amountFullService">
+                  <div class="col-md-8">
+                    <span class="text-black">Amount (Service):</span>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <strong class="text-black">£<span id="lblTotalService">
+                      {{order.get_CartTotalPriceFor_ServiceWithFullPayment|floatformat:2}}</span></strong>
+                  </div>
+                </div>
+                {% if IsMorethanOnePerson %}
+                  <div class="row mb-3" id="amountFullServiceDistributionForFirstPerson">
+                  <div class="col-md-7">
+                    <span class="text-black"><small><i> *(For 1st Client: </i></small></span>
+                  </div>
+                  <div class="col-md-5 text-right">
+                    <small><i><strong class="text-black">£<span id="lblTotalServiceForFirstPerson">
+                      {{order.get_CartTotalQuantityFor_OnePerson_ServiceWithFullPayment|floatformat:2}}</span></strong></i></small>
+                  </div>
+                </div>
+                <div class="row mb-3" id="amountFullServiceDistributionTwoFirstPerson">
+                  <div class="col-md-8">
+                    <span class="text-black"><small> <i>*(For 2nd Client:</i> </small></span>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <small><i><strong class="text-black">£
+                      <span id="lblTotalServiceForSecondPerson">
+                      {{order.get_CartTotalQuantityFor_TwoPerson_ServiceWithFullPayment|floatformat:2}}</span>
+                    </strong></i></small>
+                  </div>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% if order.get_CartTotalPriceFor_ProductWithFullPayment > 0 %}
+                <div class="row mb-3" id="amountFullProduct">
+                  <div class="col-md-8">
+                    <span class="text-black">Amount (Product):</span>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <strong class="text-black">£<span id="lblTotalProduct">
+                      {{order.get_CartTotalPriceFor_ProductWithFullPayment|floatformat:2}}</span></strong>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="row mb-3" id="amountInstall" style="display:none;">
+                  <div class="col-md-8">
+                    <span class="text-black">Amount (instalment):</span>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <strong class="text-black">£<span id="lblTotalInstallment">
+                      {{order.get_CartTotalPriceForAllProduct_WithInstallmentPayment|floatformat:2}}</span></strong>
+                  </div>
+                </div>
+
+                 <div class="row mb-3" id="subtotal">
+                  <div class="col-md-8">
+                    <span class="text-black">Subtotal:</span>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <strong class="text-black">£<span id="lblSubTotal">
+                      {{order.get_CartTotalPriceForInitialSetupAndProduct|floatformat:2}}</span></strong>
+                  </div>
+                </div>
+
+                <div class="row mb-3" id="fullAmountDiscount">
+                  <div class="col-md-8">
+                     <a href="#" ><i class="fa fa-info-circle tooltip">
+                        <span class="tooltiptext">This discount applies for paying amount in full.</span>
+                     </i></a>
+                     <b style="font-size:small;">Full payment discount:</b>
+                  </div>
+                  <div class="col-md-4 text-right" style="color:green">
+                    <strong class="text-black">- £<span id="lblFullPaymentDiscount">
+                      {{discountAmountForFullPayment|floatformat:2}}</span></strong>
+                  </div>
+                </div>
+
+                 <div class="row mb-3 border-top" id="totalAmountFull">
+                  <div class="col-md-8">
+                     <span class="text-black" style="font-size: x-large;">Total:</span>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <strong class="text-black" style="font-size: x-large;">£<span id="lblTotalAmountFull">
+                      {{totalAmountWithDiscount|floatformat:2}}</span></strong>
+                  </div>
+                </div>
+
+                <div class="row mb-3 border-top" id="totalAmountInstall" style="display:none">
+                  <div class="col-md-8">
+                     <span class="text-black">Total:</span>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <strong class="text-black">£<span id="lblTotalAmountInstall">
+                      {{order.get_TotalPrice_WithInstallmentPayment|floatformat:2}}</span></strong>
+                  </div>
+                </div>
+                {% if items.count > 0 %}
+                <div class="row">
+                  <div class="col-md-12">
+                    <a href="{% url 'cartcheckout' %}?data=yes" style="display:none" id="btnYesContinue" class="btn btn-primary btn-lg btn-block">Proceed To
+                      Checkout</a>
+                    <a href="{% url 'cartcheckout' %}?data=no" id="btnNoContinue" class="btn btn-primary btn-lg btn-block">Proceed To
+                      Checkout</a>
+                  </div>
+                </div>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+
+</main>
+    {% endblock content %}

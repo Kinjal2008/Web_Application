@@ -1,0 +1,53 @@
+{% extends 'adminpanel/configuration/configuration.html' %}
+{% load static %}
+{% block config_content %}
+<form method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br>
+        <div class="row">
+            <div class="col-md-5">
+                <div id="div_name" class="form-group">
+                    <label class="col-form-label  requiredField">
+                        Name<span class="asteriskField">*</span>
+                    </label>
+                    <div class="">
+                        <input type="text" name="ConfigurationName" value="{{ form.1 }}" maxlength="200" class="textInput form-control" required="" >
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="div_code" class="form-group">
+                    <label class="col-form-label">
+                        Value
+                    </label>
+                <div class="">
+                    <input type="text" name="ConfigurationValue" value="{{ form.2 }}" maxlength="200" class="textInput form-control">
+                   </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div id="div_image" class="form-group">
+                    <label class="col-form-label ">
+                        Image
+                    </label>
+                    <div class="">
+                        <input type="file" name="Image" value="Browse" />
+                    </div>
+                    {{form.3}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success btn-lg btn-border"> <i class="fas fa-save"></i> Save </button>
+                <a href="{% url 'Configuration' %}" class="btn btn-secondary btn-lg btn-border">
+                    <i class="fas fa-stream"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+<!-- Accordion wrapper -->
+</form>
+{% endblock config_content %}

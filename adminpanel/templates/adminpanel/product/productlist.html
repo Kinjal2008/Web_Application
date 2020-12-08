@@ -1,0 +1,96 @@
+{% extends 'adminpanel/product/product.html' %}
+
+{% block product_content %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <!--<div class="card-header">
+                    <div class="card-tools">
+                          <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                                <div class="input-group-append">
+                                  <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                          </div>
+                    </div>
+              </div>-->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                      <thead>
+                            <tr>
+                                  <th>Name</th>
+                                  <th>Code</th>
+                                  <th>Description</th>
+                                  <th>Price</th>
+                                  <th>Discountable</th>
+                                  <th>
+                                    <a href="{% url 'Product_Add' %}" class="btn btn-outline-success">
+                                        <i class="far fa-plus"></i> Add New
+                                    </a>
+                                  </th>
+                            </tr>
+                      </thead>
+                      <tbody>
+                       {% for prod in product_list %}
+                        <tr>
+                            <td width="20%">{{ prod.1 }}</td>
+                            <td width="30%">{{ prod.2 }}</td>
+                            <td width="30%" title="{{ prod.3 }}">{{ prod.3|truncatechars:50 }}</td>
+                            <td class="numericValue">{{ prod.4 |floatformat:2 }}</td>
+                            <td>
+                                <input type="checkbox" style="cursor:none !important;" disabled name="IsDiscountable" value="{{ prod.9 }}" {% if prod.9 %}checked{% endif %} class="textInput">
+                            </td>
+                             <td>
+                                 <a href="{% url 'Product_Update' prod.0 %}" class="btn text-secondary px-0">
+                                    <i class="far fa-edit fa-lg"></i>
+                                </a>
+                                <form action="{% url 'Product_Delete' prod.0 %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn">
+                                        <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+              <div class="col-sm-12 col-md-5">
+
+              </div>
+            <div class="col-sm-12 col-md-7">
+                {% if product_list.has_other_pages %}
+                    <div class="dataTables_paginate">
+                      <ul class="paginationForPaging">
+                        {% if product_list.has_previous %}
+                          <li class="paginationForPaging_button page-item"><a href="?page={{ product_list.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                          <li class="disabled"><span>&laquo;</span></li>
+                        {% endif %}
+                        {% for i in product_list.paginator.page_range %}
+                          {% if product_list.number == i %}
+                            <li class="paginationForPaging_button page-item active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                          {% else %}
+                            <li class="paginationForPaging_button page-item"><a href="?page={{ i }}">{{ i }}</a></li>
+                          {% endif %}
+                        {% endfor %}
+                        {% if product_list.has_next %}
+                          <li class="paginationForPaging_button page-item"><a href="?page={{ product_list.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                          <li class="paginationForPaging_button page-item disabled"><span>&raquo;</span></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.myDataTable').DataTable();
+</script>
+{% endblock product_content %}

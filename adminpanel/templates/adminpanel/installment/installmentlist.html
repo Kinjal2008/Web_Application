@@ -1,0 +1,36 @@
+{% extends 'adminpanel/installment/installment.html' %}
+
+{% block installment_content %}
+    <table class="table table-borderless">
+        <thead class="border-bottom font-weight-bold">
+            <tr>
+                 <td>Installment Type</td>
+                <td>Description</td>
+                <td>
+                        <a href="{% url 'Installment_Add' %}" class="btn btn-outline-success">
+                            <i class="far fa-plus"></i> Add New
+                        </a>
+                    </td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for installment in installment_list %}
+                <tr>
+                    <td>{{ installment.1 }}</td>
+                    <td>{{ installment.2 }}</td>
+                    <td>
+                        <a href="{% url 'Installment_Update' installment.0 %}" class="btn text-secondary px-0">
+                            <i class="far fa-edit fa-lg"></i>
+                        </a>
+                        <form action="{% url 'Installment_Delete' installment.0 %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">
+                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock installment_content %}

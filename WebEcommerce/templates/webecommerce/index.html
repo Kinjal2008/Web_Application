@@ -1,0 +1,11 @@
+{% extends 'webecommerce/base.html' %}
+{% load static %}
+
+    {% block content %}
+ <main>
+    <div class="container">
+        {% include 'webecommerce/content.html' %}
+        {% include 'webecommerce/productonhome.html' %}
+    </div>
+ </main>
+    {% endblock content %}

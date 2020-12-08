@@ -1,0 +1,29 @@
+{% extends 'adminpanel/usertype/usertype.html' %}
+{% block usertype_content %}
+    <form method="post" autocomplete="off">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div id="div_userType" class="form-group">
+                <label for="user_Type" class="col-form-label  requiredField">
+                    User Type<span class="asteriskField">*</span>
+                </label>
+            <div class="">
+                <input type="text" name="user_Type" value=" {{ form.1 }}" maxlength="50" class="textinput textInput form-control" required="" >
+               </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success btn-lg btn-border"> <i class="fas fa-save"></i> Save </button>
+            <a href="{% url 'Usertype' %}" class="btn btn-secondary btn-lg btn-border">
+                <i class="fas fa-stream"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    </form>
+{% endblock usertype_content %}

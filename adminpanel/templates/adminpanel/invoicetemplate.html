@@ -1,0 +1,97 @@
+ {% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+ {% block main_content %}
+
+ <div class="container">
+     <div class="row row-class">
+        <div>
+            <h3 class="display-5">Invoice</h3>
+        </div>
+     <br>
+         <div class="main-content">
+         <br>
+          <div class="row">
+             <div class="col-md-8">
+                 <img src="{% static "images/Logo.png "%}" alt="ProLongevity Logo" class="navbar-brand Header-branding-logo">
+             </div>
+             <div class="col-md-4">
+                Invoice #: 123<br>
+                Created: January 1, 2019<br>
+             </div>
+          </div>
+         <br>
+          <div class="row">
+             <div class="col-md-8">
+                 3 The Metro Centre<br>
+                 Ronsons Way<br>
+                 St Albans<br>
+                 Herts, AL9 4QT<br>
+                 01727 834365
+             </div>
+             <div class="col-md-4">
+                 Acme Corp.<br>
+                 John Doe<br>
+                 test@example.com
+             </div>
+          </div>
+         <br>
+
+         <div class="row">
+             <div class="col-md-12" style="border-style:solid;border-width:1pt;border-color: black">
+                <table class="table" >
+                    <thead class="border-bottom font-weight-bold">
+                        <tr>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">Tr No.</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">Description</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">Quantity</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">Price / Pack</td>
+                            <td>Amount</td>
+                        </tr>
+                    </thead>
+                    <tbody class="border-bottom font-weight-bold">
+                        {% for prod in product_list %}
+                            <tr>
+                                <td style="border-right:solid;border-bottom: solid;border-width:1pt;border-color: black">{{ forloop.counter }}</td>
+                                <td style="border-right:solid;border-bottom: solid;border-width:1pt;border-color: black">{{ prod.Name }}</td>
+                                <td style="border-right:solid;border-width:1pt;border-color: black">1</td>
+                                <td style="border-right:solid;border-width:1pt;border-color: black">{{ prod.Price }}</td>
+                                <td style="border-right:none;border-width:1pt;border-color: black">{{ prod.Price }}</td>
+                            </tr>
+                        {% endfor %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
+                            <b>SUBTOTAL</b>
+                        </td>
+                        <td colspan="3" style="border-right:none;border-width:1pt;border-color: black">
+                            8200
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
+                         VAT 20% (140)
+                        </td>
+                        <td colspan="3" style="border-right:none;border-width:1pt;border-color: black">
+                            28
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" style="border-right:solid;border-bottom: solid;border-left:solid;border-width:1pt;border-color: black">
+                            <b>INVOICE TOTAL</b>
+                        </td>
+                        <td colspan="3" style="border-right:none;border-bottom: solid;border-width:1pt;border-color: black">
+                            8500
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+             </div>
+         </div>
+         <br>
+
+        </div>
+     </div>
+ </div>
+ {% endblock main_content %}

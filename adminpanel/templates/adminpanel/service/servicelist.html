@@ -1,0 +1,60 @@
+{% extends 'adminpanel/service/service.html' %}
+
+{% block service_content %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <!-- <div class="card-header">
+                    <div class="card-tools">
+                          <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                                <div class="input-group-append">
+                                  <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                          </div>
+                    </div>
+              </div>-->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                      <thead>
+                            <tr>
+                                  <th>Name</th>
+                                  <th>Code</th>
+                                  <th>Description</th>
+                                  <th>Price</th>
+                                  <th>
+                                    <a href="{% url 'Service_Add' %}" class="btn btn-outline-success">
+                                        <i class="far fa-plus"></i> Add New
+                                    </a>
+                                  </th>
+                            </tr>
+                      </thead>
+                      <tbody>
+                       {% for service in service_list %}
+                        <tr>
+                            <td>{{ service.1 }}</td>
+                            <td>{{ service.2 }}</td>
+                            <td>{{ service.3 }}</td>
+                            <td class="numericValue">{{ service.4 |floatformat:2 }}</td>
+                             <td>
+                                <a href="{% url 'Service_Update' service.0 %}" class="btn text-secondary px-0">
+                                    <i class="far fa-edit fa-lg"></i>
+                                </a>
+                                <form action="{% url 'Service_Delete' service.0 %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn">
+                                        <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock service_content %}

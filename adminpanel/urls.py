@@ -1,0 +1,51 @@
+from django.contrib import admin
+from django.urls import path, include
+from . import views, adminview, reportview
+
+urlpatterns = [
+
+    # path('', views.home, name="dashboard"),
+    # path('customer/', views.customer),
+    # path('product/', views.product),
+    path('login/', views.login_user, name="Login"),
+    path('register/', views.registration, name="Registration"),
+    path('get_user_details', views.get_user_details),
+    path('Logout', views.logout_user, name="Logout"),
+    path('dologin', views.dologin),
+    path('home', adminview.home, name="home"),
+    path('DashboardHome/', adminview.DashboardHome, name="DashboardHome"),
+    path('admin/', adminview.dashboard, name="admin"),
+    path('Customer/', adminview.customer_list, name="Customer"),
+    path('Customer/Add', adminview.customer_operation, name="Customer_Add"),
+    path('Customer/<int:id>/', adminview.customer_operation_sp, name="Customer_Update"),
+    path('Customer/Delete/<int:id>/', adminview.customer_delete, name="Customer_Delete"),
+    path('Discount/', adminview.discount_list, name="Discount"),
+    path('Discount/Add', adminview.discount_operation, name="Discount_Add"),
+    path('Discount/<int:id>/', adminview.discount_operation, name="Discount_Update"),
+    path('Discount/Delete/<int:id>/', adminview.discount_delete, name="Discount_Delete"),
+    path('Installment/', adminview.installment_list, name="Installment"),
+    path('Installment/Add', adminview.installment_operation, name="Installment_Add"),
+    path('Installment/<int:id>/', adminview.installment_operation, name="Installment_Update"),
+    path('Installment/Delete/<int:id>/', adminview.installment_delete, name="Installment_Delete"),
+    path('Invoice/', adminview.invoice_generation, name="Invoice"),
+    path('Product/', adminview.product_list, name="Product"),
+    path('Product/Add', adminview.product_operation, name="Product_Add"),
+    path('Product/<int:id>/', adminview.product_operation, name="Product_Update"),
+    path('Product/Delete/<int:id>/', adminview.product_delete, name="Product_Delete"),
+    path('Service/', adminview.service_list, name="Service"),
+    path('Service/Add', adminview.service_operation, name="Service_Add"),
+    path('Service/<int:id>/', adminview.service_operation, name="Service_Update"),
+    path('Service/Delete/<int:id>/', adminview.service_delete, name="Service_Delete"),
+    path('Usertype/', adminview.usertype_list, name="Usertype"),
+    path('Usertype/Add', adminview.usertype_operation, name="Usertype_Add"),
+    path('Usertype/<int:id>/', adminview.usertype_operation, name="Usertype_Update"),
+    path('Usertype/Delete/<int:id>/', adminview.usertype_delete, name="Usertype_Delete"),
+    path('Post/', adminview.post_list, name="Post"),
+    path('OrderSummary/', reportview.OrderSummary, name="OrderSummary"),
+    path('Configuration/', adminview.config_list, name="Configuration"),
+    path('Configuration/Add', adminview.config_operation, name="Configuration_Add"),
+    path('Configuration/<int:id>/', adminview.config_operation, name="Configuration_Update"),
+    path('Order/', adminview.orderdetailslist, name="OrderDetails"),
+    path('Order/<int:id>/', adminview.orderdetails_update, name="Orderdetails_Update")
+
+]
