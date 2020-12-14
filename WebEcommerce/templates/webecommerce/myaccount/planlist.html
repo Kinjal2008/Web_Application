@@ -3,7 +3,8 @@
 {% block plan_content %}
 
   <div class="container">
-      <h2 class="my-5 h2 text-center">My Plan</h2>
+      <div class="card">
+      <h2 class="my-5 h2 text-center">My Orders</h2>
       <div class="row">
           <div class="col-12">
                 <div class="card">
@@ -11,25 +12,27 @@
                         <table class="table table-hover text-nowrap">
                               <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Plan</th>
-                                        <th>Total Amount</th>
-                                        <th>Instalment Due Amount</th>
-                                        <th>Instalment Due Date</th>
+                                        <th >#</th>
+                                        <th>Order Date</th>
+                                        <th width="10%">Amount To Pay</th>
+                                        <th width="10%">Full Payment Discount</th>
+                                        <th>Payment Method</th>
+                                        <th>Payment Status</th>
                                         <th></th>
                                     </tr>
                               </thead>
                               <tbody>
                                {% for plan in plans %}
                                 <tr>
-                                    <td width="10%">{{ forloop.counter }}</td>
-                                    <td width="20%">{{ plan.1 }}</td>
-                                    <td width="20%">{{ plan.2 |floatformat:2 }}</td>
-                                    <td width="20%">{{ plan.3 |floatformat:2 }}</td>
-                                    <td width="20%">{{ plan.5 }}</td>
-                                    <td>
-                                        <a href="" class="btn text-secondary px-0">
-                                            <i class="far fa-edit fa-lg"></i>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ plan.1 }}</td>
+                                    <td style="text-align:right;">£{{ plan.2 |floatformat:2 }}</td>
+                                    <td style="text-align:right;">£{{ plan.3 |floatformat:2 }}</td>
+                                    <td>{{ plan.4 }}</td>
+                                    <td>{{ plan.5 }}</td>
+                                    <td title="Click to view details">
+                                        <a href="{% url 'plandetail' plan.0 %}"  class="btn btn-outline-primary" style="color:blue;">
+                                            <i class="fas fa-align-justify"></i> &nbsp; View Details
                                         </a>
                                     </td>
                                 </tr>
@@ -39,6 +42,7 @@
                     </div>
                 </div>
           </div>
+      </div>
       </div>
   </div>
 

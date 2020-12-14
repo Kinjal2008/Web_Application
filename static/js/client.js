@@ -1,7 +1,6 @@
 
 // Create a Stripe client.
 var stripe = Stripe('pk_test_CfCShTwexDCdPO3cuj9KyIVr');
-
 // Create an instance of Elements.
 var elements = stripe.elements();
 
@@ -43,9 +42,10 @@ card.on('change', function(event) {
 
 // Handle form submission.
 var form = document.getElementById('stripe-form');
+if(form != null)
+{
 form.addEventListener('submit', function(event) {
   event.preventDefault();
-
   stripe.createToken(card).then(function(result) {
     if (result.error) {
       // Inform the user if there was an error.
@@ -57,6 +57,7 @@ form.addEventListener('submit', function(event) {
     }
   });
 });
+}
 
 // Submit the form with the token ID.
 function stripeTokenHandler(token) {
@@ -68,7 +69,16 @@ function stripeTokenHandler(token) {
   hiddenInput.setAttribute('value', token.id);
   form.appendChild(hiddenInput);
   $('#hdnTokenVal').val(token.id)
-  submitFormDataForPayment($('#hdnTokenVal').val());
+  paymentFrom = $('#hdnPaymentFrom').val()
+
+  if(paymentFrom == 'instalmentpayment')
+  {
+    submitFormDataForInstalmentPayment($('#hdnTokenVal').val())
+  }
+  else
+  {
+    submitFormDataForPayment($('#hdnTokenVal').val());
+  }
 
 }
 
@@ -143,6 +153,55 @@ function submitFormDataForPayment(tkn)
         if(status == 'true')
         {
             url = window.location.origin + "/Thankyou"
+            var href = window.location.href;
+            newurl = href.replace(href,url)
+            window.location.href = newurl
+        }
+        else
+        {
+            $('#card-errors').text(errorMessage);
+        }
+
+        document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+    })
+}
+
+function submitFormDataForInstalmentPayment(token)
+{
+    total =  $('#amountToPay').text()
+    orderid = $('#hdnOrderId').val()
+    instalmentid = $('#hdnInatalmentDueId').val()
+    instalmentNum = $('#hdnInstalmentNum').val()
+    var url = '/payInstalmentDue/'
+    fetch(url, {
+        method:'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken' : csrftoken
+        },
+        body:JSON.stringify({
+                             'total': total,
+                             'orderid': orderid,
+                             'instalmentid': instalmentid,
+                             'instalmentNum': instalmentNum,
+                             'token': token
+                             })
+    })
+
+    .then((response) => {
+        console.log('res: ', response)
+        return response.json()
+    })
+
+    .then((data) => {
+        cart = {}
+        console.log(data)
+        status = data['status']
+        errorMessage = '** ' + data['message']
+        if(status == 'true')
+        {
+            alert('Thank you for your payment. It is successfully processed...!')
+            url = window.location.origin + "/plandetail/" + orderid +"/"
             var href = window.location.href;
             newurl = href.replace(href,url)
             window.location.href = newurl

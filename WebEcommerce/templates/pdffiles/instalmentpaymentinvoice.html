@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="row row-class">
+        <div>
+            <h3 class="display-5">Invoice</h3>
+        </div>
+     <br>
+         <div class="main-content">
+         <br>
+          <div class="row">
+             <div class="col-md-8">
+<!--                 <img src="{% static 'images/Logo.png' %}" alt="ProLongevity Logo" class="navbar-brand Header-branding-logo">-->
+             </div>
+             <div class="col-md-4">
+                Invoice #: 123<br>
+                Created: {{date}}<br>
+             </div>
+          </div>
+         <br>
+             <div class="col-md-12">
+                 <div class="row">
+                     <div class="col-md-6">
+                         3 The Metro Centre<br>
+                         Ronsons Way<br>
+                         St Albans<br>
+                         Herts, AL9 4QT<br>
+                         01727 834365
+                     </div>
+                    <br>
+                     <div class="col-md-6" style="float:right">
+                         {{username}}<br>
+                         {{address.0.address}} <br>
+                         {{address.0.city}} <br>
+                         {{address.0.state}} <br>
+                         {{address.0.zipcode}} <br>
+                         {{address.0.country}} <br>
+                         {{email}}
+                     </div>
+                 </div>
+             </div>
+         <br>
+
+         <div class="row">
+             <div class="col-md-12" style="border-style:solid;border-width:1pt;border-color: black">
+                <table class="table" >
+                    <thead class="border-bottom font-weight-bold">
+                        <tr>
+                            <td style="padding-left:2px;padding-top:2px;border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Instalment # </td>
+                            <td style="padding-left:2px;padding-top:2px;border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Name</td>
+                            <td style="padding-left:2px;padding-top:2px;border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Amount</td>
+                        </tr>
+                    </thead>
+                    <tbody class="border-bottom font-weight-bold">
+
+                        <tr>
+                            <td style="padding-left:2px;padding-top:2px;border-right:solid;border-bottom: solid;border-width:1pt;border-color: black"> {{ instalmentNum }}</td>
+                            <td style="padding-left:2px;padding-top:2px;border-right:solid;border-bottom: solid;border-width:1pt;border-color: black"> {{ product }}</td>
+                            <td style="padding-left:2px;padding-top:2px;border-right:none;border-width:1pt;border-color: black"> &nbsp;
+                                £{{amount|floatformat:2}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="padding-left:2px;padding-top:2px;border-right:solid;border-bottom: solid;border-left:solid;border-width:1pt;border-color: black">
+                                <b> INVOICE TOTAL</b>
+                            </td>
+                            <td style="padding-left:2px;padding-top:2px;border-right:none;border-bottom: solid;border-width:1pt;border-color: black">
+                                £{{amount|floatformat:2}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+         </div>
+         <br>
+
+        </div>
+     </div>
+</body>
+</html>

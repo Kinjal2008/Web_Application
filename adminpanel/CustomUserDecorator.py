@@ -35,7 +35,7 @@ class CustomDecorator(ModelBackend):
                 print(request.user)
                 group = None
                 if request.user.groups.values_list('name', flat=True).exists():
-                    group = request.user.groups.all()[0].name.lower()
+                    group = request.user.groups.all()[0].name.replace(" ", "").lower()
                     print(group)
                 if group in allowed_roles:
                     return view_func(request, *args, **kwargs)
@@ -57,7 +57,7 @@ class CustomDecorator(ModelBackend):
 
             print('GROUP NAME IS')
             print(group_name)
-            if group_name.lower() == 'admin':
+            if group_name.lower() == 'superadmin' or group_name.lower() == 'admin':
                 return view_func(request, *args, **kwargs)
 
             if group_name == 'customer':

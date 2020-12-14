@@ -23,7 +23,7 @@ def home(request):
 
 
 @login_required(login_url='Login')
-# @CustomDecorator.allowed_users(allowed_roles=['admin'])
+# @CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 @CustomDecorator.admin_only
 def dashboard(request):
     # context = {"customer_list": Customer.objects.all()}
@@ -118,7 +118,7 @@ def customer_delete(request, id):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def discount_list(request):
     cursor = connection.cursor()
     cursor.execute("call GetDiscountTypeList()")
@@ -128,7 +128,7 @@ def discount_list(request):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def discount_operation(request, id=0):
     if request.method == "GET":
         if id == 0:
@@ -163,7 +163,7 @@ def discount_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def discount_delete(request, id):
     disc = DiscountType.objects.get(pk=id)
     disc.delete()
@@ -171,7 +171,7 @@ def discount_delete(request, id):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def product_list(request):
     cursor = connection.cursor()
     cursor.execute("call GetProductDetails()")
@@ -193,7 +193,7 @@ def product_list(request):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def product_operation(request, id=0):
     categories = Category.objects.all()
     if request.method == "GET":
@@ -227,7 +227,7 @@ def product_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def product_delete(request, id):
     prod = Product.objects.get(pk=id)
     prod.delete()
@@ -235,7 +235,7 @@ def product_delete(request, id):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def service_list(request):
     cursor = connection.cursor()
     cursor.execute("call GetServiceDetails()")
@@ -245,7 +245,7 @@ def service_list(request):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def service_operation(request, id=0):
     categories = Category.objects.all()
     if request.method == "GET":
@@ -281,7 +281,7 @@ def service_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def service_delete(request, id):
     service = Product.objects.get(pk=id)
     service.delete()
@@ -289,7 +289,7 @@ def service_delete(request, id):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def installment_list(request):
     # context = {"installment_list": InstallmentType.objects.all().order_by('-Installment_Type')}
     cursor = connection.cursor()
@@ -300,7 +300,7 @@ def installment_list(request):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def installment_operation(request, id=0):
     if request.method == "GET":
         if id == 0:
@@ -332,7 +332,7 @@ def installment_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def installment_delete(request, id):
     disc = InstallmentType.objects.get(pk=id)
     disc.delete()
@@ -340,7 +340,7 @@ def installment_delete(request, id):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def usertype_list(request):
     cursor = connection.cursor()
     cursor.execute("call GetUserType()")
@@ -350,7 +350,7 @@ def usertype_list(request):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def usertype_operation(request, id=0):
     if request.method == "GET":
         if id == 0:
@@ -379,7 +379,7 @@ def usertype_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def usertype_delete(request, id):
     usertype = UserType.objects.get(pk=id)
     usertype.delete()
@@ -387,14 +387,14 @@ def usertype_delete(request, id):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def invoice_generation(request):
     context = {"product_list": Product.objects.all()}
     return render(request, "adminpanel/invoicetemplate.html", context)
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def post_list(request):
     cursor = connection.cursor()
     cursor.execute("call GetAnnouncementList()")
@@ -404,7 +404,7 @@ def post_list(request):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def discount_operation(request, id=0):
     if request.method == "GET":
         if id == 0:
@@ -439,7 +439,7 @@ def discount_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def discount_delete(request, id):
     disc = DiscountType.objects.get(pk=id)
     disc.delete()
@@ -447,7 +447,7 @@ def discount_delete(request, id):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def config_list(request):
     cursor = connection.cursor()
     cursor.execute("call GetConfigurationList()")
@@ -457,7 +457,7 @@ def config_list(request):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def config_operation(request, id=0):
     if request.method == "GET":
         if id == 0:
@@ -490,7 +490,7 @@ def config_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def orderdetailslist(request):
     cursor = connection.cursor()
     cursor.execute("call GetClientOrderDetailsList()")
@@ -502,7 +502,7 @@ def orderdetailslist(request):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
 def orderdetails_update(request, id=0):
     if request.method == "GET":
         try:

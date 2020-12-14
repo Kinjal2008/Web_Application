@@ -39,10 +39,9 @@
                     <li class="has-children">
                       <a href="#">My ProLongevity</a>
                       <ul class="dropdown">
-                        <li><a href="{% url 'plan' %}">Plan</a></li>
-                        <li><a href="#">Progress</a></li>
-                        <li><a href="#">Payment</a></li>
-                        <li><a href="#">Appointments</a></li>
+                        <li><a href="{% url 'plan' %}">My Plans (Orders)</a></li>
+                        <li><a href="#">My Progress</a></li>
+                        <li><a href="#">My Appointments</a></li>
                       </ul>
                     </li>
                   </ul>
@@ -59,6 +58,10 @@
               <span class="icon-shopping-bag"></span>
               <span class="number">{{ request.user | cart_item_count}}</span>
             </a>
+
+             <a href="#" style="padding: 0px!important;" ><i class="fa fa-info-circle tooltip">
+                <span class="tooltiptext">This is an extra discount of applying discount code.</span>
+             </i></a>
 
              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header">{{ request.user }}</span>

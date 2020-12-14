@@ -336,6 +336,17 @@
                         aria-expanded="false" aria-controls="collapsecard">Debit/Credit Card</a></h3>
                     <div class="collapse" id="collapsecard">
                          <!-- Display a payment form -->
+                        <script src="https://js.stripe.com/v3/"></script>
+                         {% if card %}
+                          <div style="padding: 5px 30px;">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="use_default_card" id="use_default_card">
+                              <label class="custom-control-label" for="use_default_card">Use default card:
+                                **** **** **** {{ card.last4 }}
+                              <span>Exp: {{ card.exp_month }}/{{ card.exp_year }}</span></label>
+                            </div>
+                          </div>
+                        {% endif %}
                         <div id="cardPaymentDetails" class="box-element">
                              <form action="." method="post" class="stripe-form" id="stripe-form">
                                 {% csrf_token %}
@@ -359,55 +370,6 @@
                                 <div id="card-errors" style="color:red;" role="alert"></div>
                                 </form>
                         </div>
-                        <!--<div class="py-2 px-4" style="padding-left: 0.5rem!important;padding-right: 0.5rem!important;">
-                            <div id="cardPaymentDetails" class="box-element">
-                                <p>Card Details:</p>
-                                <hr>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <input class="textInput form-control" id="cardName" type="text" value="" name="cardName"@ placeholder="Name On Card">
-                                        </div> <br>
-                                        <div class="col-lg-6">
-                                            <input class="textInput form-control" minlength="14" maxlength="14" id="cardNumber" type="number" value="" name="name"@ placeholder="Card Number">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <select class="form-control" name="month" id="month" >
-                                                <option value="0">- Expiry Month -</option>
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                                <option value="5">05</option>
-                                                <option value="6">06</option>
-                                                <option value="7">07</option>
-                                                <option value="8">08</option>
-                                                <option value="9">09</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <select class="form-control" name="year" id="year" >
-                                                    <option value="0"> - Expiry Year -</option>
-                                                {% for year in yearLimit %}
-                                                    <option value="{{forloop.counter}}">{{year}}</option>
-                                                {%  endfor %}
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <input class="textInput form-control" minlength="3" maxlength="3" id="cvv" type="number" value="" name="cardcvv"@ placeholder="Enter cvv">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-
                     </div>
 
                 </div>

@@ -502,6 +502,7 @@ class Payment(models.Model):
     Amount = models.FloatField(null=True, blank=True)
     Date = models.DateTimeField(null=True, auto_now_add=True)
     Is_Invoice_Sent = models.BooleanField(null=True, blank=True, default=False)
+    Stripe_Payment_Id = models.CharField(max_length=100, blank=True, null=True)
 
 
 class InstallmentDue(models.Model):
@@ -514,6 +515,8 @@ class InstallmentDue(models.Model):
     InstalmentDueDate = models.DateTimeField(null=True, auto_now_add=True)
     InstalmentReminderDay = models.IntegerField(null=True, blank=True, default=5)
     PaymentRefId = models.IntegerField(null=True, blank=True)
+    IsInstalmentPaid = models.BooleanField(null=True, blank=True, default=False)
+    OrderDetail = models.ForeignKey(OrderDetails, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class OrderDiscount(models.Model):
