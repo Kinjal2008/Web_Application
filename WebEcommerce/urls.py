@@ -10,7 +10,6 @@ urlpatterns = [
     path('shoppingcheckout/', views.checkout, name="cartcheckout"),
     path('Thankyou/', views.ThankYouView.as_view(), name="Thankyou"),
     path('placeOrder/', views.placeOrder, name="placeOrder"),
-    path('test/', views.Test.as_view(), name="test"),
     path('plan/', myaccountview.PlanView.as_view(), name="plan"),
     path('plandetail/<int:id>/', myaccountview.planDetail, name="plandetail"),
     path('payment/<int:id>/', myaccountview.paymentInstalment, name="payment"),
