@@ -35,7 +35,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
 {% load i18n %}
-<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
+<body class="layout-boxed {% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
   data-admin-utc-offset="{% now 'Z' %}" class="hold-transition sidebar-mini layout-boxed">
 
 <!-- Site wrapper -->

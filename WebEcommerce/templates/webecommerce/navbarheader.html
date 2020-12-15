@@ -24,6 +24,19 @@
               </a>
             </div>
           </div>
+            {% if request.user.is_staff %}
+            <div>
+                <label class="switch">
+                     <input type="checkbox" id="toggleViews" name="toggleViews">
+                     <div class="slider round">
+                      <!--ADDED HTML -->
+                      <span class="on">Client View</span>
+                      <span class="off">Admin View</span>
+                      <!--END-->
+                     </div>
+                </label>
+            </div>
+            {% endif %}
           <div class="main-nav d-none d-lg-block" id="menu">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">

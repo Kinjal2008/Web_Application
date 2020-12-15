@@ -95,4 +95,27 @@ $('.alert-close').on('click', function(c){
 	  		$('.message').remove();
 		});
 	});
+
+$("#toggleViews").click(function()
+{
+    // If the below condition is return False then this is in ADMIN rights page.
+    // Else it will land on Client Dashboard page.
+    // By default the view is ADMIN, so the value will be false.
+    var href = window.location.href;
+    if($('#toggleViews').prop('checked'))
+    {
+        // Land in CLIENT page.
+        url = window.location.origin + "/index"
+        $('#toggleViews').prop('checked', true);
+    }
+    else
+    {
+        // Land in ADMIN page.
+        url = window.location.origin + "/home"
+    }
+    newurl = href.replace(href,url)
+    window.location.href = newurl
+
+});
+
 });
