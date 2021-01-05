@@ -34,14 +34,15 @@
                       <tbody>
                        {% for prod in product_list %}
                         <tr>
-                            <td width="20%">{{ prod.1 }}</td>
-                            <td width="30%">{{ prod.2 }}</td>
-                            <td width="30%" title="{{ prod.3 }}">{{ prod.3|truncatechars:50 }}</td>
+                            <td width="10%">{{ prod.1 }}</td>
+                            <td width="20%">{{ prod.2 }}</td>
+                            <td width="20%" title="{{ prod.3 }}">{{ prod.3|truncatechars:30 }}</td>
                             <td class="numericValue">{{ prod.4 |floatformat:2 }}</td>
                             <td>
                                 <input type="checkbox" style="cursor:none !important;" disabled name="IsDiscountable" value="{{ prod.9 }}" {% if prod.9 %}checked{% endif %} class="textInput">
                             </td>
                              <td>
+                                 {% if request.user.is_superuser %}
                                  <a href="{% url 'Product_Update' prod.0 %}" class="btn text-secondary px-0">
                                     <i class="far fa-edit fa-lg"></i>
                                 </a>
@@ -51,6 +52,7 @@
                                         <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
                                     </button>
                                 </form>
+                                 {% endif %}
                             </td>
                         </tr>
                       {% endfor %}

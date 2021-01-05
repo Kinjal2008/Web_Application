@@ -1,4 +1,4 @@
 $(document).ready(function()
 {
-    $('#toggleViews').prop('checked', true);
+    $('#groupview').val('Client')
 });

@@ -1,4 +1,3 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,6 +10,8 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.db import connection
 from django.template.loader import render_to_string, get_template
 from django.utils.html import strip_tags
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 def login_user(request):
@@ -140,3 +141,31 @@ def get_user_details(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect("/")
+
+
+@login_required(login_url='Login')
+@CustomDecorator.allowed_users(allowed_roles=['superadmin'])
+def changeViewBySuperAdmin(request):
+
+    groupview = request.POST.get("groupview")
+
+    if request.user.groups.values_list('name', flat=True).exists():
+        group_name = request.user.groups.all()[0].name.replace(" ", "").lower()
+
+    print('GROUP NAME IS')
+    print(group_name)
+    url = '/home'
+    if (group_name == 'superadmin' and groupview.lower() == 'superadmin') \
+            or (group_name == 'superadmin' and groupview.lower() == 'admin'):
+        print('redirected to admin / super admin landing page.')
+        url = '/home'
+
+    if group_name == 'superadmin' and groupview.lower() == 'client':
+        print('redirected to client landing page.')
+        url = '/index'
+
+    if group_name == 'physician':
+        print('redirected to physician landing page.')
+        url = '/home'
+
+    return JsonResponse({"url": url}, safe=False)

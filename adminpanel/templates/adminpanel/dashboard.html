@@ -34,6 +34,57 @@
 
 
             {% endblock custom_css %}
+            <script type="text/javascript">
+        var user = '{{request.user}}'
+
+        function getToken(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getToken('csrftoken');
+
+        function getCookie(name)
+        {
+            //split cookie string and get all individual name
+
+            var cookieArr = document.cookie.split(";");
+
+            // Loop through the array elements
+            for(var i=0; i < cookieArr.length; i++)
+            {
+                var cookiePair = cookieArr[i].split("+");
+                //Removing white space at the beginning of the cookie
+                // and compare it with given string
+                if(name == cookiePair[0].trim())
+                {
+                    //Decode the cookie value and return
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            // return null if not found.
+            return null;
+        }
+        var cart = JSON.parse(getCookie('cart'))
+        if(cart == undefined)
+        {
+            cart = {}
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+        }
+
+    </script>
+
         </head>
         <!--
         BODY TAG OPTIONS:
@@ -118,6 +169,7 @@
         <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
         {% block custom_js %}
         {% endblock custom_js %}
         </body>

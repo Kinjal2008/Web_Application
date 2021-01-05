@@ -47,7 +47,8 @@
                       </p>
                     </a>
                   </li>
-                  {% if request.user.is_staff %}
+
+                  {% if request.user.is_superuser %}
                   <li class="nav-item">
                     <a href="{% url 'Usertype' %}" class="nav-link">
                         <img src="{% static 'open-iconic-master/svg/person.svg' %}" class="icon-custom-size">
@@ -56,6 +57,7 @@
                       </p>
                     </a>
                   </li>
+                  {% endif %}
                   <li class="nav-item">
                     <a href="{% url 'Product' %}" class="nav-link">
                          <i class="fa fa-pallet"></i>
@@ -72,6 +74,7 @@
                       </p>
                     </a>
                   </li>
+                  {% if request.user.is_superuser %}
                   <li class="nav-item">
                     <a href="{% url 'Discount' %}" class="nav-link">
                         <i class="money-check-alt"></i>
@@ -96,6 +99,7 @@
                       </p>
                     </a>
                   </li>
+                  {% endif %}
                   <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                       <i class="nav-icon fas fa-table"></i>
@@ -130,15 +134,6 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="nav-item">
-                    <a href="{% url 'Invoice' %}" class="nav-link">
-                      <i class=""></i>
-                      <p>
-                        Invoice
-                      </p>
-                    </a>
-                  </li>
-                  {% endif %}
                 </ul>
               </nav>
               <!-- /.sidebar-menu -->

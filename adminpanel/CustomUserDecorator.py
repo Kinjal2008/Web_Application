@@ -53,7 +53,7 @@ class CustomDecorator(ModelBackend):
 
             if request.user.groups.values_list('name', flat=True).exists():
                 print('EXISTED')
-                group_name = request.user.groups.all()[0].name
+                group_name = request.user.groups.all()[0].name.replace(" ", "").lower()
 
             print('GROUP NAME IS')
             print(group_name)

@@ -6,8 +6,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import datetime
 from django.db.models.functions import Concat
-from gateway.tphelperdev import getVars, getHashDigest, generateHashDigest
-from gateway.viewsdev import callback, callbackForPayment
 from .filters import ProductFilter
 from .util import *
 from django.conf import settings
@@ -145,9 +143,6 @@ def payment(request):
     yearList = []
     totalwithDiscount = 0
 
-    # For Payment gateway default values.
-    index_context = getVars()
-    index_context.update({'merch_hashdigest': getHashDigest(index_context)})
     IsServiceExists = False
     IsProductExists = False
     discountOnProduct = 0
@@ -193,7 +188,6 @@ def payment(request):
                'customerPersonalDiscountAmount': customerPersonalDiscountAmount,
                'IsServiceExists': IsServiceExists,
                'IsProductExists': IsProductExists,
-               'index_context': index_context
                }
     return render(request, 'manorpharmacy/ordersummary.html', context)
 

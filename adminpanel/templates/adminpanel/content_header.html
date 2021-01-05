@@ -6,17 +6,27 @@
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
+    {% if request.user.is_superuser %}
     <div>
-        <label class="switch">
-             <input type="checkbox" id="toggleViews" name="toggleViews">
-             <div class="slider round">
-              <!--ADDED HTML -->
-              <span class="on">Client View</span>
-              <span class="off">Admin View</span>
-              <!--END-->
-             </div>
-        </label>
+        <!-- VIEW SELECTION FORM -->
+        <!--    NOTE:    Change in the below options, needs to change in other place as well. -->
+        <!--    The same dropdown needs to be visible in the respective landing page. -->
+        <!--    For Client, the landing page is "WebEcommerce/templates/webecommerce/navbarheader.html"  -->
+        <!--    Also, modify the condition in admin.js for checking respective condition. -->
+        <form class="form-inline">
+            {% csrf_token %}
+            <div class="input-group input-group-sm">
+                <label>Choose the view: &nbsp; </label>
+                <select class="form-control" name="groupview" id="groupview">
+                    <option value="SuperAdmin">Super Admin</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Client">Client</option>
+                </select>
+            </div>
+        </form>
+        <!-- END VIEW SELECTION FORM -->
     </div>
+    {% endif %}
       <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">

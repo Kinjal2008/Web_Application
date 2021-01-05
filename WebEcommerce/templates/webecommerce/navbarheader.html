@@ -26,15 +26,23 @@
           </div>
             {% if request.user.is_staff %}
             <div>
-                <label class="switch">
-                     <input type="checkbox" id="toggleViews" name="toggleViews">
-                     <div class="slider round">
-                      <!--ADDED HTML -->
-                      <span class="on">Client View</span>
-                      <span class="off">Admin View</span>
-                      <!--END-->
-                     </div>
-                </label>
+                <!-- VIEW SELECTION FORM -->
+                <!--    NOTE:    Change in the below options, needs to change in other place as well. -->
+                <!--    The same dropdown needs to be visible in the respective landing page. -->
+                <!--    For Client, the landing page is "adminpanel/templates/adminpanel/content_header.html"  -->
+                <!--    Also, modify the condition in admin.js for checking respective condition. -->
+                <form class="form-inline">
+                    {% csrf_token %}
+                    <div class="input-group input-group-sm">
+                        <label>Choose the view:</label>
+                        <select class="form-control" name="groupview" id="groupview">
+                            <option value="SuperAdmin">Super Admin</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Client">Client</option>
+                        </select>
+                    </div>
+                </form>
+                <!-- END VIEW SELECTION FORM -->
             </div>
             {% endif %}
           <div class="main-nav d-none d-lg-block" id="menu">
@@ -44,6 +52,7 @@
                 <li><a href="{% url 'shop' %}">Shop</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                  {% if request.user.is_authenticated %}
                 <li class="has-children">
                   <a href="#">My Account</a>
                   <ul class="dropdown">
@@ -59,7 +68,7 @@
                     </li>
                   </ul>
                 </li>
-
+                {% endif %}
               </ul>
             </nav>
           </div>
@@ -67,16 +76,12 @@
             {% if request.user.is_authenticated %}
             <strong><span>{{request.user}}</span></strong>
             <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
-            <a href="{% url 'cart' %}" class="icons-btn d-inline-block bag" id="cartlistdropdown">
+            <a href="{% url 'cart' %}" class="icons-btn d-inline-block bag cartlistdropdown" id="cartlistdropdown">
               <span class="icon-shopping-bag"></span>
               <span class="number">{{ request.user | cart_item_count}}</span>
             </a>
 
-             <a href="#" style="padding: 0px!important;" ><i class="fa fa-info-circle tooltip">
-                <span class="tooltiptext">This is an extra discount of applying discount code.</span>
-             </i></a>
-
-             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right hideCartItemFromHome" style="right: 150px !important;">
                 <span class="dropdown-item dropdown-header">{{ request.user }}</span>
                 <div>
                  {% for item in orderitems %}

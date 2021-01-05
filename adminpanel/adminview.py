@@ -227,7 +227,7 @@ def product_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin'])
 def product_delete(request, id):
     prod = Product.objects.get(pk=id)
     prod.delete()
@@ -281,7 +281,7 @@ def service_operation(request, id=0):
 
 
 @login_required(login_url='Login')
-@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
+@CustomDecorator.allowed_users(allowed_roles=['superadmin'])
 def service_delete(request, id):
     service = Product.objects.get(pk=id)
     service.delete()

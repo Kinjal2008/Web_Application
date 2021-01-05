@@ -46,6 +46,7 @@ urlpatterns = [
     path('Configuration/Add', adminview.config_operation, name="Configuration_Add"),
     path('Configuration/<int:id>/', adminview.config_operation, name="Configuration_Update"),
     path('Order/', adminview.orderdetailslist, name="OrderDetails"),
-    path('Order/<int:id>/', adminview.orderdetails_update, name="Orderdetails_Update")
+    path('Order/<int:id>/', adminview.orderdetails_update, name="Orderdetails_Update"),
+    path('changeViewBySuperAdmin/', views.changeViewBySuperAdmin, name="changeViewBySuperAdmin"),
 
 ]

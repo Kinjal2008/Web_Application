@@ -183,6 +183,40 @@ h1,h2,h3,h4,h5,h6{
   opacity: 1;
 }
 
+.tooltip .tooltiptextCartDisplay {
+  visibility: hidden;
+  width: 200px;
+  background-color: white;
+  color: black;
+  border-style:solid;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 125%;
+  margin-left: -60px;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptextCartDisplay::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptextCartDisplay {
+  visibility: visible;
+  opacity: 1;
+}
+
+
 .plan-tile .price-breakdown-link {
     border: 1px solid transparent;
     color: #000586;
@@ -657,4 +691,12 @@ input:checked + .slider .off
 .slider.round:before
 {
   border-radius: 50%;
+}
+
+.hideCartItemFromHome {
+  display: none;
+}
+
+.cartlistdropdown:hover + .hideCartItemFromHome {
+  display: block;
 }

@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, myaccountview
+from . import views, myaccountview, AutoReminderEmailForInstalmentPayment
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name="index"),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('plandetail/<int:id>/', myaccountview.planDetail, name="plandetail"),
     path('payment/<int:id>/', myaccountview.paymentInstalment, name="payment"),
     path('payInstalmentDue/', myaccountview.payInstalmentDue, name="payInstalmentDue"),
+
     ]

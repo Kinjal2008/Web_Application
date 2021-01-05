@@ -37,13 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    # 'ManorPharmacy.apps.ManorpharmacyConfig',
     'adminpanel.apps.AdminConfig',
-    'gateway.apps.GatewayConfig',
     'crispy_forms',
     'django_countries',
     'WebEcommerce.apps.WebecommerceConfig',
-    'stripe'
+    'stripe',
 ]
 
 SITE_ID = 1
@@ -148,6 +146,10 @@ AUTHENTICATION_BACKENDS = [
     'adminpanel.CustomUserDecorator.CustomDecorator'
 ]
 
+# Set the number of days prior to which we need to send Automatic email reminder to client.
+# It will be used in AutoReminderEmailForInstalmentPayment.py file.
+
+EMAIL_REMINDER_DAYS = 5
 
 # SMTP Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

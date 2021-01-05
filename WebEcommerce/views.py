@@ -38,6 +38,7 @@ class IndexView(ListView):
         context['AnnouncementPost'] = AnnouncementPost.objects.filter(IsActive=1)
         # Fetch Cart Details for customers to display on cart hover.
         orderitems = {}
+        order = {}
         if self.request.user.id is not None:
             customer = self.request.user.customer
             try:
@@ -69,13 +70,16 @@ class ShopView(ListView):
         allProducts.append(services)
         context['allProducts'] = allProducts
         # Fetch Cart Details for customers to display on cart hover.
-        customer = self.request.user.customer
-        try:
-            order = Order.objects.get(Customer=customer, IsOrderCompleted=False)
-            orderitems = order.orderdetails_set.all()
-        except ObjectDoesNotExist:
-            order = {}
-            orderitems = {}
+        order = {}
+        orderitems = {}
+        if self.request.user.id is not None:
+            try:
+                customer = self.request.user.customer
+                order = Order.objects.get(Customer=customer, IsOrderCompleted=False)
+                orderitems = order.orderdetails_set.all()
+            except ObjectDoesNotExist:
+                order = {}
+                orderitems = {}
 
         context['orderitems'] = orderitems
         # And so on for more models
@@ -419,7 +423,7 @@ def placeOrder(request):
         fromEmail = settings.EMAIL_HOST_USER
         to_list = [data['User']['email']]
         try:
-            html_content = render_to_string("emailInvoice/InvoiceContent.html", {'username': data['User']['name']})
+            html_content = render_to_string("emailpaymentInvoice/InvoiceContent.html", {'username': data['User']['name']})
             text_content = strip_tags(html_content)
             emailsend = EmailMultiAlternatives(
                 subject,
