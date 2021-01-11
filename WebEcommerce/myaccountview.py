@@ -2,6 +2,7 @@ import datetime
 import json
 import stripe
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives
 from django.db import connection
@@ -48,6 +49,7 @@ class PlanView(ListView):
 # This function display the customer's full order details based on the order number. Fpr that selected order number,
 # whether the payment was done in Full or instalment, it will display the details accordingly.
 # On the site it will be display under: My Account/My ProLongevity / My Plans / Details.
+@login_required(login_url='Login')
 def planDetail(request, id):
     try:
         customer = request.user.customer

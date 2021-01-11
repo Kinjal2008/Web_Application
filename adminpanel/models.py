@@ -50,8 +50,6 @@ class Customer(models.Model):
     PersonalDiscount = models.FloatField(default=0, null=True, blank=True,
                                          validators=[MinValueValidator(0), MaxValueValidator(100)])
     Stripe_Id = models.CharField(max_length=255,blank=True, null=True)
-    Stripe_Subscription_Id = models.CharField(max_length=255, blank=True, null=True)
-    IsSubscriptionCanceled = models.BooleanField(default=False, blank=True, null=True)
 
 
 ADDRESS_CHOICES = (

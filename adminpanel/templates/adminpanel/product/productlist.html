@@ -24,11 +24,13 @@
                                   <th>Description</th>
                                   <th>Price</th>
                                   <th>Discountable</th>
+                                {% if request.user.is_superuser %}
                                   <th>
                                     <a href="{% url 'Product_Add' %}" class="btn btn-outline-success">
                                         <i class="far fa-plus"></i> Add New
                                     </a>
                                   </th>
+                                {% endif %}
                             </tr>
                       </thead>
                       <tbody>

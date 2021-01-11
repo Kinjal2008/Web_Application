@@ -21,7 +21,7 @@
               <!-- Sidebar Menu -->
               <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                   {% if request.user.is_staff %}
+
                   <li class="nav-item">
                         <a href="{% url 'DashboardHome' %}" class="nav-link">
                             <img src="{% static 'open-iconic-master/svg/dashboard.svg' %}" class="icon-custom-size">
@@ -30,6 +30,7 @@
                           </p>
                         </a>
                     </li>
+                  {% if request.user.is_superuser %}
                   <li class="nav-item">
                         <a href="{% url 'admin' %}" class="nav-link">
                             <img src="{% static 'open-iconic-master/svg/dashboard.svg' %}" class="icon-custom-size">

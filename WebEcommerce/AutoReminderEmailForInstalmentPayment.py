@@ -21,7 +21,6 @@ def SendEmail():
     todaysdate = datetime.timedelta(days=settings.EMAIL_REMINDER_DAYS)
     instalmentReminderDate = datetime.date.today() + todaysdate
     instalmentDueDetails = InstallmentDue.objects.filter(IsInstalmentPaid=0, InstalmentDueDate=instalmentReminderDate)
-
     for dues in instalmentDueDetails:
         customer_id = dues.Customer_Id
         customer = Customer.objects.get(Customer_Id=customer_id)
@@ -51,12 +50,10 @@ def SendEmail():
                 to_list
             )
             emailsend.attach_alternative(html_content, "text/html")
-            # emailsend.send()
-
+            emailsend.send()
             print('email sent')
             logfile.write("Sent reminder email to : " + customer_name + " at " + str(datetime.date.today()) + '\n')
             print('Done..!')
-
         except Exception as e:
             print('in catch for email send')
             print('Error Is:', str(e))

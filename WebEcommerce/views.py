@@ -40,14 +40,15 @@ class IndexView(ListView):
         orderitems = {}
         order = {}
         if self.request.user.id is not None:
-            customer = self.request.user.customer
-            try:
-                order = Order.objects.get(Customer=customer, IsOrderCompleted=False)
-                orderitems = order.orderdetails_set.all()
-            except ObjectDoesNotExist:
-                order = {}
+            hasCustomer = hasattr(self.request.user, 'customer')
+            if hasCustomer:
+                try:
+                    customer = self.request.user.customer
+                    order = Order.objects.get(Customer=customer, IsOrderCompleted=False)
+                    orderitems = order.orderdetails_set.all()
+                except ObjectDoesNotExist:
+                    order = {}
         context['orderitems'] = orderitems
-
         return context
 
 

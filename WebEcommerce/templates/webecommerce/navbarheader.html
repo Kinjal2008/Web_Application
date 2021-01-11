@@ -34,10 +34,11 @@
                 <form class="form-inline">
                     {% csrf_token %}
                     <div class="input-group input-group-sm">
-                        <label>Choose the view:</label>
+                        <label>View:</label>
                         <select class="form-control" name="groupview" id="groupview">
                             <option value="SuperAdmin">Super Admin</option>
-                            <option value="Admin">Admin</option>
+                            <option value="Practitioner">Practitioner</option>
+                            <option value="Consultant">Consultant</option>
                             <option value="Client">Client</option>
                         </select>
                     </div>

@@ -15,10 +15,13 @@ from django.http import JsonResponse
 
 
 def login_user(request):
+    next = ''
+    if request.GET:
+        next = request.GET['next']
     if request.user.is_authenticated:
         return redirect('/home')
     else:
-        return render(request, 'login.html')
+        return render(request, 'login.html', context={'next': next})
 
 
 @CustomDecorator.unauthenticated_user
@@ -50,14 +53,12 @@ def registration(request):
                 str = referralid
                 cursor.callproc('GetCustomerDetailsByUserId', [str])
                 refereeDetails = cursor.fetchone()
-
-                referralCustomerId = refereeDetails[0]
+                referralCustomerId = 0
+                if refereeDetails is not None:
+                    referralCustomerId = refereeDetails[0]
                 cursor.callproc('InsertUserCustomerRegistrationDetails',
                                 [firstname, username, lastname, password, email, referralCustomerId])
                 username = form.cleaned_data.get("username")
-
-                # group = Group.objects.get(name='customer')
-                # new_user.groups.add(group)
 
                 subject = 'Thank you for your registration.'
                 fromEmail = settings.EMAIL_HOST_USER
@@ -75,7 +76,7 @@ def registration(request):
                     emailsend.attach_alternative(html_content, "text/html")
                     emailsend.send()
 
-                    # Email sent to Referree
+                    # Email sent to Referee
                     if int(referralid) > 0:
 
                         # Fetch Referee emailid from the UserId:
@@ -118,6 +119,7 @@ def registration(request):
 
 @CustomDecorator.unauthenticated_user
 def dologin(request):
+    redirectUrl = request.POST.get('next')
     if request.method != "POST":
         return HttpResponse("<h2>Login not allowed</h2>")
     else:
@@ -125,7 +127,12 @@ def dologin(request):
                                             password=request.POST.get("password"))
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect("/home")
+            # next contain the URL of Plan detail when client receives an email regarding instalment payment. The URL
+            # to which client needs to redirect after login, will be stored in next variable of the request path.
+            if redirectUrl == "":
+                return HttpResponseRedirect("/home")
+            else:
+                return HttpResponseRedirect(redirectUrl)
         else:
             messages.error(request, "Invalid Login Details")
             return HttpResponseRedirect("/")

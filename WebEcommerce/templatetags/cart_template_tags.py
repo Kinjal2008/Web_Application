@@ -8,15 +8,14 @@ register = template.Library()
 def cart_item_count(user):
     print('cart item')
     if user.is_authenticated:
-        customer = user.customer
-        order = Order.objects.filter(Customer=customer, IsOrderCompleted=False)
-        print(order)
-        if len(order) > 0:
-            orderitems = OrderDetails.objects.filter(Order_id=order[0])
-            total = sum([item.Quantity for item in orderitems])
-            print(total)
-            return total
-
+        hasCustomer = hasattr(user, 'customer')
+        if hasCustomer:
+            customer = user.customer
+            order = Order.objects.filter(Customer=customer, IsOrderCompleted=False)
+            if len(order) > 0:
+                orderitems = OrderDetails.objects.filter(Order_id=order[0])
+                total = sum([item.Quantity for item in orderitems])
+                return total
     return 0
 
 
