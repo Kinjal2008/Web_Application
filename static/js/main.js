@@ -55,33 +55,33 @@ $('#category').change(function(){
     });
 });
 
-    $(".numbers").change(function()
+$(".numbers").change(function()
+{
+    var productId = this.dataset.product
+    selectedValue = $('#noofusers'+productId).val()
+    if(selectedValue == "1")
     {
-        var productId = this.dataset.product
-        selectedValue = $('#noofusers'+productId).val()
-        if(selectedValue == "1")
-        {
-            $("#noOfUserOne"+productId).show();
-            $("#noOfUserTwo"+productId).hide();
-            $("#TotalAmount"+productId).show();
-            $("#TotalAmountForMultiplePerson"+productId).hide();
+        $("#noOfUserOne"+productId).show();
+        $("#noOfUserTwo"+productId).hide();
+        $("#TotalAmount"+productId).show();
+        $("#TotalAmountForMultiplePerson"+productId).hide();
 
-            document.getElementById('lblNoOfUser'+productId).innerHTML = '(For one client)'
-        }
-        else
-        {
-            $("#noOfUserOne"+productId).hide();
-            $("#noOfUserTwo"+productId).show();
-            $("#TotalAmount"+productId).hide();
-            $("#TotalAmountForMultiplePerson"+productId).show();
-            document.getElementById('lblNoOfUser'+productId).innerHTML = '(For two clients)'
-        }
-    });
+        document.getElementById('lblNoOfUser'+productId).innerHTML = '(For one client)'
+    }
+    else
+    {
+        $("#noOfUserOne"+productId).hide();
+        $("#noOfUserTwo"+productId).show();
+        $("#TotalAmount"+productId).hide();
+        $("#TotalAmountForMultiplePerson"+productId).show();
+        document.getElementById('lblNoOfUser'+productId).innerHTML = '(For two clients)'
+    }
+});
 
-    $('#menu li').on('click', function(){
-        $('#menu li.active').removeClass('active');
-        $(this).addClass('active');
-    });
+$('#menu li').on('click', function(){
+    $('#menu li.active').removeClass('active');
+    $(this).addClass('active');
+});
 
 $('.alert-close').on('click', function(c)
 {

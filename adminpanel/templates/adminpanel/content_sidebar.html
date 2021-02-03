@@ -33,16 +33,24 @@
                   {% if request.user.is_superuser %}
                   <li class="nav-item">
                         <a href="{% url 'admin' %}" class="nav-link">
-                            <img src="{% static 'open-iconic-master/svg/dashboard.svg' %}" class="icon-custom-size">
+                            <img src="{% static 'open-iconic-master/svg/person.svg' %}" class="icon-custom-size">
                           <p>
                             Admin
+                          </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'ActivityLog' %}" class="nav-link">
+                            <img src="{% static 'open-iconic-master/svg/monitor.svg' %}" class="icon-custom-size">
+                          <p>
+                            Activity Logs
                           </p>
                         </a>
                     </li>
                    {% endif %}
                   <li class="nav-item">
                     <a href="{% url 'Customer' %}" class="nav-link">
-                        <img src="{% static 'open-iconic-master/svg/person.svg' %}" class="icon-custom-size">
+                        <img src="{% static 'open-iconic-master/svg/people.svg' %}" class="icon-custom-size">
                       <p>
                         Clients
                       </p>
@@ -69,7 +77,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="{% url 'Service' %}" class="nav-link">
-                         <i class="fa fa-pallet"></i>
+                         <i class="fa fa-list"></i>
                       <p>
                         Services
                       </p>
@@ -78,23 +86,25 @@
                   {% if request.user.is_superuser %}
                   <li class="nav-item">
                     <a href="{% url 'Discount' %}" class="nav-link">
-                        <i class="money-check-alt"></i>
+                      <i class="fa fa-minus"></i>
                       <p>
                         Discount
                       </p>
                     </a>
                   </li>
+                  {% endif %}
                   <li class="nav-item">
                     <a href="{% url 'Post' %}" class="nav-link">
-                      <i class=""></i>
+                      <i class="fa fa-bell"></i>
                       <p>
                         Announcements
                       </p>
                     </a>
                   </li>
+                  {% if request.user.is_superuser %}
                   <li class="nav-item">
                     <a href="{% url 'Configuration' %}" class="nav-link">
-                      <i class=""></i>
+                      <img src="{% static 'open-iconic-master/svg/cog.svg' %}" class="icon-custom-size">
                       <p>
                         Configuration
                       </p>
@@ -103,10 +113,10 @@
                   {% endif %}
                   <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                      <i class="nav-icon fas fa-table"></i>
+                      <img src="{% static 'open-iconic-master/svg/project.svg' %}" class="icon-custom-size">
                       <p>
                         Manage Orders
-                        <i class="fas fa-angle-left right"></i>
+                        <i class="fas fa-angle-right right"></i>
                       </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -123,14 +133,32 @@
                       <i class="nav-icon fas fa-table"></i>
                       <p>
                         Reports
-                        <i class="fas fa-angle-left right"></i>
+                        <i class="fas fa-angle-right right"></i>
                       </p>
                     </a>
                     <ul class="nav nav-treeview">
-                      <li class="nav-item">
+                      <!--<li class="nav-item">
                         <a href="{% url 'OrderSummary' %}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Order Summary</p>
+                        </a>
+                      </li>-->
+                      <li class="nav-item">
+                        <a href="{% url 'OrderDetails' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Order Details</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'ReportByClient' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Report by Client</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'ReportByProduct' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Report by Product</p>
                         </a>
                       </li>
                     </ul>

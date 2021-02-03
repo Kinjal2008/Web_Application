@@ -1,0 +1,146 @@
+{% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+
+
+{% block main_content %}
+    <br>
+    <div class="container">
+        <div class="row row-class">
+
+                <h3 >Order Details Report</h3>
+
+
+            <div class="main-content">
+                <div class="col-md-12 mb-12 mb-md-0">
+                    <form action="searchOrderDetails/" method="post">
+                    <div class="p-3 border">
+                        <div class="row">
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                <div id="div_duration_from" class="form-group">
+                                    <label for="DiscountFrom" class="col-form-label">
+                                        Date From
+                                    </label>
+                                <div class="">
+                                    <input type="date" name="dateFrom" id="dateFrom" value="{0:dd/mm/yyyy}" dataformatas="dd/mm/yyyy" placeholder="dd/mm/yyyy" value="" class="textInput form-control">
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div id="div_duration_to" class="form-group">
+                                    <label for="DiscountTo" class="col-form-label">
+                                        Date To
+                                    </label>
+                                <div class="">
+                                    <input type="date" name="dateTo" id="dateTo" value="{0:dd/mm/yyyy}" dataformatas="dd/mm/yyyy" placeholder="dd/mm/yyyy" value="" class="textInput form-control">
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                </div>
+                                <div>
+                                     <button type="submit" class="btn btn-navbar btn btn-sm height-auto px-2 py-2" style="background-color: #f2f4f6;font-size: large;border: 1px solid #ced4da;">
+                                        <i class="fas fa-search"></i>&nbsp;Search
+                                     </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <br>
+               <div class="row">
+                    <div class="col-12">
+                    <div class="card">
+                         <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                                  <thead>
+                                        <tr>
+                                            <th>Client</th>
+                                            <th>Purchase Date</th>
+                                            <th>Actual amount</th>
+                                            <th>Amount paid</th>
+                                            <th>Discount received</th>
+                                            <th>Payment Method</th>
+                                            <th></th>
+                                        </tr>
+                                  </thead>
+                                  <tbody>
+                                   {% for order in paymentorder %}
+                                    <tr>
+                                        <!--<td>
+                                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                            <li class="nav-item has-treeview">
+                                            <a href="#" class="nav-link">
+                                              <p>
+                                                <i class="fas fa-angle-right right"></i>
+                                              </p>
+                                            </a>
+                                            <ul class="nav nav-treeview">
+                                                <li class="nav-item">
+                                                    <table class="table table-hover text-nowrap">
+                                                          <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Client</th>
+                                                                    <th>Purchase Date</th>
+                                                                    <th>Actual amount</th>
+                                                                    <th>Amount paid</th>
+                                                                    <th>Discount received</th>
+                                                                    <th>Payment Method</th>
+                                                                </tr>
+                                                          </thead>
+                                                          <tbody>
+
+                                                          </tbody>
+                                                    </table>
+                                                </li>
+                                            </ul>
+                                            </li>
+                                            </ul>
+                                        </td>-->
+                                        <td>{{ order.0 }}</td>
+                                        <td>{{ order.1 }}</td>
+                                        <td>£{{ order.2 |floatformat:2}}</td>
+                                        <td>£{{ order.3 |floatformat:2}}</td>
+                                        <td>£{{ order.4 |floatformat:2}}</td>
+                                        <td>{{ order.5 }}</td>
+                                        <td title="Click to view details">
+                                        <a href="{% url 'orderDetails_Viewdetails' order.7 %}"  class="btn btn-outline-primary" style="color:blue;">
+                                            <i class="fas fa-align-justify"></i> &nbsp; View Order Details
+                                        </a>
+                                    </td>
+                                    </tr>
+                                  {% endfor %}
+                                  </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+               </div>
+               {% if paymentorder.has_other_pages %}
+                  <ul class="pagination">
+                    {% if paymentorder.has_previous %}
+                      <li><a href="?page={{ paymentorder.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paymentorder.paginator.page_range %}
+                      {% if paymentorder.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if paymentorder.has_next %}
+                      <li><a href="?page={{ paymentorder.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}

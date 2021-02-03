@@ -9,6 +9,7 @@ from django.db.utils import OperationalError
 from django.contrib.auth.decorators import login_required
 from adminpanel.CustomUserDecorator import CustomDecorator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import json
 
 
 @login_required(login_url='Login')
@@ -400,7 +401,78 @@ def post_list(request):
     cursor.execute("call GetAnnouncementList()")
     results = cursor.fetchall()
     context = {"post_list": results}
+    code = request.POST.get('DiscountCode')
+    print('code', code)
     return render(request, "adminpanel/post/postlist.html", context)
+
+
+@login_required(login_url='Login')
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
+def post_operation(request, id=0):
+    cursor = connection.cursor()
+    if request.method == "GET":
+        if id == 0:
+            posts = PostTypeForm()
+        else:
+            try:
+                cursor.callproc('GetAnnouncementPostById', [id])
+                posts = cursor.fetchone()
+                print('posts', posts)
+            except ConnectionError as e:
+                print('ERROR IS: ')
+                print(format(e))
+            finally:
+                cursor.close()
+
+        return render(request, "adminpanel/post/postoperation.html", {'form': posts})
+    else:
+        userid = int(request.user.id)
+        Title1 = request.POST.get("Title1")
+        Title2 = request.POST.get("Title2")
+        Description = request.POST.get("Description")
+
+        if id == 0:
+            form = PostTypeForm(request.POST)
+            data = {"Announcement_Id": "0", "Title1": Title1, "Title2": Title2, "Description": Description}
+            dataInString = json.dumps(data)
+            cursor.callproc('InsertUpdateActivityLog', [dataInString, 1, userid])
+        else:
+            posts = AnnouncementPost.objects.get(pk=id)
+            form = PostTypeForm(request.POST, instance=posts)
+            data = {"Announcement_Id": id, "Title1": Title1, "Title2": Title2, "Description": Description}
+            dataInString = json.dumps(data)
+            cursor.callproc('InsertUpdateActivityLog', [dataInString, 2, userid])
+        if form.is_valid():
+            form.save()
+        return redirect('/Post')
+
+
+@login_required(login_url='Login')
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
+def post_delete(request, id):
+    cursor = connection.cursor()
+    userid = int(request.user.id)
+    Title1 = request.POST.get("Title1")
+    Title2 = request.POST.get("Title2")
+    Description = request.POST.get("Description")
+    data = {"Announcement_Id": id, "Title1": Title1, "Title2": Title2, "Description": Description}
+    dataInString = json.dumps(data)
+    posts = AnnouncementPost.objects.get(pk=id)
+    cursor.callproc('InsertUpdateActivityLog', [dataInString, 2, userid])
+    posts.delete()
+    return redirect('/Post')
+
+
+@login_required(login_url='Login')
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
+def activitylog_list(request):
+    cursor = connection.cursor()
+    cursor.execute("call GetActivityLogList()")
+    results = cursor.fetchall()
+    print('in activity log list')
+    print(results)
+    context = {"activitylog_list": results}
+    return render(request, "adminpanel/activitylog/activityloglist.html", context)
 
 
 @login_required(login_url='Login')
@@ -425,6 +497,7 @@ def discount_operation(request, id=0):
     else:
         if id == 0:
             form = DiscountTypeForm(request.POST)
+            # log(user=request.user, action="Add Discount", extra={"DiscountCode":})
         else:
             disc = DiscountType.objects.get(pk=id)
             form = DiscountTypeForm(request.POST, instance=disc)

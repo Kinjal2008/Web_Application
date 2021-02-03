@@ -1,9 +1,12 @@
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
+from eventlog.models import log
+import jsonfield
 
 
 class UserType(models.Model):
@@ -548,10 +551,10 @@ class ActivityType(models.Model):
 
 class ActivityLog(models.Model):
     ActivityLogId = models.AutoField(primary_key=True)
-    ActivityDescription = models.CharField(null=True, blank=True, max_length=2000)
-    CreatedBy = models.CharField(null=True, blank=True, max_length=50)
-    CreatedDate = models.DateField(null=True, blank=True, auto_now_add=True)
+    ActivityDescription = jsonfield.JSONField(null=True, blank=True)
+    LogCreatedDate = models.DateField(null=True, blank=True, auto_now_add=True)
     ActivityType = models.ForeignKey(ActivityType, on_delete=models.CASCADE, null=True, blank=True)
+    User = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
 
 # To store default configuration for the application like Email, password, Instalment Reminder days, etc.

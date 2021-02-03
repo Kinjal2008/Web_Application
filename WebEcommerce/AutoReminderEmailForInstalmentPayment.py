@@ -27,10 +27,12 @@ def SendEmail():
         customer_name = customer.First_Name + ' ' + customer.Last_Name
         customer_email = customer.Email
         orderid = dues.Order_id
-        duedate = formats.date_format(dues.InstalmentDueDate, "SHORT_DATETIME_FORMAT")
-        print('duedate', duedate)
+        instalmentDueId = dues.Installment_Due_Id
+        duedate = formats.date_format(dues.InstalmentDueDate, "SHORT_DATE_FORMAT")
+        order = Order.objects.get(Order_Id=dues.Order_id)
+        orderDate = formats.date_format(order.OrderCompletionDate, "SHORT_DATE_FORMAT")
         current_site = 'http://127.0.0.1:8000/'  # Site.objects.get_current()
-        url = str(current_site) + 'plandetail/' + str(orderid)
+        url = str(current_site) + 'payment/' + str(instalmentDueId)
         subject = 'Reminder for Instalment Due'
         fromEmail = settings.EMAIL_HOST_USER
         to_list = [customer_email]
@@ -40,6 +42,7 @@ def SendEmail():
                                             {'username': customer_name,
                                              'orderNumber': orderid,
                                              'duedate': duedate,
+                                             'orderDate': orderDate,
                                              'site': url})
             text_content = strip_tags(html_content)
 

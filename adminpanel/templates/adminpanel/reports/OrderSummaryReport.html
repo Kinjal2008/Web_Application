@@ -24,7 +24,7 @@
                                             <th>Item</th>
                                             <th>Actual amount</th>
                                             <th>Amount paid</th>
-                                            <th>Full payment discount amount</th>
+                                            <th>Discount received</th>
                                             <th>Payment Method</th>
                                         </tr>
                                   </thead>
@@ -34,9 +34,9 @@
                                         <td>{{ order.0 }}</td>
                                         <td>{{ order.1 }}</td>
                                         <td>{{ order.2 }}</td>
-                                        <td>{{ order.3 }}</td>
-                                        <td>{{ order.4 }}</td>
-                                        <td>{{ order.5 }}</td>
+                                        <td>£{{ order.3 |floatformat:2}}</td>
+                                        <td>£{{ order.4 |floatformat:2}}</td>
+                                        <td>£{{ order.5 |floatformat:2}}</td>
                                         <td>{{ order.6 }}</td>
                                     </tr>
                                   {% endfor %}
@@ -44,8 +44,29 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                    </div>
                </div>
+               {% if paymentorder.has_other_pages %}
+                  <ul class="pagination">
+                    {% if paymentorder.has_previous %}
+                      <li><a href="?page={{ paymentorder.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paymentorder.paginator.page_range %}
+                      {% if paymentorder.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if paymentorder.has_next %}
+                      <li><a href="?page={{ paymentorder.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
             </div>
         </div>
     </div>

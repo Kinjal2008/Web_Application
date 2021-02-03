@@ -71,6 +71,7 @@ def planDetail(request, id):
 
 # This function will display the number of instalments under that order number.
 # On the site it will be display under: My Account/My ProLongevity / My Plans / Details / Instalment Details.
+@login_required(login_url='Login')
 def paymentInstalment(request, id):
     try:
         totalinstalments = InstallmentDue.objects.filter(Installment_Due_Id=id)

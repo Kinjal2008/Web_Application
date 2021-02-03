@@ -1,0 +1,36 @@
+{% extends 'adminpanel/activitylog/activitylog.html' %}
+
+{% block activitylog_content %}
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+              <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                          <thead>
+                                <tr>
+                                      <th>Description</th>
+                                      <th>Operation Performed</th>
+                                      <th>Operation Performed Date</th>
+                                      <th>User Name</th>
+                                </tr>
+                          </thead>
+                          <tbody>
+                           {% for activity in activitylog_list %}
+                            <tr>
+                                  <td title="{{activity.1}}">{{ activity.1|truncatechars:50 }}</td>
+                                  <td>{{ activity.2 }}</td>
+                                  <td>{{ activity.4 }}</td>
+                                  <td>{{ activity.3 }}</td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                    </table>
+              </div>
+              <!-- /.card-body -->
+        </div>
+    <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+{% endblock activitylog_content %}

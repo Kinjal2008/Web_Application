@@ -63,3 +63,9 @@ class ConfigurationForm(forms.ModelForm):
     #     queryset = super(InstallmentTypeForm, self).get_queryset(request)
     #     queryset = queryset.order_by('Installment_Type')
     #     return queryset
+
+
+class PostTypeForm(forms.ModelForm):
+    class Meta:
+        model = AnnouncementPost
+        fields = "__all__"

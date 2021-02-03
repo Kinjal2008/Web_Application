@@ -1,0 +1,54 @@
+{% extends 'adminpanel/post/post.html' %}
+{% load static %}
+{% block post_content %}
+<form method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br>
+        <div class="row">
+            <div class="col-md-4">
+                <div id="div_name" class="form-group">
+                    <label for="Title1" class="col-form-label  requiredField">
+                        Title1<span class="asteriskField">*</span>
+                    </label>
+                <div class="">
+                    <input type="text" name="Title1" value="{{ form.1 }}" maxlength="200" class="textinput form-control" required="" >
+                </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div id="div_code" class="form-group">
+                    <label for="Title2" class="col-form-label  requiredField">
+                        Title2<span class="asteriskField">*</span>
+                    </label>
+                <div class="">
+                    <input type="text" name="Title2" value="{{ form.2 }}" maxlength="200" class="textinput form-control" required="" >
+                   </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-md-12">
+                <div id="div_description" class="form-group">
+                    <label for="Description" class="col-form-label  requiredField">
+                        Description<span class="asteriskField">*</span>
+                    </label>
+                    <div class="">
+                        <input type="text" name="Description" value="{{ form.3 }}" maxlength="2000" class="textInput form-control" required="" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success btn-lg btn-border"> <i class="fas fa-save"></i> Save </button>
+                <a href="{% url 'Post' %}" class="btn btn-secondary btn-lg btn-border">
+                    <i class="fas fa-stream"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+<!-- Accordion wrapper -->
+</form>
+{% endblock post_content %}

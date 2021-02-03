@@ -325,6 +325,10 @@ def placeOrder(request):
             # Payment Integration
             token = data['token']  # request.POST.get("stripeToken")
             paymentDescription = 'Payment Done by ' + data['User']['name']
+            print('Live API')
+            print(total)
+            total = 1
+            print('TOTAL SHOULD BE 1 AFTER', total)
             charge = stripe.Charge.create(
                 amount=int(total * 100),
                 currency="gbp",

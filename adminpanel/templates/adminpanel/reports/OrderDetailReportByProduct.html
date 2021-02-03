@@ -1,0 +1,106 @@
+{% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+
+
+{% block main_content %}
+    <br>
+    <div class="container">
+        <div class="row row-class">
+            <div>
+                <h3 class="display-5">Order Details By Product</h3>
+            </div>
+
+            <div class="main-content">
+                 <div class="col-md-12 mb-12 mb-md-0">
+                    <form action="searchProductOrders/" method="post">
+                    <div class="p-3 border">
+                        <div class="row">
+                            {% csrf_token %}
+                            <div class="col-md-4">
+                                Search By Product:
+                                    <select class="form-control" style="width:80%;" name="searchByProduct" id="searchByProduct" >
+                                        <option value="0"> - All -</option>
+                                            {% for product in products %}
+                                        <option value="{{product.Product_Id}}">{{product.Name}}</option>
+                                            {%  endfor %}
+                                    </select>
+                            </div>
+                            <div class="col-md-4" style="display:none;">
+                                Search By Service:
+                                    <select class="form-control" style="width:90%;" name="searchByService" id="searchByService" >
+                                        <option value="0"> - All -</option>
+                                            {% for service in services %}
+                                        <option value="{{service.Product_Id}}">{{service.Name}}</option>
+                                            {%  endfor %}
+                                    </select>
+                            </div>
+                            <div class="col-md-4 mb-5 mb-md-0">
+                                 <button type="submit" class="btn btn-navbar btn btn-sm height-auto px-2 py-2" style="background-color: #f2f4f6;font-size: large;border: 1px solid #ced4da;">
+                                <i class="fas fa-search"></i>&nbsp;Search
+                              </button>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+               <div class="row">
+                    <div class="col-12">
+                    <div class="card">
+                         <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                                  <thead>
+                                        <tr>
+                                            <th>Client</th>
+                                            <th>Purchase Date</th>
+                                            <th>Item</th>
+                                            <th>Quantity</th>
+                                            <th>Actual amount</th>
+                                            <th>Amount paid</th>
+                                            <th>Discount received</th>
+                                            <th>Payment Method</th>
+                                        </tr>
+                                  </thead>
+                                  <tbody>
+                                   {% for order in paymentorder %}
+                                    <tr>
+                                        <td>{{ order.0 }}</td>
+                                        <td>{{ order.1 }}</td>
+                                        <td>{{ order.2 }}</td>
+                                        <td>{{ order.9 }}</td>
+                                        <td>£{{ order.3 |floatformat:2}}</td>
+                                        <td>£{{ order.4 |floatformat:2}}</td>
+                                        <td>£{{ order.5 |floatformat:2}}</td>
+                                        <td>{{ order.6 }}</td>
+                                    </tr>
+                                  {% endfor %}
+                                  </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+               </div>
+               {% if paymentorder.has_other_pages %}
+                  <ul class="pagination">
+                    {% if paymentorder.has_previous %}
+                      <li><a href="?page={{ paymentorder.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paymentorder.paginator.page_range %}
+                      {% if paymentorder.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if paymentorder.has_next %}
+                      <li><a href="?page={{ paymentorder.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}

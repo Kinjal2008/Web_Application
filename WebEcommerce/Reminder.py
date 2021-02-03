@@ -5,6 +5,6 @@ from WebEcommerce.AutoReminderEmailForInstalmentPayment import SendEmail
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(SendEmail, 'interval', minutes=60)
+    scheduler.add_job(SendEmail, 'cron', hour=10,  minute=49)
     scheduler.start()
 
