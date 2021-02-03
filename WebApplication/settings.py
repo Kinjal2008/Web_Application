@@ -176,7 +176,5 @@ PaymentProcessorPort = '4430'
 
 STRIPE_PUBLISHABLE_KEY = 'pk_test_CfCShTwexDCdPO3cuj9KyIVr'
 # 'pk_test_CfCShTwexDCdPO3cuj9KyIVr'
-# 'pk_live_TaQGVlwllWxrGxanqc6l6qsd'
 STRIPE_SECRET_KEY = 'sk_test_2307FN7S7CCZCZGdCMhjqhTV00jO5nN1jQ'
 # 'sk_test_2307FN7S7CCZCZGdCMhjqhTV00jO5nN1jQ'
-# 'sk_live_muT06C4pkM7wMRXn5gzYWGP200oIdzQ9rn'
