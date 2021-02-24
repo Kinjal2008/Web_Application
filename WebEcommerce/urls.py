@@ -15,5 +15,7 @@ urlpatterns = [
     path('plandetail/<int:id>/', myaccountview.planDetail, name="plandetail"),
     path('payment/<int:id>/', myaccountview.paymentInstalment, name="payment"),
     path('payInstalmentDue/', myaccountview.payInstalmentDue, name="payInstalmentDue"),
+    path('purchaseHistory/', myaccountview.PurchaseHistoryView.as_view(), name="Purchase_History"),
+    path('purchaseHistory/trackOrderStatus/<int:id>', myaccountview.trackOrderStatus, name="trackOrderStatus"),
 
     ]

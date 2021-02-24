@@ -3,16 +3,39 @@
 {% block customer_content %}
 
 <div class="row">
+    <div class="col-md-12 mb-12 mb-md-0">
+        <div class="p-3 border">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group input-group-sm">
+                        <label>Search by Category: &nbsp; </label>
+                        <select class="form-control" name="searchClient" id="searchClient">
+                            <option value="all">All</option>
+                            <option value="clientname">Client Name</option>
+                            <option value="postalcode">Postal Code</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" style="display:none;" class="form-control" width="100%" id="txtSearchClient" placeholder="Enter Search Criteria..." name="txtSearchClient">
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
     <div class="col-12">
         <div class="card">
              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" id="tblClients">
                       <thead>
                             <tr>
-                                  <th>Name</th>
-                                  <th>Email</th>
-                                  <th>Phone No</th>
-                                  <th>
+                                <th>Surname</th>
+                                <th>First Name</th>
+                                <th style="display:none;">Name</th>
+                                <th>Email</th>
+                                <th>Postal Code</th>
+                                <th>Phone No</th>
+                                <th>
                                      <a href="{% url 'Customer_Add' %}" class="btn btn-outline-success">
                                         <i class="far fa-plus"></i> Add New
                                     </a>
@@ -24,7 +47,10 @@
                         <tr>
                             <td>{{ cust.1 }}</td>
                             <td>{{ cust.2 }}</td>
+                            <td style="display:none;">{{ cust.6 }}</td>
                             <td>{{ cust.3 }}</td>
+                            <td>{{ cust.7 }}</td>
+                            <td>{{ cust.4 }}</td>
                             <td>
                                <a href="{% url 'Customer_Update' cust.0 %}" class="btn text-secondary px-0">
                                     <i class="far fa-edit fa-lg"></i>
@@ -35,6 +61,9 @@
                                         <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
                                     </button>
                                </form>
+                               <a href="{% url 'customerOrder' cust.0 %}"  class="btn btn-outline-primary" style="color:blue;">
+                                            <i class="fas fa-align-justify"></i> &nbsp; View Orders
+                               </a>
                             </td>
                         </tr>
                       {% endfor %}

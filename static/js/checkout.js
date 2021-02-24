@@ -1,5 +1,12 @@
 $(document).ready(function()
 {
+
+    billingCountryCode = $('#hdnBillingCountry').val()
+    if(billingCountryCode != '')
+    {
+        $('#id_billing_country').val(billingCountryCode)
+    }
+
     isInstallment = $('input[name="installmentoption"]:checked').val();
 
     $("#lblWithInstallment").val(isInstallment)

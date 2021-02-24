@@ -8,6 +8,7 @@ for(var i=0; i< updateBtns.length ; i++)
         var productId = this.dataset.product
         var action = this.dataset.action
         noofuser = $('#noofusers'+productId).val()
+        print('noofuser', noofuser)
         if(noofuser == undefined)
         {
             noofuser = 0

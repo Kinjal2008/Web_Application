@@ -106,7 +106,8 @@
                     <span class="text-black">Initial setup charge:</span>
                   </div>
                   <div class="col-md-4 text-right">
-                    <strong class="text-black">£{{order.get_InitialSetupChargeForAllProducts|floatformat:2}}</strong>
+                    <strong class="text-black"> £<span id="lblInitianCharge">
+                      {{order.get_InitialSetupChargeForAllProducts|floatformat:2}}</span></strong>
                   </div>
                 </div>
                 {% if discountAmountForFullPayment > 0 %}
@@ -129,7 +130,7 @@
                       {{order.get_CartTotalQuantityFor_OnePerson_ServiceWithFullPayment|floatformat:2}}</span></strong></i></small>
                   </div>
                 </div>
-                <div class="row mb-3" id="amountFullServiceDistributionTwoFirstPerson">
+                  <div class="row mb-3" id="amountFullServiceDistributionTwoFirstPerson">
                   <div class="col-md-8">
                     <span class="text-black"><small> <i>*(For 2nd Client:</i> </small></span>
                   </div>
@@ -163,7 +164,7 @@
                   </div>
                 </div>
 
-                 <div class="row mb-3" id="subtotal">
+                <div class="row mb-3" id="subtotal">
                   <div class="col-md-8">
                     <span class="text-black">Subtotal:</span>
                   </div>
@@ -198,10 +199,10 @@
 
                 <div class="row mb-3 border-top" id="totalAmountInstall" style="display:none">
                   <div class="col-md-7">
-                     <span class="text-black">Total:</span>
+                     <span class="text-black" style="font-size: x-large;">Total:</span>
                   </div>
                   <div class="col-md-5 text-right">
-                    <strong class="text-black">£<span id="lblTotalAmountInstall">
+                    <strong class="text-black" style="font-size: x-large;">£<span id="lblTotalAmountInstall">
                       {{order.get_TotalPrice_WithInstallmentPayment|floatformat:2}}</span></strong>
                   </div>
                 </div>

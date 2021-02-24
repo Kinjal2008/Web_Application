@@ -43,6 +43,8 @@ def registration(request):
                 email = form.cleaned_data.get("email")
                 password1 = request.POST.get("password1")
                 password = make_password(password1)
+                address1 = request.POST.get("addressline1")
+                address2 = request.POST.get("addressline2")
 
                 if referralid is None:
                     referralid = 0

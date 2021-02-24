@@ -123,13 +123,17 @@ function submitFormData()
 $("#btnApplyServiceDiscount").click(function()
 {
     discountCode = $("#discountCodeForService").val();
+    totalServiceAmount = document.getElementById('lblTotalService').innerHTML;
+    totalInitialSetupAmount = document.getElementById('lblTotalInitialSetupCharge').innerHTML;
     totalAmount = document.getElementById('lblTotalAmountFull').innerHTML;
 
     $.ajax({
         url : "/applyDiscount/", // the endpoint
         type : "POST", // http method
         dataType : "json",
-        data : { 'discountCode': discountCode, 'totalAmount' : totalAmount }, // data sent with the post request
+        data : { 'discountCode': discountCode, 'totalServiceAmount' : totalServiceAmount,
+                  'totalInitialSetupAmount': totalInitialSetupAmount,
+                   'totalAmount': totalAmount}, // data sent with the post request
         headers:{
                 'X-CSRFToken' : csrftoken
             },

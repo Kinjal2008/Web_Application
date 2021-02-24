@@ -73,6 +73,7 @@ class Address(models.Model):
     User_Id = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, db_column='User_Id')
     default = models.BooleanField(default=False)
     Address_Type = models.CharField(max_length=1, choices=ADDRESS_CHOICES, default='B')
+    CountryCode = models.CharField(max_length=100, null=True, blank=True)
 
 
 class Category(models.Model):

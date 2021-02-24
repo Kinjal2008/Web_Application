@@ -22,128 +22,114 @@
           <div class="col-md-6 mb-5 mb-md-0">
             <h2 class="h3 mb-3 text-black">Billing Details</h2>
             <div class="p-3 p-lg-5 border">
-              <div class="form-group">
-                <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
-                {{ form.shipping_country }}
-              </div>
+
               <div class="form-group row">
                 <div class="col-md-6">
-                  <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" value="{{customerdetail.1}}" name="c_fname">
+                  <label for="billing_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="billing_fname" value="{{customerdetail.1}}" name="billing_fname">
                 </div>
                 <div class="col-md-6">
-                  <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_lname" value="{{customerdetail.2}}" name="c_lname">
+                  <label for="billing_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="billing_lname" value="{{customerdetail.2}}" name="billing_lname">
                 </div>
               </div>
 
+              <div class="form-group row">
+                <div class="col-md-7">
+                  <label for="billing_email" class="text-black">Email Address <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" value="{{customerdetail.3}}" id="billing_email" name="billing_email">
+                </div>
+                <div class="col-md-5">
+                  <label for="billing_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="billing_phone" value="{{customerdetail.4}}" name="billing_phone" placeholder="Phone Number">
+                </div>
+              </div>
+               <div class="form-group">
+                <input type="hidden" id="hdnBillingCountry" value="{{customerdetail.12}}">
+                <label for="billing_country" id="billing_country" class="text-black">Country <span class="text-danger">*</span></label>
+                {{ form.billing_country }}
+              </div>
               <div class="form-group row">
                 <div class="col-md-12">
-                  <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" value="{{customerdetail.3}}" id="c_email_address" name="c_email_address">
+                  <label for="billing_address1" class="text-black">Address <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="billing_address1" value="{{customerdetail.6}}" name="billing_address1" placeholder="Street address">
                 </div>
               </div>
-
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" value="{{customerdetail.6}}" name="c_address" placeholder="Street address">
-                </div>
-              </div>
-
               <div class="form-group">
-                <input type="text" class="form-control"  placeholder="Apartment, suite, unit etc. (optional)">
+                  <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)"
+                    id="billing_address2" name="billing_address2">
               </div>
-
               <div class="form-group row">
                 <div class="col-md-6">
-                  <label for="c_state_county" class="text-black">State / County <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_state_county" value="{{customerdetail.7}}" name="c_state_county">
+                  <label for="billing_state_county" class="text-black">State / County <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="billing_state_county" value="{{customerdetail.7}}" name="billing_state_county">
                 </div>
                 <div class="col-md-6">
-                  <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_postal_zip" value="{{customerdetail.9}}" name="c_postal_zip">
+                  <label for="billing_postal" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="billing_postal" value="{{customerdetail.9}}" name="billing_postal">
                 </div>
               </div>
-
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" value="{{customerdetail.4}}" name="c_phone" placeholder="Phone Number">
-                </div>
-              </div>
-
               <div class="form-group">
-                <label for="c_ship_different_address" class="text-black" data-toggle="collapse"
+                <label for="IsShipDifferentAddress" class="text-black" data-toggle="collapse"
                   href="#ship_different_address" role="button" aria-expanded="false"
-                  aria-controls="ship_different_address"><input type="checkbox" value="1" id="c_ship_different_address">
+                  aria-controls="ship_different_address"><input type="checkbox" value="1" id="IsShipDifferentAddress">
                   Ship To A Different Address?</label>
                 <div class="collapse" id="ship_different_address">
                   <div class="py-2">
 
                     <div class="form-group">
-                      <label for="c_diff_country" class="text-black">Country <span class="text-danger">*</span></label>
-
+                      <input type="hidden" id="hdnShippingCountry" value="{{customerdetail.12}}">
+                      <label for="shipping_country" id="shipping_country" class="text-black">Country <span class="text-danger">*</span></label>
+                        {{ form.shipping_country }}
                     </div>
 
                     <div class="form-group row">
                       <div class="col-md-6">
-                        <label for="c_diff_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_fname" name="c_diff_fname">
+                        <label for="shipping_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="shipping_fname" name="shipping_fname">
                       </div>
                       <div class="col-md-6">
-                        <label for="c_diff_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_lname" name="c_diff_lname">
+                        <label for="shipping_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="shipping_lname" name="shipping_lname">
                       </div>
                     </div>
-
                     <div class="form-group row">
                       <div class="col-md-12">
-                        <label for="c_diff_companyname" class="text-black">Company Name </label>
-                        <input type="text" class="form-control" id="c_diff_companyname" name="c_diff_companyname">
-                      </div>
-                    </div>
-
-                    <div class="form-group row">
-                      <div class="col-md-12">
-                        <label for="c_diff_address" class="text-black">Address <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_address" name="c_diff_address"
+                        <label class="text-black">Address <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="shipping_address1" name="shipping_address1"
                           placeholder="Street address">
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                      <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)"
+                      id="shipping_address2" name="shipping_address2">
                     </div>
-
                     <div class="form-group row">
                       <div class="col-md-6">
-                        <label for="c_diff_state_county" class="text-black">State / County <span
+                        <label class="text-black">State / County <span
                             class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_state_county" name="c_diff_state_county">
+                        <input type="text" class="form-control" id="shipping_state_county" name="shipping_state_county">
                       </div>
                       <div class="col-md-6">
-                        <label for="c_diff_postal_zip" class="text-black">Postal / Zip <span
+                        <label class="text-black">Postal / Zip <span
                             class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_postal_zip" name="c_diff_postal_zip">
+                        <input type="text" class="form-control" id="shipping_postal" name="shipping_postal">
                       </div>
                     </div>
-
                     <div class="form-group row mb-5">
                       <div class="col-md-6">
-                        <label for="c_diff_email_address" class="text-black">Email Address <span
+                        <label class="text-black">Email Address <span
                             class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_email_address" name="c_diff_email_address">
+                        <input type="email" class="form-control" id="shipping_email" name="shipping_email">
                       </div>
                       <div class="col-md-6">
-                        <label for="c_diff_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_phone" name="c_diff_phone"
+                        <label class="text-black">Phone <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="shipping_phone" name="shipping_phone"
                           placeholder="Phone Number">
                       </div>
                     </div>
-
                   </div>
-
                 </div>
               </div>
 
@@ -231,13 +217,14 @@
                     <tbody>
                       <tr>
                         <td class="text-black"><strong>Initial setup charge:</strong></td>
-                        <td class="text-black text-right">£{{order.get_InitialSetupChargeForAllProducts|floatformat:2}}</td>
+                        <td class="text-black text-right">£
+                            <label id="lblTotalInitialSetupCharge">{{order.get_InitialSetupChargeForAllProducts|floatformat:2}}</label></td>
                       </tr>
                     {% if discountAmountForFullPayment > 0 %}
                       <tr id="amountFullService">
                         <td class="text-black"><strong>Amount (Service):</strong></td>
                         <td class="text-black text-right">
-                            <span id="lblTotalService">£{{order.get_CartTotalPriceFor_ServiceWithFullPayment|floatformat:2}}</span>
+                            £<label id="lblTotalService">{{order.get_CartTotalPriceFor_ServiceWithFullPayment|floatformat:2}}</label>
                         </td>
                       </tr>
                     {% endif %}
@@ -253,7 +240,7 @@
                       <tr id="subtotal">
                         <td class="text-black font-weight-bold"><h4><strong>Card Subtotal:</strong></h4></td>
                         <td class="text-black text-right">
-                            <h4><strong>{{order.get_CartTotalPriceForInitialSetupAndProduct|floatformat:2}}</strong></h4></td>
+                            <h4><strong>£{{order.get_CartTotalPriceForInitialSetupAndProduct|floatformat:2}}</strong></h4></td>
                       </tr>
                     {% endif %}
                     {% if discountAmountForFullPayment > 0 %}

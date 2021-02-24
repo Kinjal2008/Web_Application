@@ -1,0 +1,183 @@
+{% extends 'webecommerce/base.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <div class="site-section" style="background-color:white;">
+        <div class="bg-light" style="padding-top:1rem;">
+          <div class="container">
+            <div class="row">
+               <div class="col-md-12" style="margin-bottom:1rem;"><a style="color:purple;" href="{% url 'index' %}">My Account</a>
+                    <span class="mx-2 mb-0">/</span>
+                   <strong class="text-black">Purchase History</strong>
+               </div>
+            </div>
+          </div>
+        </div>
+        <div class="">
+           <div class="container">
+              <div class="card">
+              <h2 class="my-3 h2 text-center">Order History</h2>
+                <div class="col-md-12 mb-12 mb-md-0">
+                    <div class="p-3 border">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <label>Search by Order#: &nbsp; </label>
+                                    <input type="text" class="form-control" width="100%" id="txtSearchByOrderNum" placeholder="Enter Order Number..." name="txtSearchByOrderNum">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+              <div class="row">
+                  <div class="col-12">
+                        <div class="card">
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap" id="tblOrderHistory">
+                                      <thead>
+                                            <tr>
+                                                <th >Order #</th>
+                                                <th>Order Date</th>
+                                                <th width="10%">Amount To Pay</th>
+                                                <th width="10%">Full Payment Discount</th>
+                                                <th>Payment Method</th>
+<!--                                                    <th>Payment Status</th>-->
+                                                <th>Order Status</th>
+                                                <th></th>
+                                            </tr>
+                                      </thead>
+                                      <tbody>
+                                       {% for purchase in purchases %}
+                                        <tr>
+                                            <td>{{ purchase.0 }}</td>
+                                            <td>{{ purchase.1 }}</td>
+                                            <td style="text-align:right;">£{{ purchase.2 |floatformat:2 }}</td>
+                                            <td style="text-align:right;">£{{ purchase.3 |floatformat:2 }}</td>
+                                            <td>{{ purchase.4 }}</td>
+                                            <!-- <td>{{ purchase.5 }}</td>-->
+
+                                            {% if purchase.7 == 1 %}
+                                            <td><span class="badge badge-warning">{{purchase.6}}</span></td>
+                                            {% elif purchase.7 == 2 %}
+                                            <td><span class="badge badge-info">{{purchase.6}}</span></td>
+                                            {% elif purchase.7 == 3 %}
+                                            <td><span class="badge badge-success">{{purchase.6}}</span></td>
+                                            {% endif %}
+                                            <td title="Track order">
+                                                <a href="#" class="btn btn-outline-primary ordertrack"
+                                                   data-toggle="modal" data-target="#trackOrder{{purchase.7}}"
+                                                   data-id="{{purchase.7}}"style="color:blue;">
+                                                    <i class="fas fa-binoculars"></i> &nbsp; Track Order
+                                                </a>
+                                            </td>
+                                        </tr>
+                                      {% endfor %}
+                                      </tbody>
+                                </table>
+                            </div>
+                        </div>
+                  </div>
+              </div>
+
+                  {% if purchases.has_other_pages %}
+                      <ul class="pagination">
+                        {% if purchases.has_previous %}
+                          <li><a href="?page={{ purchases.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                          <li class="disabled"><span>&laquo;</span></li>
+                        {% endif %}
+                        {% for i in purchases.paginator.page_range %}
+                          {% if purchases.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                          {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                          {% endif %}
+                        {% endfor %}
+                        {% if purchases.has_next %}
+                          <li><a href="?page={{ purchases.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                          <li class="disabled"><span>&raquo;</span></li>
+                        {% endif %}
+                      </ul>
+                  {% endif %}
+
+              </div>
+          </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" role="dialog" id="trackOrder1" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Track Your Order</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                   <div class="row d-flex justify-content-center">
+                       <div class="col-12">
+                            <ul id="progressbar" class="text-center">
+                                <li style="width:30%;" class="active step0"><span class="progress-icon" style="color:black">Order Placed</span></li>
+                                <li style="width:30%;" class="step0"><span class="progress-icon" style="color:black">Order Processed</span></li>
+                                <li style="width:30%;" class="step0"><span class="progress-icon" style="color:black">Order Shipped</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" id="trackOrder2" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Track Your Order</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                   <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <ul id="progressbar" class="text-center">
+                                <li style="width:30%;" class="active step0"><span class="progress-icon" style="color:black">Order Placed</span></li>
+                                <li style="width:30%;" class="active step0"><span class="progress-icon" style="color:black">Order Processed</span></li>
+                                <li style="width:30%;" class="step0"><span class="progress-icon" style="color:black">Order Shipped</span></li>
+                            </ul>
+                        </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" id="trackOrder3" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Track Your Order</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <ul id="progressbar" class="text-center">
+                                <li style="width:30%;" class="active step0"><span class="progress-icon" style="color:black">Order Placed</span></li>
+                                <li style="width:30%;" class="active step0"><span class="progress-icon" style="color:black">Order Processed</span></li>
+                                <li style="width:30%;" class="active step0"><span class="progress-icon" style="color:black">Order Shipped</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

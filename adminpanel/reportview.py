@@ -185,3 +185,24 @@ def searchForOrderDetails(request):
     print(orderDetails)
     context = {"paymentorder": orderDetails}
     return JsonResponse({"result": context}, safe=False)
+
+
+@login_required(login_url='Login')
+@CustomDecorator.allowed_users(allowed_roles=['admin', 'superadmin'])
+def ShippedOrders(request):
+    print('in ShippedOrders')
+    cursor = connection.cursor()
+    cursor.callproc('GetShippedOrders')
+    results = cursor.fetchall()
+    print(results)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(results, 10)
+    try:
+        shippedOrders = paginator.page(page)
+    except PageNotAnInteger:
+        shippedOrders = paginator.page(1)
+    except EmptyPage:
+        shippedOrders = paginator.page(paginator.num_pages)
+    print(shippedOrders)
+    context = {"shippedOrders": shippedOrders}
+    return render(request, "adminpanel/reports/ShippedOrders.html", context)

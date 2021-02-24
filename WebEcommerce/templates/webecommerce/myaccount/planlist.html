@@ -4,12 +4,25 @@
 
   <div class="container">
       <div class="card">
-      <h2 class="my-5 h2 text-center">My Orders</h2>
+      <h2 class="my-3 h2 text-center">My Orders</h2>
+      <div class="col-md-12 mb-12 mb-md-0">
+            <div class="p-3 border">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group input-group-sm">
+                            <label>Search by Order#: &nbsp; </label>
+                            <input type="text" class="form-control" width="100%" id="txtSearchByOrderNumForMyOrders" placeholder="Enter Order Number..." name="txtSearchByOrderNumForMyOrders">
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+        <br>
       <div class="row">
           <div class="col-12">
                 <div class="card">
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover text-nowrap">
+                        <table class="table table-hover text-nowrap" id="tblOrderDetails">
                               <thead>
                                     <tr>
                                         <th >#</th>
@@ -24,7 +37,7 @@
                               <tbody>
                                {% for plan in plans %}
                                 <tr>
-                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ plan.0 }}</td>
                                     <td>{{ plan.1 }}</td>
                                     <td style="text-align:right;">£{{ plan.2 |floatformat:2 }}</td>
                                     <td style="text-align:right;">£{{ plan.3 |floatformat:2 }}</td>

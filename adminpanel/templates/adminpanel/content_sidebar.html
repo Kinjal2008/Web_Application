@@ -121,9 +121,9 @@
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <a href="{% url 'OrderDetails' %}" class="nav-link">
+                        <a href="{% url 'ManageOrder' %}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
-                          <p>Client Orders</p>
+                          <p>Manage Current Orders</p>
                         </a>
                       </li>
                     </ul>
@@ -159,6 +159,12 @@
                         <a href="{% url 'ReportByProduct' %}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Report by Product</p>
+                        </a>
+                      </li>
+                       <li class="nav-item">
+                        <a href="{% url 'ShippedOrders' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Shipped Orders</p>
                         </a>
                       </li>
                     </ul>

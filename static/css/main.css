@@ -370,7 +370,8 @@ h1,h2,h3,h4,h5,h6{
     position: absolute;
     left: 0;
     top: 16px;
-    z-index: -1
+    z-index: -1;
+    border-color: #55b776;
 }
 
 #progressbar li:last-child:after {
@@ -404,6 +405,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 #progressbar li.active:before,
+#progressbar .step0:after,
 #progressbar li.active:after {
     background: blueviolet
 }

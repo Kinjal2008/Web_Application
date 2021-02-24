@@ -1,4 +1,8 @@
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from django.views.generic import ListView
 
 from adminpanel.adminform import *
@@ -116,6 +120,18 @@ def customer_delete(request, id):
     customer = Customer.objects.get(pk=id)
     customer.delete()
     return redirect('/Customer')
+
+
+@login_required(login_url='Login')
+def customerOrder(request, id=0):
+    cursor = connection.cursor()
+    print('customer order')
+    print('Orders', id)
+    cursor.callproc('GetPlanListByCustomerId', [id])
+    results = cursor.fetchall()
+    print(results)
+    context = {"plans": results}
+    return render(request, "adminpanel/customer/customerorders.html", context)
 
 
 @login_required(login_url='Login')
@@ -564,40 +580,64 @@ def config_operation(request, id=0):
 
 @login_required(login_url='Login')
 @CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
-def orderdetailslist(request):
+def manageCurrentOrderDetailsList(request):
+    searchCriteriaValue = request.POST.get("txtSearchForManageOrder")
+    category = request.POST.get("searchManageOrder")
+    print('searchCriteriaValue', searchCriteriaValue)
+    print('category', category)
     cursor = connection.cursor()
-    cursor.execute("call GetClientOrderDetailsList()")
+    cursor.execute("call GetCurrentPlacedAndProcessedOrders()")
     results = cursor.fetchall()
-    context = {"orderdetails": results}
-    print('order list:')
-    print(results)
-    return render(request, "adminpanel/customize/manageorderlist.html", context)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(results, 10)
+    try:
+        orderDetails = paginator.page(page)
+    except PageNotAnInteger:
+        orderDetails = paginator.page(1)
+    except EmptyPage:
+        orderDetails = paginator.page(paginator.num_pages)
+
+    context = {"currentOrders": orderDetails}
+    return render(request, "adminpanel/adminmanagement/manageCurrentOrder.html", context)
 
 
 @login_required(login_url='Login')
 @CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
-def orderdetails_update(request, id=0):
-    if request.method == "GET":
-        try:
-            cursor = connection.cursor()
-            cursor.callproc('GetClientOrderDetailsById', [id])
-            orderdetails = cursor.fetchone()
-        except ConnectionError as e:
-            print('ERROR IS: ')
-            print(format(e))
-        finally:
-            cursor.close()
-        return render(request, "adminpanel/customize/manageorderedit.html", {'orderdetail': orderdetails})
-    else:
-        config = Configuration.objects.get(pk=id)
-        form = ConfigurationForm(request.POST, instance=config)
-        try:
-            cursor = connection.cursor()
-            cursor.callproc('UpdateClientOrderDetailsById', [id])
-            orderdetails = cursor.fetchone()
-        except ConnectionError as e:
-            print('ERROR IS: ')
-            print(format(e))
-        finally:
-            cursor.close()
-        return redirect('/OrderDetails')
+def manageCurrentOrderShip(request, id):
+    order = Order.objects.get(Order_Id=id)
+    customer = Customer.objects.get(Customer_Id=order.Customer_id)
+    order.OrderStatus_id = 3
+    order.save()
+
+    subject = 'Order Shipped for Order# ' + str(id)
+    fromEmail = settings.EMAIL_HOST_USER
+    to_list = [customer.Email]
+    customerName = customer.First_Name + ' ' + customer.Last_Name
+    html_content = render_to_string("sendemail/OrderShipment.html", {'customerName': customerName})
+    text_content = strip_tags(html_content)
+    email_send = EmailMultiAlternatives(
+        subject,
+        text_content,
+        fromEmail,
+        to_list
+    )
+    message = ""
+    email_send.attach_alternative(html_content, "text/html")
+    try:
+        email_send.send()
+        message = "Success"
+    except Exception as e:
+        print('Error Is:', str(e))
+        message = "Failed"
+    print('email sent from adminpanel/adminview/manageCurrentOrderShip')
+
+    return redirect('/ManageOrder')
+
+
+@login_required(login_url='Login')
+@CustomDecorator.allowed_users(allowed_roles=['superadmin', 'admin'])
+def manageCurrentOrderProcess(request, id):
+    order = Order.objects.get(Order_Id=id)
+    order.OrderStatus_id = 2
+    order.save()
+    return redirect('/ManageOrder')

@@ -22,6 +22,52 @@
                 <p><a href="{% url 'shop' %}" class="btn btn-md height-auto px-4 py-3 btn-primary">Back to store</a></p>
               </div>
             </div>
+
+            <div style="display:none;">
+                <div>
+                    <div class="row mb-5">
+                        <div class="col-md-12">
+                            <h2 class="h3 mb-3 text-black">Your Order</h2>
+                            <div class="p-3 p-lg-5 border">
+                                <div class="border">
+                                    <table class="table site-block-order-table mb-5">
+                                        <tbody>
+                                          {% for item in items %}
+                                            <tr>
+                                                <td class="list_img" style="float:none!important;">
+                                                    <img src="{% static 'productimages/' %}{{item.Product.Image}}" class="img-responsive" alt="">
+                                                </td>
+                                                <td>
+                                                    <div class="list_desc" style="font-size:x-large;">
+                                                        <h6>{{item.Product.Name}}</h6>{{item.Quantity}} x<span class="actual">
+                                                        £{{item.getCartItemsPrice|floatformat:2}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                         {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <table class="table">
+                                    <tbody>
+                                      <tr id="totalAmountFull">
+                                          <td class="text-black"><h3><strong>Order Total</strong></h3>
+                                          <span style="font-size:medium;"><i>(including Initial Setup Charge)</i></span></td>
+                                        <td class="text-black text-right font-weight-bold"><h3><strong>
+                                            <span class="col-4">£<label id="lblTotalAmountFull">{{Total|floatformat:2}}</label></span>
+                                        </strong></h3>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
           </div>
         </div>
     </div>

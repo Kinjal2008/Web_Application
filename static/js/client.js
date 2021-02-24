@@ -70,39 +70,67 @@ function stripeTokenHandler(token) {
   $('#hdnTokenVal').val(token.id)
   paymentFrom = $('#hdnPaymentFrom').val()
 
+    billingaddress1 = $('#billing_address1').val()
+    billingaddress2 = $('#billing_address2').val()
+    billingstate = $('#billing_state_county').val()
+    billingpincode = $('#billing_postal').val()
+    billingcountry = $('#id_billing_country').val()
+    //$('#id_billing_country :selected').text()
+    if($('#IsShipDifferentAddress').is(':checked'))
+    {
+        // Ship to another address
+        shippingaddress1 = $('#shipping_address1').val()
+        shippingaddress2 = $('#shipping_address2').val()
+        shippingstate = $('#shipping_state_county').val()
+        shippingpincode = $('#shipping_postal').val()
+        shippingcountry = $('#id_shipping_country').val()
+
+        validAddress = IsValidAddress(shippingaddress1, shippingstate, shippingpincode, shippingcountry)
+        if (!validAddress)
+        {
+            alert('Please enter shipping to other address details')
+            return false;
+        }
+    }
+    else
+    {
+        validAddress = IsValidAddress(billingaddress1, billingstate, billingpincode, billingcountry)
+        if (!validAddress)
+        {
+            alert('Please enter billing address details')
+            return false;
+        }
+    }
+
   if(paymentFrom == 'instalmentpayment')
   {
-    submitFormDataForInstalmentPayment($('#hdnTokenVal').val())
+    submitFormDataForInstalmentPayment($('#hdnTokenVal').val());
   }
   else
   {
     submitFormDataForPayment($('#hdnTokenVal').val());
   }
+}
 
+function IsValidAddress(address1, state, pincode, country){
+    if(address1 != "" && state != "" && pincode != "" && country != "")
+    {
+        return true;
+    }
+    return false;
 }
 
 function submitFormDataForPayment(tkn)
 {
     total =  document.getElementById('lblTotalAmountFull').innerHTML
-
     var userInfo = {
         'name' : user,
-        'email' : 'kinju1220@gmail.com', // $("#email").val(),
+        'email' : $("#email").val(),
         'total' : parseFloat(total)
     }
 
-
     var paymentType
-//    cashPayment = document.getElementById('rbtnBankTransfer').checked
-//    cardPayment = document.getElementById('rbtnCard').checked
-//    if(cashPayment)
-//    {
-//        paymentType = "Cash"
-//    }
-//    else if(cardPayment)
-//    {
-//        paymentType = "Card"
-//    }
+
     paymentType = "Card"
     url = window.location.href;
     params = (new URL(url)).searchParams;
@@ -113,14 +141,37 @@ function submitFormDataForPayment(tkn)
     var serviceDiscountId = document.getElementById('lblServiceDiscountId').innerHTML
     var actualAmountToPay = document.getElementById('lblActualAmount').innerHTML
 
-    var shippingInfo = {
-       /* 'address' : form.address.value,
-        'city' : form.city.value,
-        'state' : form.state.value,
-        'zipcode' : form.zipcode.value,
-        'country' : form.country.value*/
+    billingaddress1 = $('#billing_address1').val()
+    billingaddress2 = $('#billing_address2').val()
+    billingstate = $('#billing_state_county').val()
+    billingpincode = $('#billing_postal').val()
+    billingcountry = $('#id_billing_country :selected').text()
+    billingcountrycode = $('#id_billing_country').val()
+
+    shippingaddress1 = $('#shipping_address1').val()
+    shippingaddress2 = $('#shipping_address2').val()
+    shippingstate = $('#shipping_state_county').val()
+    shippingpincode = $('#shipping_postal').val()
+    shippingcountry = $('#id_shipping_country :selected').text()
+    shippingcountrycode = $('#id_shipping_country').val()
+
+    var shippingAddress = {
+        'address' : shippingaddress1,
+        'address2' : shippingaddress2,
+        'state' : shippingstate,
+        'zipcode' : shippingpincode,
+        'country' : shippingcountry,
+        'countrycode': shippingcountrycode
     }
 
+    var billingAddress = {
+        'address' : billingaddress1,
+        'address2' : billingaddress2,
+        'state' : billingstate,
+        'zipcode' : billingpincode,
+        'country' : billingcountry,
+        'countrycode' : billingcountrycode
+    }
     var url = '/placeOrder/'
 //    Send fetch Data
     fetch(url, {
@@ -129,12 +180,15 @@ function submitFormDataForPayment(tkn)
             'Content-Type': 'application/json',
             'X-CSRFToken' : csrftoken
         },
-        body:JSON.stringify({'User' : userInfo, 'Shipping' : shippingInfo,
+        body:JSON.stringify({'User' : userInfo, 'shippingAddress' : shippingAddress,
+                             'billingAddress': billingAddress,
                              'paymentType' : paymentType,
                              'paymentInInstalment': paymentInInstalment,
                              'serviceDiscount': serviceDiscount,
                              'serviceDiscountPercentage': serviceDiscountPercentage,
                              'serviceDiscountId': serviceDiscountId,
+                             'shippingAddress': shippingAddress,
+                             'billingAddress': billingAddress,
                              'token': tkn
                              })
     })
@@ -148,6 +202,8 @@ function submitFormDataForPayment(tkn)
         cart = {}
         console.log(data)
         status = data['status']
+        orderId = data['OrderId']
+        paymentId = data['PaymentId']
         errorMessage = '** ' + data['message']
         if(status == 'true')
         {

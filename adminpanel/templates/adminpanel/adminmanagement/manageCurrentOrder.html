@@ -1,0 +1,117 @@
+{% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+
+
+{% block main_content %}
+    <br>
+    <div class="container">
+        <div class="row row-class">
+            <div>
+                <h3 class="display-5">Manage Pending Orders</h3>
+            </div>
+
+            <div class="main-content">
+                <div class="col-md-12 mb-12 mb-md-0">
+                    <div class="p-3 border">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <label>Search by Category: &nbsp; </label>
+                                    <select class="form-control" name="searchManageOrder" id="searchManageOrder">
+                                        <option value="all">All</option>
+                                        <option value="ordernum">Order #</option>
+                                        <option value="status">Order Status</option>
+                                        <option value="clientname">Client Name</option>
+                                        <option value="postalcode">Postal Code</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" style="display:none;" class="form-control" width="100%" id="txtSearchForManageOrder" placeholder="Enter Search Criteria..." name="txtSearchForManageOrder">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+               <div class="row">
+                    <div class="col-12">
+                    <div class="card">
+                         <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap" id="tblManageOrderDetails">
+                                  <thead>
+                                <tr>
+                                  <th>Order ID</th>
+                                  <th>Client</th>
+                                  <th>Postal Code</th>
+                                  <th>Status</th>
+                                  <th>Ordered Date</th>
+                                  <th>Items</th>
+                                  <th></th>
+                                  <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for order in currentOrders %}
+                                  <tr>
+                                    <td><a href="#">{{order.0}}</a></td>
+                                    <td>{{order.3}}</td>
+                                    <td>{{order.7}}</td>
+                                        {% if order.4 == 1 %}
+                                            <td><span class="badge badge-warning">{{order.5}}</span></td>
+                                            {% elif order.4 == 2 %}
+                                             <td><span class="badge badge-info">{{order.5}}</span></td>
+                                            {% elif order.4 == 3 %}
+                                             <td><span class="badge badge-success">{{order.5}}</span></td>
+                                        {% endif %}
+                                    <td>{{order.2}}</td>
+                                    <td>{{order.6}}</td>
+                                      {% if order.4 == 1 %}
+                                    <td title="Click here to process the order">
+                                        <a href="{% url 'ManageOrder_Process' order.0 %}" class="btn text-secondary px-0">
+                                        <i class="fas fa-sign-in-alt fa-w-16 fa-2x"></i>
+                                        </a>
+                                    </td>
+                                      {% endif %}
+                                      {% if order.4 == 2 %}
+                                    <td title="Click here to ship the order">
+                                        <a href="{% url 'ManageOrder_Ship' order.0 %}" class="btn text-secondary px-0">
+                                        <i class="fas fa-truck fa-w-20 fa-2x"></i>
+                                        </a>
+                                    </td>
+                                      {% endif %}
+                                  </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+               </div>
+
+               {% if currentOrders.has_other_pages %}
+                  <ul class="pagination">
+                    {% if currentOrders.has_previous %}
+                      <li><a href="?page={{ currentOrders.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in currentOrders.paginator.page_range %}
+                      {% if currentOrders.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if currentOrders.has_next %}
+                      <li><a href="?page={{ currentOrders.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}

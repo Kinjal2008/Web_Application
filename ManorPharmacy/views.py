@@ -435,13 +435,18 @@ def applyDiscount(request):
     print('customerid')
     print(id)
     print(str)
-    amountToPay = request.POST.get("totalAmount")
+    totalServiceAmount = request.POST.get("totalServiceAmount")
+    totalInitialSetupAmount = request.POST.get("totalInitialSetupAmount")
+    totalAmountToPay = request.POST.get("totalAmount")
+    amountToPay = float(totalServiceAmount) + float(totalInitialSetupAmount)
+    print('totalServiceAmount', totalServiceAmount)
+    print('totalInitialSetupAmount', totalInitialSetupAmount)
     cursor.callproc('GetDiscountByName', [str, id])
     discountTYpe = cursor.fetchone()
     print('amountToPay', amountToPay)
     print(discountTYpe)
     discountCodeAmout = (float(amountToPay) * discountTYpe[2]) / 100
-    amountAfterDiscount = float(amountToPay) - discountCodeAmout
+    amountAfterDiscount = float(totalAmountToPay) - discountCodeAmout
     print('Amount to pay', amountAfterDiscount)
     return JsonResponse({"discountCodeAmout": discountCodeAmout, "amountAfterDiscount": amountAfterDiscount,
                          "discountPercentage": discountTYpe[2], 'id': discountTYpe[0]}, safe=False)

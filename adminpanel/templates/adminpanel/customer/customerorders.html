@@ -1,0 +1,54 @@
+{% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+
+{% block main_content %}
+    <br>
+    <div class="container">
+        <div class="row row-class">
+            <div>
+                <h3 class="display-5">Clients</h3>
+            </div>
+
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap" id="tblClientOrders">
+                                    <thead>
+                                        <tr>
+                                            <th >#</th>
+                                            <th>Order Date</th>
+                                            <th width="10%">Amount To Pay</th>
+                                            <th width="10%">Full Payment Discount</th>
+                                            <th>Payment Method</th>
+                                            <th>Payment Status</th>
+                                            <th></th>
+                                        </tr>
+                                  </thead>
+                                    <tbody>
+                                        {% for plan in plans %}
+                                        <tr>
+                                            <td>{{ plan.0 }}</td>
+                                            <td>{{ plan.1 }}</td>
+                                            <td style="text-align:right;">£{{ plan.2 |floatformat:2 }}</td>
+                                            <td style="text-align:right;">£{{ plan.3 |floatformat:2 }}</td>
+                                            <td>{{ plan.4 }}</td>
+                                            <td>{{ plan.5 }}</td>
+                                            <td title="Click to view details">
+                                                <a href="{% url 'plandetail' plan.0 %}"  class="btn btn-outline-primary" style="color:blue;">
+                                                    <i class="fas fa-align-justify"></i> &nbsp; View Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                  </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}

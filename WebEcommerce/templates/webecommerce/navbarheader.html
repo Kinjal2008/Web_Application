@@ -58,7 +58,7 @@
                   <a href="#">My Account</a>
                   <ul class="dropdown">
                     <li><a href="#">Profile</a></li>
-                    <li><a href="#">Purchase History</a></li>
+                    <li><a href="{% url 'Purchase_History' %}">Order History</a></li>
                     <li class="has-children">
                       <a href="#">My ProLongevity</a>
                       <ul class="dropdown">
@@ -82,8 +82,8 @@
               <span class="number">{{ request.user | cart_item_count}}</span>
             </a>
 
-             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right hideCartItemFromHome" style="right: 150px !important;">
-                <span class="dropdown-item dropdown-header">{{ request.user }}</span>
+             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right hideCartItemFromHome" style="right: 150px !important;width:20%;">
+                 <center><span class="dropdown-item dropdown-header"><h3>Cart Items</h3></span></center>
                 <div>
                  {% for item in orderitems %}
                  <div class="cart_box" style="padding: 1em;">
