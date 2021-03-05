@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.utils.html import strip_tags
 from django.views.generic import ListView
 from django.core import serializers
-from ManorPharmacy.util import render_to_pdf
+from WebEcommerce.util import render_to_pdf
 from adminpanel.models import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages

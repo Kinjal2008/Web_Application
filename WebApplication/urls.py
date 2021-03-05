@@ -21,7 +21,6 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('ManorPharmacy.urls')),
     path('', include('adminpanel.urls')),
     path('', include('WebEcommerce.urls'))
 ]

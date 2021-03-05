@@ -1,0 +1,204 @@
+{% extends 'adminpanel/dashboard.html' %}
+{% load static %}
+
+{% block main_content %}
+    <br>
+    <div class="container">
+        <div class="row row-class">
+            <div>
+                <h3 class="display-5">Order Details</h3>
+            </div>
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-12">
+                      <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                          <!-- Accordion card -->
+                          <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header" role="tab" id="headingOrderDetails">
+                              <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOrderDetails" aria-expanded="true"
+                                aria-controls="collapseOrderDetails">
+                                <h5 class="mb-0">
+                                  Order Details <i class="fas fa-angle-down rotate-icon"></i>
+                                </h5>
+                              </a>
+                            </div>
+                            <!-- Card body -->
+                            <div id="collapseOrderDetails" class="collapse show" role="tabpanel" aria-labelledby="headingOrderDetails"
+                              data-parent="#accordionEx">
+                                <div class="card-body">
+                                    <table>
+                                        {% for order in orderitems %}
+                                        <tr>
+                                            <td style="width:5%;" class="product-thumbnail">
+                                              <img src="{% static 'productimages/' %}{{order.Product.Image}}" alt="Image" class="img-fluid">
+                                            </td>
+                                            <td style="width:10%;padding-left:2px;" class="product-name">
+                                                <div>
+                                                    <h2 class="h5">{{order.Product.Name}}</h2>
+                                                </div>
+                                                <div>
+                                                    <h2 class="h5">Quantity: {{order.Quantity}}</h2>
+                                                </div>
+                                            </td>
+                                            <td style="width:20%;" class="product-price">
+                                                £{{order.get_TotalForAllProduct_ByQuantity|floatformat:2}}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                          </div>
+                          <!-- Accordion card -->
+                          <br>
+                          <!-- Accordion card -->
+                          <div class="card">
+                            <!-- Card header -->
+                             <div class="card-header" role="tab" id="headingBillingAddress">
+                              <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseBillingAddress"
+                                aria-expanded="false" aria-controls="collapseBillingAddress">
+                                <h5 class="mb-0">
+                                  Billing Address <i class="fas fa-angle-down rotate-icon"></i>
+                                </h5>
+                              </a>
+                            </div>
+                            <!-- Card body -->
+                             <div id="collapseBillingAddress" class="collapse" role="tabpanel" aria-labelledby="headingBillingAddress"
+                              data-parent="#accordionEx">
+                              <div class="card-body">
+                                   <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="div_addressline1" class="form-group">
+                                                <div class="col-md-6" style="float:left">
+
+                                                     {{address.0.Addressline1}} <br>
+                                                     {{address.0.Addressline2}} <br>
+                                                     {{address.0.City}} <br>
+                                                     {{address.0.State}} <br>
+                                                     {{address.0.Postal_Code}} <br>
+                                                     {{address.0.Country}} <br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Accordion card -->
+                          <br>
+                          <!-- Accordion card -->
+                          <div class="card">
+                            <!-- Card header -->
+                             <div class="card-header" role="tab" id="headingOrderSummary">
+                              <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseOrderSummary"
+                                aria-expanded="false" aria-controls="collapseOrderSummary">
+                                <h5 class="mb-0">
+                                  Order Summary <i class="fas fa-angle-down rotate-icon"></i>
+                                </h5>
+                              </a>
+                            </div>
+                            <!-- Card body -->
+                             <div id="collapseOrderSummary" class="collapse" role="tabpanel" aria-labelledby="headingOrderSummary"
+                              data-parent="#accordionEx">
+                              <div class="card-body">
+                                   <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="div_ordersummary" class="form-group">
+                                                <div class="col-md-6" style="float:right">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Accordion card -->
+
+                          {% if totalinstalment.count > 0 %}
+                           <br>
+                          <!-- Accordion card -->
+                          <div class="card">
+                            <!-- Card header -->
+                             <div class="card-header" role="tab" id="headingPaymentDue">
+                              <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapsePaymentDue"
+                                aria-expanded="false" aria-controls="collapsePaymentDue">
+                                <h5 class="mb-0">
+                                  Outstanding Payment <i class="fas fa-angle-down rotate-icon"></i>
+                                </h5>
+                              </a>
+                            </div>
+                            <!-- Card body -->
+                             <div id="collapsePaymentDue" class="collapse" role="tabpanel" aria-labelledby="headingPaymentDue"
+                              data-parent="#accordionEx">
+                              <div class="card-body">
+                                   <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="div_paymentdue" class="form-group">
+                                                <div class="col-md-12">
+                                                    <div class="site-blocks-table">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Pending Instalments</th>
+                                                                    <th class="product-price">Instalment Due Amount</th>
+                                                                    <th class="product-price">Instalment Due Date</th>
+                                                                    <th class="product-name">Payment Status</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for instalment in totalinstalment %}
+                                                                <tr>
+
+                                                                    <td>{{instalment.Due_Installments}}</td>
+                                                                    <td style="text-align:right;" class="product-price">£{{instalment.Amount_Due|floatformat:2}}</td>
+                                                                    <td class="product-name">{{instalment.InstalmentDueDate|date:"d/m/Y"}}</td>
+                                                                    <td>
+                                                                        {% if instalment.IsInstalmentPaid == 0 %}
+                                                                            Payment Pending
+                                                                        {% else %}
+                                                                            Payment Completed
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if instalment.IsInstalmentPaid == 0%}
+                                                                        <a href="{% url 'payment' instalment.Installment_Due_Id %}" class="btn btn-outline-primary indigo">
+                                                                            <i class="fas fa-money-bill fa-2x indigo" style="vertical-align:middle;"></i> Pay Now
+                                                                         </a>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Accordion card -->
+                          {% endif %}
+
+                          <br>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <a href="{% url 'Customer' %}" class="btn btn-outline-primary btn-md btn-block">Back to Customers</a>
+                              </div>
+                              <div class="col-md-6">
+                                  <a href="{% url 'customerOrder' order.Customer_id %}" class="btn btn-outline-primary btn-md btn-block">Back to Orders</a>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}

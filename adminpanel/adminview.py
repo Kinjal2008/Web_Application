@@ -125,13 +125,27 @@ def customer_delete(request, id):
 @login_required(login_url='Login')
 def customerOrder(request, id=0):
     cursor = connection.cursor()
-    print('customer order')
-    print('Orders', id)
     cursor.callproc('GetPlanListByCustomerId', [id])
     results = cursor.fetchall()
-    print(results)
     context = {"plans": results}
     return render(request, "adminpanel/customer/customerorders.html", context)
+
+
+@login_required(login_url='Login')
+def customerOrderDetails(request, id=0):
+    userid = request.user.id
+    print('in customer details')
+    order = Order.objects.get(Order_Id=id)
+    print('orders', order)
+    orderitems = order.orderdetails_set.all()
+
+    address = Address.objects.filter(User_Id=userid)
+    totalinstalments = InstallmentDue.objects.filter(Order_id=id)
+    context = {'totalinstalment': totalinstalments,
+               'orderitems': orderitems,
+               'order': order,
+               'address': address}
+    return render(request, "adminpanel/customer/customerorderdetails.html", context)
 
 
 @login_required(login_url='Login')

@@ -12,6 +12,7 @@ from django.template.loader import render_to_string, get_template
 from django.utils.html import strip_tags
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django_countries import countries
 
 
 def login_user(request):
@@ -28,13 +29,14 @@ def login_user(request):
 def registration(request):
     form = CreateUserForm()
     referralid = request.GET.get('id')
-
+    print('IN REGISTRATION FUNCTION')
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
+
         try:
             if form.is_valid():
                 # Write logic here to implement SP to insert records in USER and Customer table
-
+                print('Form is valid')
                 str = 0
                 cursor = connection.cursor()
                 username = form.cleaned_data.get("username")
@@ -43,8 +45,13 @@ def registration(request):
                 email = form.cleaned_data.get("email")
                 password1 = request.POST.get("password1")
                 password = make_password(password1)
+                phone = request.POST.get("phonenumber")
                 address1 = request.POST.get("addressline1")
                 address2 = request.POST.get("addressline2")
+                state = request.POST.get("state")
+                postalcode = request.POST.get("postalcode")
+                countrycode = request.POST.get("country")
+                country = dict(countries)[countrycode]
 
                 if referralid is None:
                     referralid = 0
@@ -59,9 +66,9 @@ def registration(request):
                 if refereeDetails is not None:
                     referralCustomerId = refereeDetails[0]
                 cursor.callproc('InsertUserCustomerRegistrationDetails',
-                                [firstname, username, lastname, password, email, referralCustomerId])
-                username = form.cleaned_data.get("username")
-
+                                [firstname, username, lastname, password, email, referralCustomerId,
+                                 address1, address2, state, country, postalcode, countrycode, phone])
+                print('record inserted')
                 subject = 'Thank you for your registration.'
                 fromEmail = settings.EMAIL_HOST_USER
                 to_list = [form.cleaned_data.get("email")]
@@ -101,6 +108,7 @@ def registration(request):
                             )
                             emailsendForReferee.attach_alternative(html_content, "text/html")
                             emailsendForReferee.send()
+
                         except Exception as e:
                             print('Error in sending email to referee', str(e))
                             messages.error(request, "There is some issue while creating account for " + username)
@@ -113,6 +121,7 @@ def registration(request):
                 print('error')
                 print(form.errors)
                 print(form.error_messages)
+                messages.error(request, form.errors)
         except Exception as e:
             print('Error Is:', str(e))
     context = {'form': form}

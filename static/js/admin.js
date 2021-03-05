@@ -1,5 +1,115 @@
 $(document).ready(function()
 {
+// Check validation before new client registration.
+$('#btnSubmitRegistration').click(function()
+{
+    firstName = $('#first_name').val()
+    lastName = $('#last_name').val()
+    userName = $('#username').val()
+    email = $('#email').val()
+    password1 = $('#password1').val()
+    password2 = $('#password2').val()
+    address1 = $('#addressline1').val()
+    address2 = $('#addressline2').val()
+    state = $('#state').val()
+    postalcode = $('#postalcode').val()
+    country = $('#id_country :selected').text()
+    countrycode = $('#id_country').val()
+    var list = $("#registrationmessage");
+
+    if(firstName == "")
+    {
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter first name</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(lastName == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter last name</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(userName == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter user name</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(email == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter email</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(password1 == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter password</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(address1 == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter Address 1</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(address2 == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter Address 2</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(state == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter state</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(postalcode == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter Postal Code</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+    if(countrycode == "")
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please select country</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+
+    if(password1 != password2)
+    {
+        list.empty()
+        var ul = list.append('<ul></ul>').find('ul');
+        ul.append('<li>Please enter correct password.</li>');
+        $('#registrationmessage').show()
+        return false;
+    }
+
+    $('#registrationmessage').hide()
+    return true;
+});
+
 
 // For Manage Orders / Manage Current Orders - by default hide the search textbox.
 $('#txtSearchForManageOrder').hide()
@@ -8,7 +118,7 @@ $('#txtSearchForManageOrder').hide()
 // This is done by only SUPER ADMIN.
 
 // Being a Super Admin, he can able to switch to other views as well.
-   // Based on the selection, it will redirect to particular landing page.
+// Based on the selection, it will redirect to particular landing page.
     var href = window.location.href;
     $('#groupview').change(function()
     {

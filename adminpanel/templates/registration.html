@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="last_name" placeholder="Last name">
+          <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="username" placeholder="User name">
+          <input type="text" class="form-control" id="username" name="username" placeholder="User name">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" placeholder="Email">
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -64,7 +64,15 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password1" placeholder="Password">
+          <input type="number" class="form-control" id="phonenumber" name="phonenumber" placeholder="Phone Number">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-number"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" id="password1" name="password1" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -72,15 +80,15 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password2" placeholder="Retype password">
+          <input type="password" class="form-control" id="password2" name="password2" placeholder="Retype password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
-        <!--<div class="input-group mb-3">
-          <input type="text" class="form-control" name="addressline1" placeholder="Address1">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Address1" name="addressline1">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-home"></span>
@@ -88,7 +96,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="addressline2" placeholder="Address2">
+          <input type="text" class="form-control" id="addressline2" name="addressline2" placeholder="Address2">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-home"></span>
@@ -96,7 +104,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="state" placeholder="State">
+          <input type="text" class="form-control" id="state" name="state" placeholder="State">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-home"></span>
@@ -104,7 +112,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="postalcode" placeholder="Postal Code">
+          <input type="text" class="form-control" id="postalcode" name="postalcode" placeholder="Postal Code">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-home"></span>
@@ -112,14 +120,21 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="country" placeholder="Country">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-home"></span>
-            </div>
-          </div>
+          {{ form.country }}
         </div>
-        -->
+
+
+        <div class="alert alert-danger" id="registrationmessage" style="margin-top:10px;display:none;">{{  message }}</div>
+
+        {% if messages %}
+            <div class="col-12">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{  message }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <div class="row">
           <div class="col-8">
@@ -132,7 +147,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <button type="submit" id="btnSubmitRegistration" class="btn btn-primary btn-block">Register</button>
           </div>
           <!-- /.col -->
         </div>
@@ -156,6 +171,8 @@
 <script src="{%  static 'plugins/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{%  static 'dist/js/adminlte.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
 </body>
+
 </html>
 

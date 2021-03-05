@@ -52,10 +52,11 @@
                     <thead class="border-bottom font-weight-bold">
                         <tr>
                             <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Tr No.</td>
-                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Description</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Item</td>
                             <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Quantity</td>
-                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Price / Pack</td>
-                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Amount</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Initial Setup Charge</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Price</td>
+                            <td style="border-right:solid;border-top: none;border-width:1pt;border-color: black">&nbsp; Total</td>
                         </tr>
                     </thead>
                     <tbody class="border-bottom font-weight-bold">
@@ -64,21 +65,13 @@
                                 <td style="border-right:solid;border-bottom: solid;border-width:1pt;border-color: black"> &nbsp; {{ forloop.counter }}</td>
                                 <td style="border-right:solid;border-bottom: solid;border-width:1pt;border-color: black"> &nbsp; {{ item.Product.Name }}</td>
                                 <td style="border-right:solid;border-width:1pt;border-color: black"> &nbsp; {{ item.Quantity }}</td>
-                                <td style="border-right:none;border-width:1pt;border-color: black"> &nbsp; £{{ item.Product.Price }}</td>
+                                <td style="border-right:none;border-width:1pt;border-color: black"> &nbsp; £{{ item.getCartItemsInitialSetupCharge |floatformat:2 }}</td>
+                                <td style="border-right:none;border-width:1pt;border-color: black"> &nbsp; £{{ item.Product.Price|floatformat:2 }}</td>
                                 <td style="border-right:none;border-width:1pt;border-color: black"> &nbsp; £
                                     {{item.get_total|floatformat:2}}</td>
                             </tr>
                         {% endfor %}
-                    <tr>
-                        <td colspan="2"></td>
-                        <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
-                            <b>&nbsp; SUBTOTAL</b>
-                        </td>
-                        <td colspan="3" style="border-right:none;border-width:1pt;border-color: black">
-                            &nbsp; £{{order.get_CartTotalPriceForAllProduct_WithFullPayment|floatformat:2}}
-                        </td>
-                    </tr>
-                    <tr>
+                     <tr>
                         <td colspan="2"></td>
                         <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
                             <b>&nbsp; Initial Setup Charge</b>
@@ -87,6 +80,16 @@
                             &nbsp; £{{order.get_InitialSetupChargeForAllProducts|floatformat:2}}
                         </td>
                     </tr>
+                        <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
+                            <b>&nbsp; SUBTOTAL</b>
+                        </td>
+                        <td colspan="3" style="border-right:none;border-width:1pt;border-color: black">
+                            &nbsp; £{{order.get_CartTotalPriceForInitialSetupAndProduct|floatformat:2}}
+                        </td>
+                    </tr>
+
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="2" style="border-right:solid;border-left:solid;border-width:1pt;border-color: black">
@@ -102,7 +105,7 @@
                             <b>&nbsp; INVOICE TOTAL</b>
                         </td>
                         <td colspan="3" style="border-right:none;border-bottom: solid;border-width:1pt;border-color: black">
-                            &nbsp; £{{order.get_final_total}}
+                            &nbsp; £{{finalTotal|floatformat:2}}
                         </td>
                     </tr>
                     </tbody>

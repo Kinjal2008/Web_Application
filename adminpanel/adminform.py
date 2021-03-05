@@ -1,9 +1,17 @@
 from django import forms
 from adminpanel.models import *
 from django.contrib.auth.forms import UserCreationForm
+from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
 
 
 class CreateUserForm(UserCreationForm):
+    country = CountryField(blank_label='(select country)').formfield(
+        required=True,
+        widget=CountrySelectWidget(attrs={
+            'class': 'custom-select d-block w-100',
+        }))
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']

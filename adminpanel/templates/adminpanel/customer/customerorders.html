@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row row-class">
             <div>
-                <h3 class="display-5">Clients</h3>
+                <h3 class="display-5">Customer Orders</h3>
             </div>
 
             <div class="main-content">
@@ -36,7 +36,7 @@
                                             <td>{{ plan.4 }}</td>
                                             <td>{{ plan.5 }}</td>
                                             <td title="Click to view details">
-                                                <a href="{% url 'plandetail' plan.0 %}"  class="btn btn-outline-primary" style="color:blue;">
+                                                <a href="{% url 'customerOrderDetails' plan.0 %}"  class="btn btn-outline-primary" style="color:blue;">
                                                     <i class="fas fa-align-justify"></i> &nbsp; View Details
                                                 </a>
                                             </td>
@@ -46,6 +46,14 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{% url 'Customer' %}" class="btn btn-outline-primary btn-md btn-block">Back to Customers</a>
                     </div>
                 </div>
             </div>

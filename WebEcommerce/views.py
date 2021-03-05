@@ -8,8 +8,9 @@ from django.views.generic import ListView, DetailView, View
 import datetime
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from ManorPharmacy.forms import CheckoutForm
-from ManorPharmacy.util import *
+from django.contrib.sites.models import Site
+from WebEcommerce.util import *
+from WebEcommerce.forms import CheckoutForm
 from adminpanel.models import *
 import stripe
 
@@ -273,10 +274,6 @@ def placeOrder(request):
         billing_Address = Address.objects.filter(User_Id=request.user.id, Address_Type='B')
         shipping_Address = Address.objects.filter(User_Id=request.user.id, Address_Type='S')
 
-        print('billingAddress', billingAddress)
-        print('shippingAddress', shippingAddress)
-        print('billing_Address', billing_Address)
-        print('shipping_Address', shipping_Address)
         if billingAddress['address'] != '':
             print('in 1 if billing')
             if len(billing_Address) == 0:
@@ -483,9 +480,11 @@ def placeOrder(request):
 
         order.IsOrderCompleted = True
         # Set current date for order completion date
+        order.OrderCompletionDate = datetime.date.today()
         order.OrderStatus_id = 1
         order.save()
 
+        # Send an email to Customer with Invoice attached.
         subject = 'Invoice for your order.'
         fromEmail = settings.EMAIL_HOST_USER
         to_list = [data['User']['email']]
@@ -502,19 +501,20 @@ def placeOrder(request):
             data = {
                 'items': items,
                 'order': order,
+                'finalTotal': total,
                 'username': data['User']['name'],
-                'address': address,
+                'address': billingAddress,
                 'email': data['User']['email']
             }
             emailsend.attach_alternative(html_content, "text/html")
             pdf = render_to_pdf('pdffiles/invoice.html', data)
             emailsend.attach('invoice.pdf', pdf, 'file/pdf')
             emailsend.send()
-            print('email sent')
         except Exception as e:
             print('in catch for email send')
             print('Error Is:', str(e))
             messages.error(request, "There is some issue while generating pdf")
+
         payment.Is_Invoice_Sent = True
         payment.Stripe_Payment_Id = charge.stripe_id
         payment.save()
@@ -555,3 +555,134 @@ class ThankYouView(ListView):
         # context['Total'] = TotalPayment
         context['items'] = items
         return context
+
+
+def updateCartItem(request):
+    data = json.loads(request.body)
+    productId = data['ProductId']
+    action = data['action']
+    noofuser = data['noofuser']
+    qty = data['qty']
+    print('in updateCartItem')
+    customer = request.user.customer
+
+    product = Product.objects.get(Product_Id=productId)
+    order, created = Order.objects.get_or_create(Customer=customer, IsOrderCompleted=False)
+    orderdetail, created = OrderDetails.objects.get_or_create(Order=order, Product=product)
+    print('noofuser', noofuser)
+
+    if int(noofuser) > 0:
+        orderdetail.TotalNoOfPerson = noofuser
+
+    if action == 'add':
+        print('in add')
+        if int(qty) == 0:
+            orderdetail.Quantity = (orderdetail.Quantity + 1)
+        else:
+            orderdetail.Quantity = qty
+
+    elif action == 'remove':
+        if int(qty) == 0:
+            orderdetail.Quantity = (orderdetail.Quantity - 1)
+        else:
+            orderdetail.Quantity = qty
+
+    orderdetail.save()
+
+    if int(orderdetail.Quantity) <= 0:
+        orderdetail.delete()
+
+    return JsonResponse('Item was added.', safe=False)
+
+
+def applyDiscountOnService(request):
+    cookiedata = cartData(request)
+    order = cookiedata['order']
+    print('in apply discount')
+    cursor = connection.cursor()
+    customerId = request.user.customer.Customer_Id
+
+    str = request.POST.get("discountCode")
+    id = request.user.customer.Customer_Id
+    print('customerid')
+    print(id)
+    print(str)
+    totalServiceAmount = request.POST.get("totalServiceAmount")
+    totalInitialSetupAmount = request.POST.get("totalInitialSetupAmount")
+    totalAmountToPay = request.POST.get("totalAmount")
+    amountToPay = float(totalServiceAmount) + float(totalInitialSetupAmount)
+    print('totalServiceAmount', totalServiceAmount)
+    print('totalInitialSetupAmount', totalInitialSetupAmount)
+    cursor.callproc('GetDiscountByName', [str, id])
+    discountTYpe = cursor.fetchone()
+    print('amountToPay', amountToPay)
+    print(discountTYpe)
+    discountCodeAmout = (float(amountToPay) * discountTYpe[2]) / 100
+    amountAfterDiscount = float(totalAmountToPay) - discountCodeAmout
+    print('Amount to pay', amountAfterDiscount)
+    return JsonResponse({"discountCodeAmout": discountCodeAmout, "amountAfterDiscount": amountAfterDiscount,
+                         "discountPercentage": discountTYpe[2], 'id': discountTYpe[0]}, safe=False)
+
+
+def applyDiscountOnProduct(request):
+    print('apply discount on product')
+    cookiedata = cartData(request)
+    order = cookiedata['order']
+    str = request.POST.get("discountCode")
+    id = request.user.customer.Customer_Id
+    print('customerid')
+    print(id)
+    amountToPay = request.POST.get("totalAmount")
+    productTotalAmount = request.POST.get("totalProductAmount")
+    print('str', str)
+    print('amountToPay', amountToPay)
+    print('productTotalAmount', productTotalAmount)
+    cursor = connection.cursor()
+    cursor.callproc('GetDiscountByName', [str, id])
+    discountTYpe = cursor.fetchone()
+    print('amountToPay', amountToPay)
+    print(discountTYpe[2])
+    discountCodeAmout = (float(productTotalAmount) * discountTYpe[2]) / 100
+    amountAfterDiscount = float(amountToPay) - discountCodeAmout
+    print('Amount to pay', amountAfterDiscount)
+    return JsonResponse({"discountCodeAmout": discountCodeAmout, "amountAfterDiscount": amountAfterDiscount,
+                         "discountPercentage": discountTYpe[2]}, safe=False)
+
+
+def sendReferralEmail(request):
+    print('in send email')
+    subject = 'Reference Code'
+    fromEmail = settings.EMAIL_HOST_USER
+    to_list = [request.POST.get("email")]
+    referral_name = request.POST.get("name")
+    cursor = connection.cursor()
+    cursor.callproc('GetReferralDiscountCode')
+    discount = cursor.fetchone()
+    discountCode = discount[1]
+    current_site = Site.objects.get_current()
+
+    site = str(current_site) + 'register/' + '?id=' + str(request.user.id)
+    print(site)
+    html_content = render_to_string("emailpaymentInvoice/customerReferenceTemplate.html", {'username': request.user,
+                                                                                    'discountCode': discountCode,
+                                                                                    'site': site,
+                                                                                    'referralname': referral_name})
+    text_content = strip_tags(html_content)
+    email_send = EmailMultiAlternatives(
+        subject,
+        text_content,
+        fromEmail,
+        to_list
+    )
+    message = ""
+    email_send.attach_alternative(html_content, "text/html")
+    try:
+        print('in TRY for email sent')
+        email_send.send()
+        message = "Success"
+    except Exception as e:
+        print('Error Is:', str(e))
+        message = "Failed"
+    print('email sent')
+
+    return JsonResponse(message, safe=False)

@@ -125,10 +125,9 @@ function submitFormDataForPayment(tkn)
     total =  document.getElementById('lblTotalAmountFull').innerHTML
     var userInfo = {
         'name' : user,
-        'email' : $("#email").val(),
+        'email' : $("#billing_email").val(),
         'total' : parseFloat(total)
     }
-
     var paymentType
 
     paymentType = "Card"

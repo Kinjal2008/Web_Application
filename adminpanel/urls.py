@@ -21,6 +21,7 @@ urlpatterns = [
     path('Customer/<int:id>/', adminview.customer_operation_sp, name="Customer_Update"),
     path('Customer/Delete/<int:id>/', adminview.customer_delete, name="Customer_Delete"),
     path('customerOrder/<int:id>/', adminview.customerOrder, name="customerOrder"),
+    path('customerOrderDetails/<int:id>/', adminview.customerOrderDetails, name="customerOrderDetails"),
     path('Discount/', adminview.discount_list, name="Discount"),
     path('Discount/Add', adminview.discount_operation, name="Discount_Add"),
     path('Discount/<int:id>/', adminview.discount_operation, name="Discount_Update"),

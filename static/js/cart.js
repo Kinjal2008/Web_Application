@@ -8,11 +8,17 @@ for(var i=0; i< updateBtns.length ; i++)
         var productId = this.dataset.product
         var action = this.dataset.action
         noofuser = $('#noofusers'+productId).val()
-        print('noofuser', noofuser)
+        // Get the number of quantity while adding from the details page.
+        qty = $('#txtqty').val()
         if(noofuser == undefined)
         {
             noofuser = 0
         }
+        if(qty== undefined)
+        {
+            qty = 0
+        }
+
         console.log(productId)
         console.log(action)
 
@@ -22,7 +28,7 @@ for(var i=0; i< updateBtns.length ; i++)
         }
         else
         {
-            updateOrder(productId, action, noofuser)
+            updateOrder(productId, action, noofuser, qty)
         }
     })
 }
@@ -62,9 +68,9 @@ function addCookieItems(productId, action)
     location.reload()
 }
 
-function updateOrder(productId, action, noofuser)
+function updateOrder(productId, action, noofuser, qty)
 {
-    var url = '/updateItem/'
+    var url = '/updateCartItem/'
 //    Send fetch Data
     fetch(url, {
         method:'POST',
@@ -72,7 +78,7 @@ function updateOrder(productId, action, noofuser)
             'Content-Type': 'application/json',
             'X-CSRFToken' : csrftoken
         },
-        body:JSON.stringify({'ProductId' : productId, 'action' : action, 'noofuser': noofuser})
+        body:JSON.stringify({'ProductId' : productId, 'action' : action, 'noofuser': noofuser, 'qty': qty})
     })
 
     .then((response) => {

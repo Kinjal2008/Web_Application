@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_countries',
     'WebEcommerce.apps.WebecommerceConfig',
-    'stripe',
-    'eventlog',
+    'stripe'
 ]
 
 SITE_ID = 1
